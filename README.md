@@ -116,3 +116,13 @@ AI_USE.md               how AI was used, what humans tested
 ## Use of AI
 
 See [AI_USE.md](AI_USE.md). No NASA logo or NASA branding is used in this project.
+
+## New in this version (3d branch)
+
+- **Mystery storm:** each game picks one of 3 real DONKI storm weeks (May 2024, Sep-Oct 2022, Nov 2025). The date stays secret until the end screen reveals it.
+- **Message from Earth:** a radio wave fills up, labeled with the real Earth-Mars light delay for that week (6.6 to 20.1 minutes). "Today" and "For tomorrow" cards show Earth's warnings, based on the flares and CMEs DONKI links to each proton storm. Most real warnings came too late, and the game says so. "Ask Earth for advice" answers only on the next sol.
+- **Science missions:** on calm sols there is an optional real rover activity (Ingenuity, MOXIE, Curiosity clouds, rock samples, RAD, weather). It uses 1 of the 5 power points and earns 1 ⭐. End rank: Bronze / Silver (3 ⭐) / Gold (5 ⭐), also shown on the certificate.
+- **The Sun today:** the final screen asks NASA DONKI live for the last 7 days. If that fails, it shows a saved snapshot clearly labeled "archived data, not live".
+- **Astronaut health fact** from NASA OSDR (Inspiration4 / SOMA).
+- Tests: `node tests/core.test.js` (rules + data matching) and `node tests/balance.js` (every storm week: the never-changing plan loses, a plan wins, Gold is reachable but rare).
+- Full list of datasets, and of game rules vs real measurements: **[DATA_SOURCES.md](DATA_SOURCES.md)**.

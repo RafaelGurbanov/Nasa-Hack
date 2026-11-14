@@ -83,3 +83,15 @@ TODO (team): each member plays once on their own device and adds a row here.
 > or video are used.
 
 (Update the last sentence only after the "Tested by a human" table has real rows.)
+
+## Feature update (14 Nov 2026, evening): written by Claude, tested by Claude
+
+| Piece | Written by Claude | Tested |
+|---|---|---|
+| `data/fetch_nasa_data.py` (3 storm weeks, CME, light delay, Earth warnings, Sun-today snapshot) | all | ran against api.nasa.gov; light delay checked against 2 known dates |
+| `src/game.js` (storm weeks, science missions, ranks, Earth advice/warnings, OSDR fact) | all | `node tests/core.test.js` all PASS; May 2024 results unchanged |
+| `src/ui.js`, `src/story.css`, `index.html` (Earth panel, science card, rank, reveal, Sun today) | all | Chrome `file://`: full Gold run, warning cards, science card, live Sun today; 0 console messages |
+| `tests/balance.js` | all | all 3 storm weeks pass |
+| `DATA_SOURCES.md` | all | - |
+
+Not tested by a human yet. The real-world facts on the science cards and the OSDR fact were checked through NASA-linked news coverage (see DATA_SOURCES.md, items marked VERIFY).
