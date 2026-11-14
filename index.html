@@ -75,6 +75,10 @@
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   td, th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
   .banner { padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--bad); color: var(--bad); background: #2a1212; font-weight: 700; }
+  .scene3d-canvas { height: 300px; border-radius: 10px; overflow: hidden; background: #2a1a14; }
+  .scene3d-canvas canvas { width: 100% !important; height: 100% !important; display: block; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px; margin-top: 8px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
   .hidden { display: none !important; }
   @media (max-width: 560px) { .timeline { grid-template-columns: repeat(5, 1fr); } body { font-size: 16px; } }
 </style>
@@ -127,6 +131,21 @@
       </div>
       <div class="timeline" id="timeline" aria-label="10-sol storm timeline"></div>
       <p class="muted small" style="margin:0">Each box is one sol, mapped to one real UTC date. The top letter is the strongest flare that day, and a red "P" means a proton event (SEP) was recorded.</p>
+    </div>
+
+    <div class="panel hidden" id="scene3d" aria-hidden="true">
+      <div class="row" style="justify-content: space-between; margin-bottom:8px">
+        <h3 style="margin:0">Your base (3D view, visual only)</h3>
+        <button class="scene3d-toggle" type="button">Hide 3D view</button>
+      </div>
+      <div class="scene3d-canvas"></div>
+      <div class="legend">
+        <span><i style="background:#3fa9f5"></i>Life Support (oxygen/water)</span>
+        <span><i style="background:#ffc857"></i>Energy (lit panels = power in use)</span>
+        <span><i style="background:#6fd08c"></i>Food (greenhouse)</span>
+        <span><i style="background:#b48cff"></i>Radiation Protection (dome)</span>
+        <span class="muted">Bars: green = OK, yellow = low, red = danger. Red dots = real proton event.</span>
+      </div>
     </div>
 
     <div class="grid" id="gauges"></div>
@@ -194,5 +213,8 @@
 <script src="data/events.js"></script>
 <script src="src/game.js"></script>
 <script src="src/ui.js"></script>
+<!-- Optional 3D view: visual only, local three.js, removes itself if anything fails -->
+<script src="vendor/three.min.js"></script>
+<script src="src/scene3d.js"></script>
 </body>
 </html>

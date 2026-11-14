@@ -24,6 +24,8 @@ visible watermark and are listed here.
 | `src/game.js` (rules, simulation, failure chain, facts) | all | none yet |
 | `src/ui.js` (2D screens) | all | none yet |
 | `tests/core.test.js` | all | none yet |
+| `src/scene3d.js` (optional 3D view, visual only) | all | none yet |
+| `vendor/three.min.js` | not AI: official three.js r149 build (MIT), downloaded from jsDelivr | none |
 
 Team decisions given to Claude (human input):
 - Challenge #07 scope: 1 Mars base, 4 systems, 10 sols, about 10 event cards, real storm replay.
@@ -37,6 +39,8 @@ Team decisions given to Claude (human input):
 | `node tests/core.test.js`: 5 game outcomes, power-budget guard, 24 flare cards match raw DONKI records | 7/7 PASS | 14 Nov 2026 |
 | Chrome via DevTools, `file://` (offline): demo path played by clicking the real buttons | wins, 0 console messages | 14 Nov 2026 |
 | Key leak search across the repo (excluding `data/.env`) | 0 matches | 14 Nov 2026 |
+| 3D view, Chrome `file://`: renders on a proton sol, reacts to power changes | renders, 0 console messages (`docs/screenshot-3d.png`) | 14 Nov 2026 |
+| 3D fallback: three.js file removed, full demo path played | 3D panel removed itself, 2D game wins; only console message = the deliberately missing file | 14 Nov 2026 |
 
 ## Tested by a human
 

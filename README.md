@@ -87,6 +87,8 @@ are not NASA data.
 index.html              page layout and styles
 src/game.js             MissionCore: all rules and state (no DOM). Others only read it.
 src/ui.js               2D screens: quiz, sols, end screen, sources panel
+src/scene3d.js          optional 3D view (visual only, reads MissionCore, removes itself on any error)
+vendor/three.min.js     three.js r149 (MIT), stored locally so the 3D view works offline
 data/fetch_nasa_data.py fetches DONKI, writes the cache below
 data/events.json|.js    cached NASA data (.js is loaded by the page, so it works offline)
 data/raw/               unchanged API responses, to check any card against
