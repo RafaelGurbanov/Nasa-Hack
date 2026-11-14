@@ -3,8 +3,8 @@
 Mars Storm Replay uses real NASA data wherever a number describes the real world, and clearly
 labeled **game rules** where we had to simplify so 7-12 year olds can play. Nothing here is invented:
 every event, date and flare class comes from a NASA record, and the game's "For teachers" panel
-shows the same labels. Items marked **VERIFY** were checked through NASA-linked news coverage or
-secondary sources, not the primary page itself.
+shows the same labels. Items still marked **VERIFY** could not be confirmed in the primary NASA
+document itself (the reason is given next to each one).
 
 ## 1. Live-fetched NASA data (cached in `data/events.json`, raw responses in `data/raw/<week>/`)
 
