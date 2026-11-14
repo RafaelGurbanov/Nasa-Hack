@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design C: Space Station HUD</title>
+<style>
+  :root {
+    --bg: #040a18; --line: rgba(80, 220, 255, .28); --cyan: #3ff0ff; --mag: #ff4fd8; --amber: #ffb020;
+    --green: #3fff8c; --red: #ff3b5c; --violet: #b38cff; --ink: #e8fbff; --dim: #7fa8c0;
+    --tech: "Bahnschrift", "Segoe UI", system-ui, sans-serif; --mono: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #01040b; color: var(--ink); font-family: var(--tech); padding: 24px 16px 48px; }
+  .tag { max-width: 1280px; margin: 0 auto 10px; font: 600 14px var(--tech); letter-spacing: .14em; text-transform: uppercase; color: #4f7a90; }
+  .frame { position: relative; max-width: 1280px; aspect-ratio: 16 / 9; margin: 0 auto 28px; overflow: hidden; border-radius: 16px; isolation: isolate;
+    background: radial-gradient(ellipse at 70% 40%, rgba(63,240,255,.10), transparent 55%),
+                linear-gradient(rgba(63,240,255,.06) 1px, transparent 1px) 0 0 / 40px 40px,
+                linear-gradient(90deg, rgba(63,240,255,.06) 1px, transparent 1px) 0 0 / 40px 40px, var(--bg);
+    padding: 2.2%; }
+  .frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 9;
+    background: repeating-linear-gradient(rgba(255,255,255,.025) 0 2px, transparent 2px 4px); }
+  .storm.frame { box-shadow: inset 0 0 0 3px var(--red); animation: alarm 1.2s ease-in-out infinite; }
+  @keyframes alarm { 50% { box-shadow: inset 0 0 60px 6px rgba(255,59,92,.55); } }
+  .hud { position: relative; border: 1px solid var(--line); background: rgba(6, 20, 40, .72); border-radius: 6px; padding: 1.4% 1.8%;
+    box-shadow: 0 0 30px rgba(63,240,255,.08) inset; }
+  .hud::before, .hud::after { content: ""; position: absolute; width: 18px; height: 18px; border: 3px solid var(--cyan); }
+  .hud::before { left: -2px; top: -2px; border-right: 0; border-bottom: 0; } .hud::after { right: -2px; bottom: -2px; border-left: 0; border-top: 0; }
+  .label { font: 600 clamp(11px, 1.1vw, 14px) var(--tech); letter-spacing: .22em; text-transform: uppercase; color: var(--dim); }
+  .mono { font-family: var(--mono); }
+  .btn { font: 700 clamp(18px, 2.2vw, 30px) var(--tech); letter-spacing: .14em; color: #001018; background: var(--cyan); border: 0; border-radius: 10px;
+    padding: .55em 1.5em; cursor: pointer; box-shadow: 0 0 0 0 rgba(63,240,255,.7), 0 0 30px rgba(63,240,255,.6); animation: ping 1.8s infinite; }
+  @keyframes ping { 70% { box-shadow: 0 0 0 18px rgba(63,240,255,0), 0 0 30px rgba(63,240,255,.6); } 100% { box-shadow: 0 0 0 0 rgba(63,240,255,0), 0 0 30px rgba(63,240,255,.6); } }
+  .mock { position: absolute; right: 1.2%; bottom: 1%; font: 600 11px var(--tech); letter-spacing: .14em; text-transform: uppercase; color: rgba(127,168,192,.6); z-index: 10; }
+
+  /* ---------- rocket progress bar ---------- */
+  .track { position: relative; height: clamp(46px, 6vw, 76px); }
+  .track .rail { position: absolute; left: 3%; right: 3%; top: 50%; height: 6px; transform: translateY(-50%); border-radius: 3px;
+    background: linear-gradient(90deg, var(--cyan) var(--p), rgba(63,240,255,.15) var(--p)); box-shadow: 0 0 12px rgba(63,240,255,.5); }
+  .track .node { position: absolute; top: 50%; width: clamp(14px, 1.6vw, 22px); aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%);
+    background: var(--bg); border: 3px solid rgba(63,240,255,.5); display: grid; place-items: center; }
+  .track .node.done { background: var(--cyan); border-color: var(--cyan); }
+  .track .node.st { border-color: var(--red); box-shadow: 0 0 12px var(--red); }
+  .track .node span { position: absolute; top: 140%; font: 600 clamp(9px, .9vw, 12px) var(--mono); color: var(--dim); }
+  .rocket { position: absolute; top: 50%; width: clamp(48px, 5.4vw, 72px); transform: translate(-50%, -62%); filter: drop-shadow(0 0 10px rgba(63,240,255,.8)); }
+
+  /* ---------- intro ---------- */
+  .intro { display: grid; grid-template-columns: 1.15fr 1fr; grid-template-rows: auto 1fr auto; gap: 3% 3%; }
+  .brand { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; }
+  .brand h1 { font: 700 clamp(22px, 3vw, 40px) var(--tech); letter-spacing: .18em; }
+  .brand h1 span { color: var(--cyan); text-shadow: 0 0 18px var(--cyan); }
+  .status { font: 600 clamp(11px, 1.1vw, 14px) var(--mono); color: var(--green); } .status::before { content: "● "; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .2; } }
+  .brief h2 { font: 700 clamp(20px, 2.6vw, 34px) var(--tech); letter-spacing: .14em; color: var(--cyan); margin: .2em 0 .6em; }
+  .brief p { font: 500 clamp(16px, 1.9vw, 25px) var(--tech); line-height: 1.5; overflow: hidden; white-space: nowrap; width: 0; animation: type 1.2s steps(40) forwards; }
+  .brief p::before { content: "▸ "; color: var(--cyan); }
+  .brief p:nth-of-type(2) { animation-delay: 1.2s; } .brief p:nth-of-type(3) { animation-delay: 2.4s; } .brief p:nth-of-type(4) { animation-delay: 3.6s; }
+  @keyframes type { to { width: 100%; } }
+  .brief .btn { margin-top: 6%; }
+  .planet-wrap { display: grid; place-items: center; position: relative; }
+  .planet { width: 74%; aspect-ratio: 1; border-radius: 50%; position: relative; overflow: hidden;
+    background: repeating-linear-gradient(8deg, rgba(120,40,20,.0) 0 18px, rgba(120,40,20,.25) 18px 30px),
+                radial-gradient(circle at 35% 35%, #ffb27a, #d0582c 50%, #6e2210 85%);
+    box-shadow: 0 0 60px rgba(255,120,60,.35), inset -30px -20px 60px rgba(0,0,0,.6); animation: spin 18s linear infinite; }
+  @keyframes spin { to { background-position: 600px 0, 0 0; } }
+  .orbit { position: absolute; width: 92%; aspect-ratio: 1; border-radius: 50%; border: 2px dashed rgba(63,240,255,.35); animation: rot 22s linear infinite; }
+  .orbit::after { content: ""; position: absolute; top: -7px; left: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
+  @keyframes rot { to { transform: rotate(360deg); } }
+  .planet-wrap .label { position: absolute; bottom: 4%; }
+  .intro .bottom { grid-column: span 2; }
+
+  /* ---------- storm sol ---------- */
+  .storm { display: grid; grid-template-columns: 0.95fr 1.35fr; grid-template-rows: auto auto 1fr; gap: 2.4% 2.4%; }
+  .topbar { grid-column: span 2; display: grid; grid-template-columns: auto 1fr; gap: 3%; align-items: center; }
+  .solbig { font: 700 clamp(26px, 3.6vw, 50px) var(--tech); letter-spacing: .08em; line-height: 1; }
+  .solbig small { display: block; font: 600 clamp(11px, 1.1vw, 15px) var(--mono); color: var(--dim); letter-spacing: .1em; margin-top: 4px; }
+  .alertbar { grid-column: span 2; border-color: rgba(255,59,92,.7); background: linear-gradient(90deg, rgba(255,59,92,.28), rgba(255,59,92,.06)); display: flex; align-items: center; gap: 2.4%; }
+  .alertbar .siren { font-size: clamp(30px, 4vw, 54px); animation: blink .8s steps(2) infinite; }
+  .alertbar h2 { font: 700 clamp(24px, 3.2vw, 44px) var(--tech); letter-spacing: .12em; color: #ffd6de; text-shadow: 0 0 16px var(--red); }
+  .alertbar p { font: 500 clamp(14px, 1.6vw, 21px) var(--tech); }
+  .alertbar .src { margin-left: auto; text-align: right; font: 600 clamp(10px, 1vw, 13px) var(--mono); color: #ffb3c0; }
+  .rings { display: grid; grid-template-columns: 1fr 1fr; gap: 6% 6%; align-content: center; }
+  .ring { text-align: center; }
+  .ring svg { width: 78%; margin: 0 auto; display: block; overflow: visible; }
+  .ring .v { font: 700 22px var(--mono); fill: var(--ink); }
+  .ring .arc { stroke-dasharray: 251.3; stroke-dashoffset: 251.3; animation: fill 1.6s ease-out forwards; filter: drop-shadow(0 0 6px currentColor); }
+  @keyframes fill { to { stroke-dashoffset: var(--off); } }
+  .ring .spin { transform-origin: 50px 50px; animation: rot 9s linear infinite; }
+  .ring .label { margin-top: 4%; font-size: clamp(11px, 1.15vw, 15px); color: var(--ink); letter-spacing: .14em; }
+  .console { display: grid; grid-template-rows: auto 1fr auto; gap: 4%; }
+  .console-head { display: flex; justify-content: space-between; align-items: center; }
+  .console-head h3 { font: 700 clamp(18px, 2.2vw, 28px) var(--tech); letter-spacing: .14em; }
+  .reactor { display: flex; gap: 6px; align-items: center; font: 700 clamp(13px, 1.4vw, 18px) var(--mono); color: var(--amber); }
+  .reactor i { width: clamp(12px, 1.4vw, 18px); height: clamp(22px, 2.6vw, 34px); border-radius: 3px; border: 2px solid rgba(255,176,32,.5); }
+  .reactor i.on { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+  .sliders { display: grid; gap: 8%; align-content: center; }
+  .sl { display: grid; grid-template-columns: clamp(140px, 15vw, 210px) 1fr clamp(40px, 4vw, 56px); align-items: center; gap: 3%; color: var(--c); }
+  .sl .nm { font: 700 clamp(15px, 1.8vw, 23px) var(--tech); color: var(--ink); display: flex; align-items: center; gap: 10px; }
+  .sl .nm i { font-style: normal; font-size: 1.3em; }
+  .sl .lv { font: 700 clamp(26px, 3.2vw, 44px) var(--mono); text-align: center; color: var(--c); text-shadow: 0 0 14px var(--c); }
+  .sl .wrap { position: relative; }
+  .sl .ticks { display: flex; justify-content: space-between; font: 600 clamp(10px, 1vw, 13px) var(--mono); color: var(--dim); padding: 6px 4px 0; }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: clamp(14px, 1.6vw, 20px); border-radius: 99px; cursor: pointer;
+    background: linear-gradient(90deg, var(--c) var(--p), rgba(255,255,255,.1) var(--p)); box-shadow: 0 0 16px color-mix(in srgb, var(--c) 45%, transparent); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: clamp(30px, 3.4vw, 46px); height: clamp(30px, 3.4vw, 46px); border-radius: 50%;
+    background: radial-gradient(circle, #fff 0 22%, var(--c) 24% 100%); box-shadow: 0 0 0 4px rgba(4,10,24,.9), 0 0 22px var(--c); }
+  input[type=range]::-moz-range-thumb { width: 40px; height: 40px; border: 0; border-radius: 50%; background: radial-gradient(circle, #fff 0 22%, var(--c) 24% 100%); box-shadow: 0 0 0 4px rgba(4,10,24,.9), 0 0 22px var(--c); }
+  .console .go { display: flex; justify-content: space-between; align-items: center; }
+  .hint { font: 500 clamp(13px, 1.4vw, 18px) var(--tech); color: var(--dim); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="rocket" viewBox="0 0 80 50">
+    <path d="M6 25 L-14 18 L-14 32Z" fill="#ffb020"><animate attributeName="d" values="M6 25 L-14 18 L-14 32Z;M6 25 L-24 20 L-24 30Z;M6 25 L-14 18 L-14 32Z" dur=".25s" repeatCount="indefinite"/></path>
+    <path d="M6 25 L-4 21 L-4 29Z" fill="#fff6c0"/>
+    <path d="M8 14 H52 Q74 18 78 25 Q74 32 52 36 H8Z" fill="#e8fbff"/>
+    <circle cx="50" cy="25" r="6" fill="#3ff0ff" stroke="#04203a" stroke-width="2"/>
+    <path d="M14 14 L4 2 L26 14Z M14 36 L4 48 L26 36Z" fill="#ff4fd8"/>
+  </symbol>
+</svg>
+
+<p class="tag">Design C · Space-station game HUD · mockup with sample numbers · screen 1: intro</p>
+
+<!-- ===================== SCREEN 1: INTRO ===================== -->
+<section class="frame intro">
+  <div class="brand"><h1>MARS <span>STORM</span> REPLAY</h1><span class="status">BASE ONLINE · CREW 4</span></div>
+  <div class="hud brief">
+    <span class="label">Junior Astronaut · Mission file</span>
+    <h2>MISSION BRIEFING</h2>
+    <p>You run a base on Mars.</p>
+    <p>4 astronauts live there.</p>
+    <p>A real storm from the Sun is coming.</p>
+    <p>Keep them safe for 10 sols.</p>
+    <button class="btn">LAUNCH ▶</button>
+  </div>
+  <div class="planet-wrap"><div class="orbit"></div><div class="planet"></div><span class="label">Target: Mars · storm of May 2024</span></div>
+  <div class="hud bottom">
+    <span class="label">Mission progress</span>
+    <div class="track" style="--p:0%">
+      <div class="rail"></div>
+      <svg class="rocket" style="left:3%"><use href="#rocket"/></svg>
+    </div>
+  </div>
+  <span class="mock">Design mockup · sample numbers</span>
+</section>
+
+<p class="tag">Screen 2: mid-game storm sol (Sol 5)</p>
+
+<!-- ===================== SCREEN 2: STORM SOL ===================== -->
+<section class="frame storm">
+  <div class="topbar">
+    <div class="solbig">SOL 5<small>10 MAY 2024 · 5 / 10</small></div>
+    <div class="hud" style="padding:.6% 1.6%"><div class="track" id="track" style="--p:44%"><div class="rail"></div></div></div>
+  </div>
+  <div class="hud alertbar">
+    <span class="siren">🚨</span>
+    <div><h2>PROTON ALERT</h2><p>Tiny, fast pieces from the Sun (protons). Raise the shield!</p></div>
+    <div class="src">NASA RECORD<br>4 SIGNALS · FLARE X3.9</div>
+  </div>
+  <div class="hud rings">
+    <div class="ring" style="color:var(--cyan)"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(63,240,255,.15)" stroke-width="9"/>
+      <circle class="arc" cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" transform="rotate(-90 50 50)" style="--off:95.5"/>
+      <circle class="spin" cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 9" opacity=".6"/>
+      <text class="v" x="50" y="58" text-anchor="middle">62%</text></svg><div class="label">🫧 Air &amp; water</div></div>
+    <div class="ring" style="color:var(--amber)"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,176,32,.15)" stroke-width="9"/>
+      <circle class="arc" cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" transform="rotate(-90 50 50)" style="--off:0"/>
+      <circle class="spin" cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 9" opacity=".6"/>
+      <text class="v" x="50" y="58" text-anchor="middle">5/5</text></svg><div class="label">⚡ Energy</div></div>
+    <div class="ring" style="color:var(--green)"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(63,255,140,.15)" stroke-width="9"/>
+      <circle class="arc" cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" transform="rotate(-90 50 50)" style="--off:50.3"/>
+      <circle class="spin" cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 9" opacity=".6"/>
+      <text class="v" x="50" y="58" text-anchor="middle">16</text></svg><div class="label">🥕 Food packs</div></div>
+    <div class="ring" style="color:var(--violet)"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(179,140,255,.15)" stroke-width="9"/>
+      <circle class="arc" cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" transform="rotate(-90 50 50)" style="--off:209"/>
+      <circle class="spin" cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 9" opacity=".6"/>
+      <text class="v" x="50" y="58" text-anchor="middle">5/30</text></svg><div class="label">🛡️ Radiation</div></div>
+  </div>
+  <div class="hud console">
+    <div class="console-head"><h3>POWER CONTROL</h3><div class="reactor" id="reactor"><span>⚡</span><i></i><i></i><i></i><i></i><i></i><span id="used">5/5</span></div></div>
+    <div class="sliders">
+      <div class="sl" style="--c:var(--cyan)"><span class="nm"><i>🫧</i>Life Support</span>
+        <div class="wrap"><input type="range" min="0" max="3" step="1" value="1" data-k="ls" aria-label="Life Support power"><div class="ticks"><span>0</span><span>1</span><span>2</span><span>3</span></div></div><span class="lv">1</span></div>
+      <div class="sl" style="--c:var(--green)"><span class="nm"><i>🥕</i>Greenhouse</span>
+        <div class="wrap"><input type="range" min="0" max="3" step="1" value="1" data-k="gh" aria-label="Greenhouse power"><div class="ticks"><span>0</span><span>1</span><span>2</span><span>3</span></div></div><span class="lv">1</span></div>
+      <div class="sl" style="--c:var(--violet)"><span class="nm"><i>🛡️</i>Shield</span>
+        <div class="wrap"><input type="range" min="0" max="3" step="1" value="3" data-k="sh" aria-label="Shield power"><div class="ticks"><span>0</span><span>1</span><span>2</span><span>3</span></div></div><span class="lv">3</span></div>
+    </div>
+    <div class="go"><span class="hint">Slide to share 5 power points.</span><button class="btn">ENGAGE ▶</button></div>
+  </div>
+  <span class="mock">Design mockup · sample numbers</span>
+</section>
+
+<script>
+/* Build the 10-sol rocket track for the storm screen. */
+(function () {
+  const t = document.getElementById("track"), storms = [4, 5, 6, 8], now = 5;
+  for (let s = 1; s <= 10; s++) {
+    const n = document.createElement("div");
+    n.className = "node" + (s < now ? " done" : "") + (storms.includes(s) ? " st" : "");
+    n.style.left = (3 + (s - 1) * 94 / 9) + "%";
+    n.innerHTML = "<span>" + s + "</span>";
+    t.appendChild(n);
+  }
+  const r = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  r.setAttribute("class", "rocket"); r.style.left = (3 + (now - 1) * 94 / 9) + "%";
+  r.innerHTML = '<use href="#rocket"/>';
+  t.appendChild(r);
+})();
+/* Sliders: keep the total at 5 power points or less, light the reactor cells. */
+(function () {
+  const inputs = [...document.querySelectorAll("input[type=range]")];
+  function paint() {
+    const used = inputs.reduce((a, i) => a + +i.value, 0);
+    inputs.forEach((i) => { i.style.setProperty("--p", (i.value / 3 * 100) + "%"); i.closest(".sl").querySelector(".lv").textContent = i.value; });
+    document.querySelectorAll("#reactor i").forEach((c, k) => c.classList.toggle("on", k < used));
+    document.getElementById("used").textContent = used + "/5";
+  }
+  inputs.forEach((i) => i.addEventListener("input", () => {
+    const others = inputs.filter((o) => o !== i).reduce((a, o) => a + +o.value, 0);
+    if (others + +i.value > 5) i.value = 5 - others;
+    paint();
+  }));
+  paint();
+})();
+</script>
+</body>
+</html>

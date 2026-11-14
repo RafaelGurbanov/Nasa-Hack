@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design A: Cinematic Mars</title>
+<style>
+  :root {
+    --glass: rgba(28, 10, 8, .34); --glass-line: rgba(255, 214, 190, .28);
+    --ink: #fff3ea; --soft: #f5cdb4; --ember: #ff7a3c; --alarm: #ff4a4a;
+    --air: #6fd3ff; --energy: #ffd34d; --food: #7ee08f; --shield: #c9a2ff;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #0d0605; color: var(--ink); font-family: "Bahnschrift", "Segoe UI", system-ui, sans-serif; padding: 24px 16px 48px; }
+  .tag { max-width: 1280px; margin: 0 auto 10px; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: #b98b74; }
+  .frame { position: relative; max-width: 1280px; aspect-ratio: 16 / 9; margin: 0 auto 28px; overflow: hidden; border-radius: 20px; isolation: isolate; }
+
+  /* ---- sky + sun ---- */
+  .sky { position: absolute; inset: 0; background: linear-gradient(#3b1b22 0%, #a24c33 38%, #e9995d 62%, #f6c58c 74%); }
+  .storm .sky { background: linear-gradient(#12040a 0%, #4d0f18 35%, #9c2b22 60%, #c9542f 74%); }
+  .sun { position: absolute; width: 16%; aspect-ratio: 1; left: 66%; top: 34%; border-radius: 50%;
+    background: radial-gradient(circle, #fff6df 0 18%, rgba(255,226,170,.85) 30%, rgba(255,170,110,0) 70%); filter: blur(1px); }
+  .storm .sun { opacity: .45; filter: blur(4px); }
+  .layer { position: absolute; left: -4%; width: 108%; height: 100%; bottom: 0; transition: transform .3s ease-out; }
+  .layer svg { width: 100%; height: 100%; display: block; }
+  .dust { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .haze { position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, rgba(255,170,110,.0), rgba(255,170,110,.18), rgba(255,170,110,0)); background-size: 200% 100%;
+    animation: haze 14s linear infinite; mix-blend-mode: screen; }
+  .storm .haze { background: linear-gradient(90deg, rgba(200,60,40,0), rgba(220,80,50,.35), rgba(200,60,40,0)); background-size: 200% 100%; animation-duration: 5s; }
+  @keyframes haze { from { background-position: 200% 0; } to { background-position: 0 0; } }
+  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 55%, transparent 55%, rgba(0,0,0,.55)); }
+  .storm .vignette { background: radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(60,0,0,.7)); animation: pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .65; } }
+
+  /* ---- glass panels ---- */
+  .glass { position: absolute; background: var(--glass); border: 1px solid var(--glass-line); border-radius: 18px;
+    backdrop-filter: blur(14px) saturate(1.25); -webkit-backdrop-filter: blur(14px) saturate(1.25);
+    box-shadow: 0 20px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12); padding: 1.6% 2%; }
+  .kicker { font-size: clamp(11px, 1.15vw, 15px); letter-spacing: .28em; text-transform: uppercase; color: var(--soft); }
+  h1 { font-size: clamp(34px, 6.4vw, 86px); letter-spacing: .06em; line-height: .95; font-weight: 700; text-transform: uppercase;
+    text-shadow: 0 4px 30px rgba(0,0,0,.45); }
+  h1 span { color: var(--ember); }
+  .lead { font-size: clamp(15px, 1.75vw, 23px); line-height: 1.45; margin-top: .6em; }
+  .btn { display: inline-flex; align-items: center; gap: .5em; margin-top: 1em; font: inherit; font-weight: 700; font-size: clamp(15px, 1.7vw, 22px);
+    color: #2a0e05; background: linear-gradient(#ffb36b, #ff7a3c); border: 0; border-radius: 999px; padding: .65em 1.4em;
+    box-shadow: 0 0 0 4px rgba(255,140,80,.25), 0 10px 30px rgba(255,110,50,.45); cursor: pointer; }
+
+  .intro-panel { left: 5%; top: 10%; width: 46%; }
+  .intro-facts { right: 4%; bottom: 6%; display: flex; gap: 2.4%; width: 42%; padding: 1.2% 1.6%; }
+  .intro-facts div { flex: 1; font-size: clamp(12px, 1.3vw, 17px); line-height: 1.35; }
+  .intro-facts b { display: block; font-size: clamp(18px, 2.2vw, 30px); color: var(--ember); }
+
+  /* storm sol */
+  .top { left: 3%; top: 4%; right: 3%; display: flex; align-items: center; justify-content: space-between; padding: 1.1% 1.8%; }
+  .solname { font-size: clamp(18px, 2.4vw, 32px); font-weight: 700; letter-spacing: .05em; }
+  .solname small { font-weight: 400; color: var(--soft); font-size: .6em; margin-left: .6em; letter-spacing: .1em; }
+  .dots { display: flex; gap: 6px; }
+  .dots i { width: clamp(10px, 1.3vw, 18px); aspect-ratio: 1; border-radius: 50%; background: rgba(255,255,255,.25); }
+  .dots i.done { background: var(--soft); } .dots i.now { background: var(--ember); box-shadow: 0 0 12px var(--ember); }
+  .dots i.storm { outline: 2px solid var(--alarm); outline-offset: 2px; }
+  .alert { left: 3%; top: 19%; width: 38%; border-color: rgba(255,90,90,.55); }
+  .alert h2 { font-size: clamp(22px, 3.2vw, 44px); line-height: 1.05; color: #ffd0c4; }
+  .alert h2::before { content: "⚠"; color: var(--alarm); margin-right: .3em; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .alert p { font-size: clamp(14px, 1.65vw, 22px); line-height: 1.4; margin-top: .5em; }
+  .alert .src { font-size: clamp(11px, 1.1vw, 14px); color: var(--soft); margin-top: .8em; letter-spacing: .04em; }
+  .gauges { right: 3%; top: 19%; width: 21%; display: grid; gap: clamp(8px, 1.4vw, 18px); padding: 1.6%; }
+  .g { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: center; font-size: clamp(12px, 1.3vw, 17px); }
+  .g .ico { grid-row: span 2; font-size: clamp(20px, 2.4vw, 32px); }
+  .g .bar { height: clamp(6px, .8vw, 10px); border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; }
+  .g .bar i { display: block; height: 100%; border-radius: 99px; }
+  .power { left: 3%; right: 3%; bottom: 4%; display: grid; grid-template-columns: repeat(3, 1fr) auto; gap: 2%; align-items: center; padding: 1.4% 2%; }
+  .sys { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: center; }
+  .sys .ico { grid-row: span 2; width: clamp(34px, 4vw, 54px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+    font-size: clamp(18px, 2.2vw, 28px); background: rgba(255,255,255,.1); box-shadow: inset 0 0 0 2px currentColor; }
+  .sys b { font-size: clamp(14px, 1.6vw, 21px); }
+  .seg { display: flex; gap: 5px; align-items: center; }
+  .seg i { flex: 1; max-width: 46px; height: clamp(10px, 1.2vw, 16px); border-radius: 4px; background: rgba(255,255,255,.18); }
+  .seg i.on { background: currentColor; box-shadow: 0 0 10px currentColor; }
+  .seg button { width: clamp(26px, 2.6vw, 36px); aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--glass-line); background: rgba(255,255,255,.1);
+    color: var(--ink); font: inherit; font-size: clamp(14px, 1.6vw, 20px); line-height: 1; cursor: pointer; }
+  .go { text-align: right; }
+  .go .left { font-size: clamp(12px, 1.25vw, 16px); color: var(--soft); }
+  .go .btn { margin-top: .3em; }
+  .mock { position: absolute; right: 1.2%; bottom: 1.2%; font-size: 11px; color: rgba(255,255,255,.55); letter-spacing: .1em; text-transform: uppercase; z-index: 3; }
+  .storm .mock { bottom: auto; top: 1.2%; }
+</style>
+</head>
+<body>
+<p class="tag">Design A · Cinematic Mars · mockup with sample numbers · screen 1: intro</p>
+
+<!-- ===================== SCREEN 1: INTRO ===================== -->
+<section class="frame intro" data-parallax>
+  <div class="sky"></div>
+  <div class="sun"></div>
+  <div class="layer" data-depth="6"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 540 L110 492 L230 520 L360 446 L470 498 L600 462 L720 505 L850 430 L990 488 L1110 455 L1250 500 L1380 450 L1500 492 L1600 470 V900 H0Z" fill="#b5654c" opacity=".55"/></svg></div>
+  <div class="layer" data-depth="14"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 610 Q180 548 380 600 T780 590 Q960 560 1140 610 T1600 585 V900 H0Z" fill="#9b4730"/>
+    <path d="M1040 600 L1120 520 L1170 560 L1230 505 L1320 600Z" fill="#8a3c27"/></svg></div>
+  <div class="layer" data-depth="26"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 720 Q260 650 560 700 T1160 690 Q1400 670 1600 712 V900 H0Z" fill="#743020"/>
+    <g transform="translate(1180 640)">
+      <path d="M0 40 A70 52 0 0 1 140 40 Z" fill="#e9ddd2"/><rect x="-6" y="38" width="152" height="14" rx="4" fill="#cdbfb3"/>
+      <rect x="22" y="22" width="16" height="9" rx="2" fill="#7fd3ff"/><rect x="58" y="14" width="16" height="9" rx="2" fill="#7fd3ff"/><rect x="94" y="22" width="16" height="9" rx="2" fill="#7fd3ff"/>
+      <path d="M160 52 L178 8 L230 8 L212 52Z" fill="#1d3970" stroke="#ffd34d" stroke-width="3"/>
+      <path d="M-70 52 A44 34 0 0 1 18 52Z" fill="#bff3cf" opacity=".55" stroke="#e6f6ea" stroke-width="2"/>
+      <line x1="70" y1="0" x2="70" y2="-40" stroke="#cdbfb3" stroke-width="3"/><circle cx="70" cy="-44" r="5" fill="#ff7a3c"/>
+    </g></svg></div>
+  <canvas class="dust" data-density="70" data-speed="0.6" data-color="255,214,176"></canvas>
+  <div class="layer" data-depth="44"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 820 Q300 770 640 812 T1600 800 V900 H0Z" fill="#3e170e"/>
+    <path d="M90 830 L150 760 L230 790 L270 830Z" fill="#2c0f09"/><path d="M1380 822 L1440 772 L1520 800 L1560 826Z" fill="#2c0f09"/></svg></div>
+  <div class="haze"></div><div class="vignette"></div>
+
+  <div class="glass intro-panel">
+    <p class="kicker">Junior Astronaut Mission</p>
+    <h1>Mars <span>Storm</span><br>Replay</h1>
+    <p class="lead">You lead a base on Mars. 4 astronauts live there.<br>A real storm from the Sun is coming. Keep them safe for 10 days.</p>
+    <button class="btn">Start the mission →</button>
+  </div>
+  <div class="glass intro-facts">
+    <div><b>10 sols</b>A Mars day is a sol.</div>
+    <div><b>4 crew</b>They need air, water and food.</div>
+    <div><b>May 2024</b>A real storm. NASA saw it.</div>
+  </div>
+  <span class="mock">Design mockup · sample numbers</span>
+</section>
+
+<p class="tag">Screen 2: mid-game storm sol (Sol 5)</p>
+
+<!-- ===================== SCREEN 2: STORM SOL ===================== -->
+<section class="frame storm" data-parallax>
+  <div class="sky"></div>
+  <div class="sun"></div>
+  <div class="layer" data-depth="6"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 540 L110 492 L230 520 L360 446 L470 498 L600 462 L720 505 L850 430 L990 488 L1110 455 L1250 500 L1380 450 L1500 492 L1600 470 V900 H0Z" fill="#7a2a24" opacity=".6"/></svg></div>
+  <div class="layer" data-depth="14"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 610 Q180 548 380 600 T780 590 Q960 560 1140 610 T1600 585 V900 H0Z" fill="#5e1f18"/></svg></div>
+  <div class="layer" data-depth="26"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 720 Q260 650 560 700 T1160 690 Q1400 670 1600 712 V900 H0Z" fill="#43150f"/>
+    <g transform="translate(700 600)">
+      <path d="M-170 92 A170 150 0 0 1 310 92" fill="rgba(201,162,255,.16)" stroke="#c9a2ff" stroke-width="3" stroke-dasharray="10 8">
+        <animate attributeName="stroke-opacity" values="1;.35;1" dur="1.6s" repeatCount="indefinite"/></path>
+      <path d="M0 92 A70 52 0 0 1 140 92 Z" fill="#d9c9bd"/><rect x="-6" y="90" width="152" height="14" rx="4" fill="#b9a99d"/>
+      <rect x="22" y="74" width="16" height="9" rx="2" fill="#7fd3ff"/><rect x="58" y="66" width="16" height="9" rx="2" fill="#7fd3ff"/><rect x="94" y="74" width="16" height="9" rx="2" fill="#7fd3ff"/>
+    </g></svg></div>
+  <canvas class="dust" data-density="260" data-speed="2.6" data-color="255,140,110" data-sparks="1"></canvas>
+  <div class="layer" data-depth="44"><svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 820 Q300 770 640 812 T1600 800 V900 H0Z" fill="#1f0806"/></svg></div>
+  <div class="haze"></div><div class="vignette"></div>
+
+  <div class="glass top">
+    <div class="solname">Sol 5 <small>10 May 2024</small></div>
+    <div class="dots" aria-label="Sol 5 of 10"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done storm"></i><i class="now storm"></i><i class="storm"></i><i></i><i class="storm"></i><i></i><i></i></div>
+  </div>
+  <div class="glass alert">
+    <h2>Storm particles!</h2>
+    <p>The Sun sent tiny, fast pieces (protons). They can hurt the crew. Turn your shield up.</p>
+    <p class="src">NASA record: 4 alerts today · biggest flash X3.9</p>
+  </div>
+  <div class="glass gauges">
+    <div class="g" style="color:var(--air)"><span class="ico">🫧</span><span style="color:var(--ink)">Air &amp; water</span><span class="bar"><i style="width:62%;background:var(--air)"></i></span></div>
+    <div class="g" style="color:var(--energy)"><span class="ico">⚡</span><span style="color:var(--ink)">Energy 5 / 5</span><span class="bar"><i style="width:100%;background:var(--energy)"></i></span></div>
+    <div class="g" style="color:var(--food)"><span class="ico">🥕</span><span style="color:var(--ink)">Food 16 packs</span><span class="bar"><i style="width:80%;background:var(--food)"></i></span></div>
+    <div class="g" style="color:var(--shield)"><span class="ico">🛡️</span><span style="color:var(--ink)">Radiation 5 / 30</span><span class="bar"><i style="width:17%;background:var(--shield)"></i></span></div>
+  </div>
+  <div class="glass power">
+    <div class="sys" style="color:var(--air)"><span class="ico">🫧</span><b style="color:var(--ink)">Life Support</b>
+      <span class="seg"><button>−</button><i class="on"></i><i></i><i></i><button>+</button></span></div>
+    <div class="sys" style="color:var(--food)"><span class="ico">🥕</span><b style="color:var(--ink)">Greenhouse</b>
+      <span class="seg"><button>−</button><i class="on"></i><i></i><i></i><button>+</button></span></div>
+    <div class="sys" style="color:var(--shield)"><span class="ico">🛡️</span><b style="color:var(--ink)">Shield</b>
+      <span class="seg"><button>−</button><i class="on"></i><i class="on"></i><i class="on"></i><button>+</button></span></div>
+    <div class="go"><div class="left">⚡ 5 of 5 power used</div><button class="btn">Go! ▶</button></div>
+  </div>
+  <span class="mock">Design mockup · sample numbers</span>
+</section>
+
+<script>
+/* Dust and storm particles drawn on canvas (no images). */
+document.querySelectorAll("canvas.dust").forEach((cv) => {
+  const ctx = cv.getContext("2d");
+  const n = +cv.dataset.density, speed = +cv.dataset.speed, rgb = cv.dataset.color, sparks = !!cv.dataset.sparks;
+  let w, h; const parts = [];
+  function size() { w = cv.width = cv.clientWidth * devicePixelRatio; h = cv.height = cv.clientHeight * devicePixelRatio; }
+  size(); addEventListener("resize", size);
+  for (let i = 0; i < n; i++) parts.push({ x: Math.random(), y: Math.random(), z: .3 + Math.random() * .7, s: Math.random() < .12 && sparks });
+  (function loop() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of parts) {
+      p.x += (p.s ? -.0012 : .0009) * speed * p.z; p.y += (p.s ? .006 : .0004) * speed * p.z;
+      if (p.x > 1.05) p.x = -.05; if (p.x < -.05) p.x = 1.05; if (p.y > 1.05) p.y = -.05;
+      const x = p.x * w, y = p.y * h;
+      if (p.s) {
+        ctx.strokeStyle = `rgba(255,${120 + p.z * 80},${90 + p.z * 40},${.5 + p.z * .5})`; ctx.lineWidth = 2 * p.z * devicePixelRatio;
+        ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 10 * p.z * devicePixelRatio, y - 34 * p.z * devicePixelRatio); ctx.stroke();
+      } else {
+        ctx.fillStyle = `rgba(${rgb},${.18 + p.z * .4})`;
+        ctx.fillRect(x, y, (speed > 1 ? 14 : 3) * p.z * devicePixelRatio, 2 * p.z * devicePixelRatio);
+      }
+    }
+    requestAnimationFrame(loop);
+  })();
+});
+/* Parallax: layers move by their depth when the mouse moves. */
+document.querySelectorAll("[data-parallax]").forEach((f) => {
+  const layers = f.querySelectorAll(".layer");
+  f.addEventListener("mousemove", (e) => {
+    const r = f.getBoundingClientRect(), dx = (e.clientX - r.left) / r.width - .5, dy = (e.clientY - r.top) / r.height - .5;
+    layers.forEach((l) => { const d = +l.dataset.depth; l.style.transform = `translate(${-dx * d}px, ${-dy * d * .4}px)`; });
+  });
+});
+</script>
+</body>
+</html>

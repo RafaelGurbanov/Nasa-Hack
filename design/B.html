@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design B: Storybook Mars</title>
+<style>
+  :root {
+    --ink: #2b1d16; --paper: #fff4e0; --tomato: #ff6b4a; --sun: #ffc53d; --teal: #2ec4b6;
+    --sky: #7fd8ff; --plum: #7b52c7; --leaf: #5cc96b; --cream: #fffaf1;
+    --hand: "Segoe Print", "Comic Sans MS", "Chalkboard SE", cursive;
+    --round: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #f3e2c6; color: var(--ink); font-family: var(--round); padding: 24px 16px 48px; }
+  .tag { max-width: 1280px; margin: 0 auto 10px; font: 700 14px var(--round); letter-spacing: .08em; text-transform: uppercase; color: #9b7a5a; }
+  .page { position: relative; max-width: 1280px; aspect-ratio: 16 / 9; margin: 0 auto 28px; padding: 1.8%; border-radius: 14px;
+    background: radial-gradient(rgba(180,120,60,.10) 1.2px, transparent 1.6px) 0 0 / 16px 16px, var(--paper);
+    box-shadow: 0 18px 40px rgba(80,40,10,.25); display: grid; gap: 1.6%; overflow: hidden; }
+  .panel { position: relative; background: var(--cream); border: 5px solid var(--ink);
+    border-radius: 22px 10px 26px 12px / 12px 26px 10px 22px; box-shadow: 7px 7px 0 var(--ink); overflow: hidden; }
+  .tilt-l { transform: rotate(-.8deg); } .tilt-r { transform: rotate(.7deg); }
+  .halftone { background: radial-gradient(#ffcfa8 2.4px, transparent 2.9px) 0 0 / 15px 15px, #fff1dc; }
+  h1, h2, h3, .hand { font-family: var(--hand); }
+  .caption { position: absolute; left: 4%; top: 4%; background: var(--sun); border: 4px solid var(--ink); padding: .25em .7em;
+    font: 700 clamp(13px, 1.5vw, 20px) var(--round); transform: rotate(-2deg); box-shadow: 4px 4px 0 var(--ink); z-index: 2; }
+  .bubble { position: relative; background: #fff; border: 4px solid var(--ink); border-radius: 28px; padding: .7em 1em;
+    font-size: clamp(15px, 1.75vw, 24px); line-height: 1.35; box-shadow: 5px 5px 0 rgba(43,29,22,.25); }
+  .bubble::after { content: ""; position: absolute; width: 26px; height: 26px; background: #fff; border-right: 4px solid var(--ink); border-bottom: 4px solid var(--ink);
+    bottom: -15px; left: 22%; transform: rotate(45deg); }
+  .btn { font: 700 clamp(17px, 2.1vw, 28px) var(--hand); color: var(--ink); background: var(--sun); border: 4px solid var(--ink); border-radius: 18px;
+    padding: .3em 1.1em; box-shadow: 5px 5px 0 var(--ink); cursor: pointer; transition: transform .1s; }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn.red { background: var(--tomato); color: #fff; }
+  .mock { position: absolute; right: 1.4%; bottom: .8%; font: 700 11px var(--round); color: rgba(43,29,22,.45); letter-spacing: .1em; text-transform: uppercase; }
+  svg { display: block; }
+  .wob { filter: url(#wobble); }
+
+  /* ---------- intro ---------- */
+  .intro { grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr auto; }
+  .hero { grid-row: span 2; }
+  .hero svg { width: 100%; height: 100%; }
+  .title { position: absolute; left: 5%; top: 5%; right: 5%; text-align: left; }
+  .title h1 { font-size: clamp(34px, 5.6vw, 78px); line-height: .95; color: #fff; -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill;
+    text-shadow: 5px 5px 0 var(--ink); transform: rotate(-3deg); transform-origin: left; }
+  .title h1 span { color: var(--sun); }
+  .meet { display: grid; grid-template-columns: 44% 1fr; align-items: end; padding: 4% 4% 0; background: linear-gradient(#d8f4ff, #fff1dc 70%); }
+  .meet .bubble { margin-bottom: 30%; }
+  .meet .bubble::after { left: -10px; bottom: 26%; transform: rotate(135deg); }
+  .stickers { display: flex; gap: 4%; align-items: center; justify-content: space-between; padding: 3% 4%; }
+  .sticker { flex: 1; text-align: center; background: #fff; border: 4px solid var(--ink); border-radius: 50%; aspect-ratio: 1; display: grid; place-content: center;
+    font: 700 clamp(11px, 1.25vw, 16px) var(--round); line-height: 1.15; box-shadow: 4px 4px 0 var(--ink); }
+  .sticker b { display: block; font: 700 clamp(18px, 2.3vw, 32px) var(--hand); }
+  .sticker:nth-child(1) { background: #ffe08a; transform: rotate(-6deg); } .sticker:nth-child(2) { background: #bff1ea; transform: rotate(4deg); }
+  .sticker:nth-child(3) { background: #ffc9bd; transform: rotate(-3deg); }
+  .startrow { position: absolute; right: 4%; bottom: 5%; }
+
+  /* ---------- storm sol ---------- */
+  .storm { grid-template-columns: 1fr 1.25fr 1fr; grid-template-rows: .9fr 1.1fr; }
+  .solpanel { padding: 5% 6%; }
+  .solpanel h2 { font-size: clamp(36px, 5.2vw, 72px); line-height: 1; margin-top: 10%; }
+  .cal { display: inline-block; margin-top: 4%; background: #fff; border: 4px solid var(--ink); border-radius: 10px; overflow: hidden; text-align: center;
+    box-shadow: 4px 4px 0 var(--ink); transform: rotate(-3deg); }
+  .cal i { display: block; background: var(--tomato); color: #fff; font: 700 clamp(11px, 1.2vw, 15px) var(--round); padding: 2px 14px; font-style: normal; }
+  .cal b { display: block; font: 700 clamp(18px, 2.4vw, 32px) var(--hand); padding: 0 12px; }
+  .stones { display: flex; gap: 3%; margin-top: 8%; align-items: center; }
+  .stones span { flex: 1; aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--ink); background: #f0d2b0; display: grid; place-items: center; font-size: clamp(9px, 1vw, 13px); font-weight: 700; }
+  .stones .done { background: var(--leaf); } .stones .now { background: var(--sun); transform: scale(1.35); }
+  .stones .st { box-shadow: 0 0 0 3px var(--tomato); }
+  .sunpanel { background: linear-gradient(#ffb48a, #ff8c6b 60%, #ffcf9e); }
+  .sunpanel svg { width: 100%; height: 100%; }
+  .zap { position: absolute; right: 5%; bottom: 8%; width: 34%; aspect-ratio: 1; background: var(--sun); display: grid; place-items: center;
+    clip-path: polygon(50% 0, 61% 30%, 95% 18%, 72% 45%, 100% 62%, 66% 66%, 72% 100%, 50% 75%, 26% 100%, 32% 68%, 0 62%, 28% 45%, 6% 18%, 39% 30%);
+    transform: rotate(-10deg); animation: zap 0.9s ease-in-out infinite alternate; }
+  .zap b { font: 700 clamp(16px, 2.4vw, 32px) var(--hand); color: var(--tomato); -webkit-text-stroke: 1.5px var(--ink); }
+  @keyframes zap { to { transform: rotate(-4deg) scale(1.08); } }
+  .rovipanel { display: grid; grid-template-rows: auto 1fr; padding: 5% 5% 0; background: linear-gradient(#e7dcff, #fff1dc); }
+  .rovipanel .bubble { font-weight: 700; }
+  .rovipanel svg { width: 62%; margin: 6% auto 0; }
+  .powerpanel { grid-column: span 2; padding: 1.6% 2.6%; display: grid; grid-template-rows: auto 1fr auto; gap: 2.5%; }
+  .powerpanel h3, .statuspanel h3 { font-size: clamp(20px, 2.6vw, 34px); }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3%; }
+  .card { border: 4px solid var(--ink); border-radius: 18px; background: #fff; padding: 3% 5%; text-align: center; box-shadow: 4px 4px 0 var(--ink); }
+  .card .ico { width: clamp(36px, 4.2vw, 58px); aspect-ratio: 1; margin: 0 auto; border-radius: 50%; border: 4px solid var(--ink); display: grid; place-items: center; font-size: clamp(22px, 2.8vw, 36px); }
+  .card b { display: block; font: 700 clamp(15px, 1.8vw, 24px) var(--hand); margin: 2% 0; }
+  .ctl { display: flex; align-items: center; justify-content: center; gap: 6%; }
+  .ctl button { width: clamp(30px, 3.2vw, 44px); aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--ink); background: #fff; font: 700 clamp(16px, 2vw, 26px) var(--round); line-height: 1; cursor: pointer; box-shadow: 2px 2px 0 var(--ink); }
+  .pips { display: flex; gap: 6px; } .pips i { width: clamp(14px, 1.6vw, 22px); aspect-ratio: 1; border-radius: 6px; border: 3px solid var(--ink); background: #f3e6d4; }
+  .foot { display: flex; align-items: center; justify-content: space-between; font: 700 clamp(15px, 1.8vw, 24px) var(--round); }
+  .statuspanel { padding: 4% 6%; display: grid; gap: 3%; align-content: start; }
+  .st-row { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: center; font: 700 clamp(13px, 1.5vw, 19px) var(--round); }
+  .st-row .ico { grid-row: span 2; font-size: clamp(22px, 2.6vw, 34px); }
+  .pill { height: clamp(14px, 1.6vw, 22px); border: 3px solid var(--ink); border-radius: 99px; background: #f3e6d4; overflow: hidden; }
+  .pill i { display: block; height: 100%; background: repeating-linear-gradient(-45deg, var(--c) 0 10px, color-mix(in srgb, var(--c) 75%, #fff) 10px 20px); }
+</style>
+</head>
+<body>
+<!-- shared drawing filter: makes outlines look hand-drawn -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+</svg>
+
+<p class="tag">Design B · Storybook / cartoon · mockup with sample numbers · screen 1: intro</p>
+
+<!-- ===================== SCREEN 1: INTRO ===================== -->
+<section class="page intro">
+  <div class="panel hero tilt-l">
+    <svg viewBox="0 0 700 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="bsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb38a"/><stop offset=".6" stop-color="#ffd9a8"/><stop offset="1" stop-color="#fff0cf"/></linearGradient></defs>
+      <rect width="700" height="520" fill="url(#bsky)"/>
+      <g class="wob">
+        <g transform="translate(560 120)"><g><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="30s" repeatCount="indefinite"/>
+          <g stroke="#2b1d16" stroke-width="6" stroke-linecap="round"><line x1="0" y1="-78" x2="0" y2="-58"/><line x1="0" y1="78" x2="0" y2="58"/><line x1="-78" y1="0" x2="-58" y2="0"/><line x1="78" y1="0" x2="58" y2="0"/>
+          <line x1="55" y1="55" x2="41" y2="41"/><line x1="-55" y1="55" x2="-41" y2="41"/><line x1="55" y1="-55" x2="41" y2="-41"/><line x1="-55" y1="-55" x2="-41" y2="-41"/></g></g>
+          <circle r="44" fill="#ffc53d" stroke="#2b1d16" stroke-width="6"/><circle cx="-14" cy="-6" r="5" fill="#2b1d16"/><circle cx="14" cy="-6" r="5" fill="#2b1d16"/>
+          <path d="M-14 12 Q0 24 14 12" stroke="#2b1d16" stroke-width="5" fill="none" stroke-linecap="round"/></g>
+        <path d="M-10 330 Q120 270 250 320 T520 300 T720 320 V540 H-10Z" fill="#f08a4b" stroke="#2b1d16" stroke-width="6"/>
+        <path d="M-10 400 Q160 350 330 395 T720 380 V540 H-10Z" fill="#d9663a" stroke="#2b1d16" stroke-width="6"/>
+        <ellipse cx="110" cy="450" rx="44" ry="12" fill="#b9512c" stroke="#2b1d16" stroke-width="4"/><ellipse cx="560" cy="440" rx="30" ry="9" fill="#b9512c" stroke="#2b1d16" stroke-width="4"/>
+        <g transform="translate(330 300)">
+          <path d="M-90 70 A90 80 0 0 1 90 70Z" fill="#fff" stroke="#2b1d16" stroke-width="6"/>
+          <circle cx="-38" cy="40" r="11" fill="#7fd8ff" stroke="#2b1d16" stroke-width="4"/><circle cx="0" cy="26" r="11" fill="#7fd8ff" stroke="#2b1d16" stroke-width="4"/><circle cx="38" cy="40" r="11" fill="#7fd8ff" stroke="#2b1d16" stroke-width="4"/>
+          <rect x="-104" y="66" width="208" height="16" rx="6" fill="#ff6b4a" stroke="#2b1d16" stroke-width="5"/>
+          <line x1="0" y1="-10" x2="0" y2="-40" stroke="#2b1d16" stroke-width="5"/><path d="M0 -40 L30 -32 L0 -24Z" fill="#2ec4b6" stroke="#2b1d16" stroke-width="4"/>
+          <path d="M110 82 L130 30 L190 30 L170 82Z" fill="#3a5bd0" stroke="#2b1d16" stroke-width="5"/>
+        </g>
+        <circle cx="90" cy="90" r="5" fill="#fff"/><circle cx="200" cy="60" r="4" fill="#fff"/><circle cx="380" cy="80" r="3" fill="#fff"/>
+      </g>
+    </svg>
+    <div class="title"><h1>Mars <span>Storm</span><br>Replay</h1></div>
+    <div class="startrow"><button class="btn red">Let's go! ➜</button></div>
+  </div>
+  <div class="panel meet tilt-r">
+    <svg viewBox="0 0 200 230" aria-hidden="true">
+      <g class="wob" stroke="#2b1d16" stroke-width="6" stroke-linejoin="round">
+        <line x1="100" y1="44" x2="100" y2="16"/><circle cx="100" cy="12" r="9" fill="#ffc53d"/>
+        <rect x="30" y="44" width="140" height="100" rx="34" fill="#2ec4b6"/>
+        <rect x="48" y="62" width="104" height="64" rx="22" fill="#e9fffb" stroke-width="4"/>
+        <rect x="56" y="144" width="88" height="48" rx="16" fill="#ff6b4a"/>
+        <path d="M144 160 Q172 140 178 112" fill="none" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" values="0 144 160;-14 144 160;0 144 160" dur="1.2s" repeatCount="indefinite"/></path>
+        <path d="M56 160 Q34 172 30 194" fill="none" stroke-linecap="round"/>
+        <circle cx="72" cy="204" r="16" fill="#2b1d16"/><circle cx="128" cy="204" r="16" fill="#2b1d16"/>
+      </g>
+      <circle cx="78" cy="92" r="12" fill="#2b1d16"/><circle cx="122" cy="92" r="12" fill="#2b1d16"/>
+      <circle cx="82" cy="87" r="4" fill="#fff"/><circle cx="126" cy="87" r="4" fill="#fff"/>
+      <path d="M82 108 Q100 122 118 108" stroke="#2b1d16" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="62" cy="108" rx="7" ry="4" fill="#ff8fa3"/><ellipse cx="138" cy="108" rx="7" ry="4" fill="#ff8fa3"/>
+      <circle cx="72" cy="204" r="6" fill="#ffc53d"/><circle cx="128" cy="204" r="6" fill="#ffc53d"/>
+      <path d="M100 156 l5 10 11 2 -8 8 2 11 -10 -5 -10 5 2 -11 -8 -8 11 -2z" fill="#ffc53d" stroke="#2b1d16" stroke-width="2"/>
+    </svg>
+    <div class="bubble">Hi! I'm <b>Rovi</b>. 👋<br>Help me keep 4 astronauts safe on Mars for 10 days!</div>
+  </div>
+  <div class="panel stickers halftone tilt-l">
+    <div class="sticker"><b>10</b>days on Mars</div>
+    <div class="sticker"><b>4</b>astronauts</div>
+    <div class="sticker"><b>1</b>real storm</div>
+  </div>
+  <span class="mock">Design mockup · sample numbers</span>
+</section>
+
+<p class="tag">Screen 2: mid-game storm sol (Sol 5)</p>
+
+<!-- ===================== SCREEN 2: STORM SOL ===================== -->
+<section class="page storm">
+  <div class="panel solpanel halftone tilt-l">
+    <span class="caption">Day 5 of 10</span>
+    <h2>Sol 5</h2>
+    <div class="cal"><i>MAY 2024</i><b>10</b></div>
+    <div class="stones" aria-label="Sol 5 of 10">
+      <span class="done">1</span><span class="done">2</span><span class="done">3</span><span class="done st">4</span><span class="now st">5</span><span class="st">6</span><span>7</span><span class="st">8</span><span>9</span><span>10</span>
+    </div>
+  </div>
+  <div class="panel sunpanel tilt-r">
+    <span class="caption">Uh-oh! The Sun is sending tiny, fast pieces (protons)!</span>
+    <svg viewBox="0 0 520 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g class="wob">
+        <g transform="translate(140 190)">
+          <g fill="#ffc53d" stroke="#2b1d16" stroke-width="5" stroke-linejoin="round">
+            <path d="M0 -105 L18 -60 L60 -86 L52 -40 L100 -36 L64 -6 L100 26 L52 30 L62 78 L18 52 L0 98 L-18 52 L-62 78 L-52 30 L-100 26 L-64 -6 L-100 -36 L-52 -40 L-60 -86 L-18 -60Z">
+              <animateTransform attributeName="transform" type="scale" values="1;1.08;1" dur=".9s" repeatCount="indefinite"/></path></g>
+          <circle r="46" fill="#ff8a3d" stroke="#2b1d16" stroke-width="5"/>
+          <path d="M-22 -14 L-8 -8 M22 -14 L8 -8" stroke="#2b1d16" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="-14" cy="0" r="5" fill="#2b1d16"/><circle cx="14" cy="0" r="5" fill="#2b1d16"/>
+          <ellipse cx="0" cy="20" rx="10" ry="8" fill="#2b1d16"/>
+        </g>
+        <g fill="#ff3b3b" stroke="#2b1d16" stroke-width="3">
+          <circle cx="270" cy="150" r="9"><animate attributeName="cx" values="250;470" dur="1.4s" repeatCount="indefinite"/></circle>
+          <circle cx="300" cy="200" r="7"><animate attributeName="cx" values="260;480" dur="1.1s" repeatCount="indefinite"/></circle>
+          <circle cx="330" cy="120" r="8"><animate attributeName="cx" values="240;470" dur="1.7s" repeatCount="indefinite"/></circle>
+          <circle cx="360" cy="240" r="6"><animate attributeName="cx" values="250;480" dur="1.25s" repeatCount="indefinite"/></circle>
+        </g>
+      </g>
+    </svg>
+    <div class="zap"><b>ZAP!</b></div>
+  </div>
+  <div class="panel rovipanel tilt-l">
+    <div class="bubble">Turn the shield up! Quick! 🛡️</div>
+    <svg viewBox="0 0 200 230" aria-hidden="true">
+      <g class="wob" stroke="#2b1d16" stroke-width="6" stroke-linejoin="round">
+        <line x1="100" y1="44" x2="100" y2="16"/><circle cx="100" cy="12" r="9" fill="#ff6b4a"><animate attributeName="fill" values="#ff6b4a;#ffc53d;#ff6b4a" dur=".6s" repeatCount="indefinite"/></circle>
+        <rect x="30" y="44" width="140" height="100" rx="34" fill="#2ec4b6"/>
+        <rect x="48" y="62" width="104" height="64" rx="22" fill="#e9fffb" stroke-width="4"/>
+        <rect x="56" y="144" width="88" height="48" rx="16" fill="#ff6b4a"/>
+        <path d="M56 158 Q30 130 40 104 M144 158 Q170 130 160 104" fill="none" stroke-linecap="round"/>
+        <circle cx="72" cy="204" r="16" fill="#2b1d16"/><circle cx="128" cy="204" r="16" fill="#2b1d16"/>
+      </g>
+      <path d="M64 76 L88 84 M136 76 L112 84" stroke="#2b1d16" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="78" cy="96" r="11" fill="#2b1d16"/><circle cx="122" cy="96" r="11" fill="#2b1d16"/>
+      <circle cx="81" cy="92" r="3.5" fill="#fff"/><circle cx="125" cy="92" r="3.5" fill="#fff"/>
+      <ellipse cx="100" cy="114" rx="8" ry="7" fill="#2b1d16"/>
+      <path d="M156 66 q8 12 0 18 q-8 -6 0 -18z" fill="#7fd8ff" stroke="#2b1d16" stroke-width="2"/>
+    </svg>
+  </div>
+  <div class="panel powerpanel tilt-r">
+    <h3>Share your power ⚡</h3>
+    <div class="cards">
+      <div class="card"><div class="ico" style="background:#bfeaff">🫧</div><b>Life Support</b>
+        <div class="ctl"><button>−</button><span class="pips"><i style="background:#7fd8ff"></i><i></i><i></i></span><button>+</button></div></div>
+      <div class="card"><div class="ico" style="background:#c8f2cc">🥕</div><b>Greenhouse</b>
+        <div class="ctl"><button>−</button><span class="pips"><i style="background:#5cc96b"></i><i></i><i></i></span><button>+</button></div></div>
+      <div class="card" style="background:#f1e8ff"><div class="ico" style="background:#d9c6ff">🛡️</div><b>Shield</b>
+        <div class="ctl"><button>−</button><span class="pips"><i style="background:#7b52c7"></i><i style="background:#7b52c7"></i><i style="background:#7b52c7"></i></span><button>+</button></div></div>
+    </div>
+    <div class="foot"><span>⚡ 5 of 5 power used. Great!</span><button class="btn">Go! ➜</button></div>
+  </div>
+  <div class="panel statuspanel halftone tilt-l">
+    <h3>How is the base?</h3>
+    <div class="st-row"><span class="ico">🫧</span>Air &amp; water<span class="pill"><i style="--c:#4cb8f0;width:62%"></i></span></div>
+    <div class="st-row"><span class="ico">⚡</span>Energy<span class="pill"><i style="--c:#ffc53d;width:100%"></i></span></div>
+    <div class="st-row"><span class="ico">🥕</span>Food<span class="pill"><i style="--c:#5cc96b;width:80%"></i></span></div>
+    <div class="st-row"><span class="ico">🛡️</span>Radiation (low is good)<span class="pill"><i style="--c:#9b74e0;width:17%"></i></span></div>
+  </div>
+  <span class="mock">Design mockup · sample numbers</span>
+</section>
+</body>
+</html>
