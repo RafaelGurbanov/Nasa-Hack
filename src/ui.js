@@ -262,6 +262,10 @@
       else if (w.status === "late") today.push(el("p", {}, "⏰ ", el("b", {}, "Too late! "), `The blast on the Sun (${what}) and the particles came on the same day. Some particles are so fast they arrive less than an hour after a blast.`), srcLink(b));
       else today.push(el("p", {}, "❓ Earth could not tell which blast sent today's particles."));
     }
+    if (!today.length && !C.isCalm(s.sol)) {
+      const warned = C.storm.earth_warnings.some((w) => w.storm_sol === s.sol && w.status === "on_time");
+      today.push(el("p", {}, "⚠️ ", el("b", {}, "Storm today! "), warned ? "Earth warned you yesterday, so you could get ready." : "Fast pieces from the Sun are here."));
+    }
     if (!today.length) today.push(el("p", {}, "All quiet today. Earth is watching the Sun for you."));
     if (!tomorrow.length) tomorrow.push(el("p", {}, "No warning from Earth for tomorrow."));
     const msgs = [

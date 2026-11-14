@@ -192,7 +192,7 @@
     const roverBody = add(new T.Mesh(new T.BoxGeometry(0.7, 0.25, 0.45), toon(0xf4ede4)), "science", 1.08); roverBody.position.y = 0.3; rover.add(roverBody);
     for (let i = 0; i < 6; i++) { const w = add(new T.Mesh(new T.CylinderGeometry(0.1, 0.1, 0.08, 10), toon(0x3a2a20)), null, 1.15); w.rotation.x = Math.PI / 2; w.position.set(-0.25 + (i % 3) * 0.25, 0.1, i < 3 ? 0.27 : -0.27); rover.add(w); }
     const roverMast = add(new T.Mesh(new T.BoxGeometry(0.06, 0.35, 0.06), toon(0xcccccc)), null, 1.2); roverMast.position.set(0.22, 0.55, 0); rover.add(roverMast);
-    const garage = new T.Vector3(5.8, 0, 1.8), rockPos = new T.Vector3(9.2, 0, -2.6);
+    const garage = new T.Vector3(3.4, 0, -5.6), rockPos = new T.Vector3(6.0, 0, 0.8);  // both in the default view, outside the dome
     garage.y = groundY(garage.x, garage.z); rockPos.y = groundY(rockPos.x, rockPos.z);
     rover.position.copy(garage);
     const rockMat = toon(0x8a4b2d, { emissive: 0x000000 });
@@ -219,7 +219,7 @@
     pg.setAttribute("position", new T.BufferAttribute(pos, 3)); pg.setAttribute("color", new T.BufferAttribute(col, 3));
     const dot = document.createElement("canvas"); dot.width = dot.height = 32;
     { const g = dot.getContext("2d"), gr = g.createRadialGradient(16, 16, 0, 16, 16, 16); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.5, "rgba(255,255,255,0.9)"); gr.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = gr; g.fillRect(0, 0, 32, 32); }
-    const particles = new T.Points(pg, new T.PointsMaterial({ size: 0.45, map: new T.CanvasTexture(dot), vertexColors: true, transparent: true, depthWrite: false, fog: false }));
+    const particles = new T.Points(pg, new T.PointsMaterial({ size: 0.7, map: new T.CanvasTexture(dot), vertexColors: true, transparent: true, depthWrite: false, fog: false }));
     particles.visible = false; scene.add(particles);
     let blocked = 0, gotIn = 0;
 
@@ -233,7 +233,7 @@
       } };
     const el = renderer.domElement; el.style.touchAction = "none";
     const ptrs = new Map(); let pinch0 = 0, moved = 0;
-    el.addEventListener("pointerdown", (e) => { ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY }); el.setPointerCapture(e.pointerId); moved = 0;
+    el.addEventListener("pointerdown", (e) => { ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY }); try { el.setPointerCapture(e.pointerId); } catch (err) { /* not capturable: fine */ } moved = 0;
       if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a.x - b.x, a.y - b.y); } });
     el.addEventListener("pointermove", (e) => {
       const p = ptrs.get(e.pointerId);
@@ -278,6 +278,7 @@
       const s = C.state; if (!s) return;
       const sd = C.solData(s.sol), storm = sd.seps.length > 0, R_ = C.RULES;
       if (s.sol !== view.sol) { view.sol = s.sol; sampleTaken = false; roverT = 0; blocked = 0; gotIn = 0; rock.visible = true; hint(""); }
+      if (s.alloc.sh !== view.sh) { blocked = 0; gotIn = 0; }                    // new shield level -> count again from zero
       view.storm = storm; view.sh = s.alloc.sh; view.sci = s.alloc.sci || 0; view.cut = R_.shieldCut[s.alloc.sh];
       view.msg = C.earthWarnings(s.sol).length > 0 || !!C.adviceArriving(s.sol);
       const used = C.used();
@@ -294,7 +295,7 @@
       sunLight.intensity = storm ? 0.6 : 0.9;
       box.querySelector(".v3-earth").textContent = `🔵 That blue dot is Earth. Its light needs about ${Math.round(C.storm.light_delay.minutes || 0)} minutes to reach you.`;
       box.querySelector(".v3-credit").textContent = "Ground: real NASA MOLA height data of Gale crater, where Curiosity landed (heights ×3).";
-      const sb = box.querySelector(".v3-storm"); sb.classList.toggle("hidden", !storm);
+      const sb = box.querySelector(".v3-storm"); sb.classList.toggle("hidden", !storm); panel.classList.toggle("storm-on", storm);
       if (storm) {
         const k = Math.round(view.cut * 10);
         sb.querySelector(".v3-storm-title").textContent = s.alloc.sh ? `🛡️ Shield ${s.alloc.sh}: it blocks ${k} of every 10 storm pieces` : "⚠️ No shield! Every storm piece gets in";
@@ -372,7 +373,9 @@
               col[j] = YELLOW[0]; col[j + 1] = YELLOW[1]; col[j + 2] = YELLOW[2]; st[i] = 1; blocked++;
             } else { st[i] = 2; gotIn++; }
           }
-          if (d > 48 || pos[j + 1] < -1 || (st[i] === 2 && d < 1.2)) spawn(i, false);
+          // bounced pieces and pieces that got in both make a short trip (about 3.8 units) before starting again,
+          // so the counters show the real rule: 4 / 7 / 9 of every 10 bounce off
+          if (d > 48 || pos[j + 1] < -1 || (st[i] === 2 && d < 1.2) || (st[i] === 1 && d > R + 3.8)) spawn(i, false);
         }
         pg.attributes.position.needsUpdate = true; pg.attributes.color.needsUpdate = true;
         box.querySelector(".v3-count").textContent = `Bounced off: ${blocked} · Got in: ${gotIn}`;
@@ -382,7 +385,11 @@
     }
     requestAnimationFrame(frame);
 
-    three = { renderer, cam, fps, sync: syncWorld, stop() { running = false; renderer.dispose(); renderer.domElement.remove(); }, lastFps: null };
+    function rockScreen() {                                                     // read-only helper for automated tests
+      const p = rock.position.clone().project(camera), r = el.getBoundingClientRect();
+      return { x: r.left + (p.x + 1) / 2 * r.width, y: r.top + (1 - p.y) / 2 * r.height, ready: rockReady(), taken: sampleTaken };
+    }
+    three = { renderer, cam, fps, sync: syncWorld, rockScreen, stop() { running = false; renderer.dispose(); renderer.domElement.remove(); }, lastFps: null };
   }
 
   function stop() { if (three) { try { three.stop(); } catch (e) { /* ignore */ } } three = null; }
@@ -390,7 +397,7 @@
   function sync() { if (three && mode === "3d") three.sync(); }
 
   C.subscribe(() => sync());
-  window.Base3D = { setMode: (m) => setMode(m), get mode() { return mode; }, get fps() { return three ? three.lastFps : null } };
+  window.Base3D = { setMode: (m) => setMode(m), get mode() { return mode; }, get fps() { return three ? three.lastFps : null }, rockScreen: () => (three ? three.rockScreen() : null) };
 
   // start in 3D when possible (remember the child's choice), otherwise 2D
   setMode(pref() === "2d" ? "2d" : "3d");
