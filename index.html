@@ -14,11 +14,12 @@
 </svg>
 
 <header class="topbar">
-  <h1>Mars <span>Storm</span> Replay</h1>
+  <h1><span data-i18n="app.t1">Mars</span> <span class="accent" data-i18n="app.t2">Storm</span> <span data-i18n="app.t3">Replay</span></h1>
   <div class="tools">
     <span class="realdata" id="dataBadge">loading…</span>
+    <button class="chip" id="btnLang" type="button" lang="az">🌐</button>
     <button class="chip" id="btnSound" type="button" aria-pressed="false">🔇 Sound: off</button>
-    <button class="chip" id="btnTeacher" type="button">📡 For teachers</button>
+    <button class="chip" id="btnTeacher" type="button" data-i18n="top.teacher">📡 For teachers</button>
   </div>
 </header>
 
@@ -67,17 +68,15 @@
 <!-- for teachers and judges: where every number comes from -->
 <dialog id="dlgTeacher" aria-labelledby="teacherTitle">
   <div class="row" style="justify-content:space-between">
-    <h2 id="teacherTitle" class="hand">NASA data sources</h2>
-    <button class="chip" id="btnCloseTeacher" type="button">Close</button>
+    <h2 id="teacherTitle" class="hand" data-i18n="teacher.title">NASA data sources</h2>
+    <button class="chip" id="btnCloseTeacher" type="button" data-i18n="btn.close">Close</button>
   </div>
-  <p>Every number falls into one of three groups:
-    <span class="badge live">live-fetched</span> from a NASA API,
-    <span class="badge ref">published reference value</span> from a NASA source, or
-    <span class="badge rule">game rule</span>, a simplification so kids can play. Game rules are not NASA data.</p>
   <div id="srcBody"></div>
 </dialog>
 
 <script src="data/events.js"></script>
+<script src="locales/locales.js"></script>
+<script src="src/i18n.js"></script>
 <script src="src/game.js"></script>
 <script src="src/art.js"></script>
 <script src="src/sound.js"></script>

@@ -15,7 +15,7 @@
   function eye(x, y, r = 12) {
     return `<circle cx="${x}" cy="${y}" r="${r}" fill="${INK}"/><circle cx="${x + 4}" cy="${y - 5}" r="${r / 3}" fill="#fff"/>`;
   }
-  function rovi(mood) {
+  function rovi(mood, label) {
     const ball = { happy: "#ffc53d", worried: "#ff9f43", scared: "#ff4d4d", cheering: "#ffc53d" }[mood] || "#ffc53d";
     let arms = "", face = "", extra = "";
     if (mood === "worried") {
@@ -39,7 +39,7 @@
       face = eye(78, 92) + eye(122, 92) + `<path d="M82 108 Q100 122 118 108" stroke="${INK}" stroke-width="5" fill="none" stroke-linecap="round"/>` +
         `<ellipse cx="62" cy="108" rx="7" ry="4" fill="#ff8fa3"/><ellipse cx="138" cy="108" rx="7" ry="4" fill="#ff8fa3"/>`;
     }
-    return `<svg class="rovi rovi-${mood}" viewBox="0 0 200 232" role="img" aria-label="Rovi the robot looks ${mood}">
+    return `<svg class="rovi rovi-${mood}" viewBox="0 0 200 232" role="img" aria-label="${label || "Rovi"}">
       <g filter="url(#wobble)" stroke="${INK}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" fill="none">
         <line x1="100" y1="44" x2="100" y2="16"/>${arms}
         <circle cx="100" cy="12" r="9" fill="${ball}" class="ball"/>
@@ -61,7 +61,7 @@
     { skin: "#f5d6b8", hair: "#16110f", rim: "#5cc96b", hairPath: "M32 58 Q30 22 62 22 Q92 22 90 56 L84 40 Q62 30 42 42Z" },
     { skin: "#d9a27c", hair: "#c4622d", rim: "#9b74e0", hairPath: "M36 46 Q36 24 60 24 Q70 18 80 26 Q90 32 86 46 Q70 32 52 38 Q42 40 36 46Z" }
   ];
-  function face(i, mood) {
+  function face(i, mood, label) {
     const L = CREW_LOOK[i];
     const dot = (x) => `<circle cx="${x}" cy="62" r="4.5" fill="${INK}"/><circle cx="${x + 1.5}" cy="60.5" r="1.5" fill="#fff"/>`;
     let eyes = dot(50) + dot(72), mouth = "", extra = "";
@@ -84,7 +84,7 @@
         mouth = `<path d="M51 80 Q61 70 71 80" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/>`; break;
     }
     const blush = mood === "happy" || mood === "cheering" ? `<ellipse cx="42" cy="72" rx="5" ry="3" fill="#ff8fa3"/><ellipse cx="80" cy="72" rx="5" ry="3" fill="#ff8fa3"/>` : "";
-    return `<svg class="face face-${mood}" viewBox="0 0 122 122" role="img" aria-label="astronaut looks ${mood}">
+    return `<svg class="face face-${mood}" viewBox="0 0 122 122" role="img" aria-label="${label || "astronaut"}">
       <path d="M18 122 Q18 96 61 96 Q104 96 104 122Z" fill="#fff" stroke="${INK}" stroke-width="4"/>
       <path d="M44 100 L61 110 L78 100" stroke="${L.rim}" stroke-width="6" fill="none" stroke-linecap="round"/>
       <circle cx="61" cy="56" r="45" fill="#fff" stroke="${INK}" stroke-width="5"/>

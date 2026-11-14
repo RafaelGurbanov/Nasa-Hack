@@ -48,32 +48,26 @@
   function fmt(x, d = 2) { return (Math.round(x * 10 ** d) / 10 ** d).toString(); }
   function sign(x, d = 2) { return (x >= 0 ? "+" : "") + fmt(x, d); }
 
+  // Rules table and quiz as text keys (locales/*.json); the screen translates them.
+  const K = (k, v) => ({ k, v });
   const GAME_RULES_TABLE = [
-    ["Crew size", "4 astronauts"],
-    ["Energy: power per sol", RULES.power + " units (it never covers all three systems at full level)"],
-    ["Life Support output", "each power level makes " + fmt(RULES.o2PerLevel) + " kg O2, so level 2 covers 4 x 0.84 kg exactly"],
-    ["Oxygen reserve at start", fmt(RULES.o2Start) + " kg (3 sols), tank max " + fmt(RULES.o2Max) + " kg"],
-    ["Water recycling by Life Support level", "0: 0%, 1: 93%, 2-3: 98% (93% and 98% are the ISS values before and after the brine processor). A full tank lasts 4 sols with no recycling."],
-    ["Food", "measured in 'food packs' (1 pack = food for 1 astronaut for 1 day = 1 crew-day). Start " + RULES.foodStart + ", each greenhouse level grows " + RULES.foodPerLevel + ", the crew eats " + RULES.foodNeed + " per sol, store max " + RULES.foodMax],
-    ["Storm dose (proxy)", RULES.doseFromSep + " mSv per DONKI SEP record on that date if unshielded. Real Mars storm doses vary a lot; Curiosity measured about 8 mGy on 20 May 2024."],
-    ["Shield effect", "levels 1/2/3 cut storm dose by 40% / 70% / 90%. The baseline 0.64 mSv/day from cosmic rays is not cut."],
-    ["Drill dose limit", RULES.doseLimit + " mSv for this 10-sol exercise (game rule, far below NASA's 600 mSv career limit)"],
-    ["Sol vs date", "1 sol = 1 real UTC date of the storm week (a real sol is 24 h 39 min)"],
-    ["Mystery storm", "each game picks one of " + D.storms.length + " real DONKI storm weeks at random; the date is revealed at the end"],
-    ["Science mission", "calm sols only: costs " + RULES.scienceCost + " of the 5 power points and earns 1 star. End rank: survived = Bronze, " + RULES.silverStars + "+ stars = Silver, " + RULES.goldStars + "+ stars = Gold"],
-    ["Earth's warning", "shown the sol before a storm day if DONKI links that storm's SEP records to a flare/CME on an earlier day; otherwise the game says the warning came too late"],
-    ["Ask Earth for advice", "the answer arrives on the next sol (messages need time to travel); it is based on what the base looked like when you asked"]
+    ["rule.crew.k", K("rule.crew.v")],
+    ["rule.power.k", K("rule.power.v", { power: RULES.power })],
+    ["rule.ls.k", K("rule.ls.v", { perLevel: RULES.o2PerLevel })],
+    ["rule.o2.k", K("rule.o2.v", { start: RULES.o2Start, max: RULES.o2Max })],
+    ["rule.water.k", K("rule.water.v")],
+    ["rule.food.k", K("rule.food.v", { start: RULES.foodStart, per: RULES.foodPerLevel, need: RULES.foodNeed, max: RULES.foodMax })],
+    ["rule.dose.k", K("rule.dose.v", { perSep: RULES.doseFromSep })],
+    ["rule.shield.k", K("rule.shield.v")],
+    ["rule.limit.k", K("rule.limit.v", { limit: RULES.doseLimit })],
+    ["rule.sol.k", K("rule.sol.v")],
+    ["rule.mystery.k", K("rule.mystery.v", { n: D.storms.length })],
+    ["rule.sci.k", K("rule.sci.v", { silver: RULES.silverStars, gold: RULES.goldStars })],
+    ["rule.warn.k", K("rule.warn.v")],
+    ["rule.advice.k", K("rule.advice.v")]
   ];
-
-  // Quiz for ages 7-12. Values are the same NASA values used in the game.
-  const QUIZ = [
-    { q: "One astronaut breathes about 0.84 kg of oxygen each day. There are 4 astronauts. How much oxygen do they need each day?",
-      a: ["Less than 1 kg", "About 3.4 kg (4 × 0.84)", "About 10 kg", "None, Mars has air"], correct: 1 },
-    { q: "In a space storm (solar flare), what can hurt astronauts on Mars the most?",
-      a: ["Tiny, fast pieces from the Sun (protons)", "The bright light", "A loud noise", "Rain"], correct: 0 },
-    { q: "The base has only a little power. What happens if you give ALL of it to the shield?",
-      a: ["Nothing changes", "The storm stops", "Less air and less food are made", "Mars gets warmer"], correct: 2 }
-  ];
+  // Quiz for ages 7-12 (text in locales: quiz.N.q / quiz.N.aJ). Values are the game's NASA values.
+  const QUIZ = [{ n: 1, correct: 1 }, { n: 2, correct: 0 }, { n: 3, correct: 2 }];
 
   /* ---------------------------------------------------------------- simulation (pure) */
   function solData(n) {
@@ -139,77 +133,71 @@
   function earthWarnings(n) { return (ST.earth_warnings || []).filter((w) => w.warn_sol === n); }
   /** Advice from Earth: based on the base when you asked; arrives the next sol. */
   function adviceFor(s) {
-    if (s.o2 < O2_NEED * 2) return "Your air is low. Keep Life Support at 2 or more.";
-    if (s.food < RULES.foodNeed * 2) return "Your food is low. Keep the Greenhouse at 2 or more.";
-    if (s.dose > RULES.doseLimit * 0.5) return "Your radiation is high. Use a strong shield on every storm day.";
-    return "Your base looks good. On calm days, save extra air or food for the next storm.";
+    if (s.o2 < O2_NEED * 2) return K("advice.air");
+    if (s.food < RULES.foodNeed * 2) return K("advice.food");
+    if (s.dose > RULES.doseLimit * 0.5) return K("advice.dose");
+    return K("advice.good");
   }
 
-  /* ---------------------------------------------------------------- teaching text */
+  /* ---------------------------------------------------------------- teaching text (as text keys) */
   function pickFact(S, r) {
     const o2 = val("o2_kg_per_crew_per_day");
     const facts = [];
-    if (r.sepCount) facts.push(["sep", `The light from a space storm (solar flare) does not hurt the crew. The tiny, fast pieces that come after it (protons) do. On 20 May 2024, a storm from the Sun reached Mars. NASA's Curiosity rover measured about ${val("curiosity_rad_2024_05_20_ugy").toLocaleString("en-US")} micrograys. That is like 30 chest X-rays!`]);
-    if (r.sepCount) facts.push(["limit", `NASA has a safety limit. In a whole career, an astronaut may get at most ${val("career_dose_limit_msv")} mSv of radiation. Today your shield made the storm dose smaller: from ${fmt(r.stormRaw, 1)} to ${fmt(r.stormDose, 1)} mSv.`]);
-    if (r.alloc.ls < 2) facts.push(["o2", `Air math: 1 astronaut breathes about ${o2} kg of oxygen a day. That is a bit less than a 1-liter bottle of water weighs. 4 × ${o2} = ${fmt(O2_NEED)} kg. Today your machine made only ${fmt(r.o2Made)} kg.`]);
-    if (r.alloc.ls < 2) facts.push(["water", `On the Space Station, NASA cleans and reuses ${val("iss_water_recovery_pct")} of every 100 drops of water, even sweat! Today, with less power, your base reused only ${Math.round(r.rec * 100)} of 100.`]);
-    if (ST.light_delay && ST.light_delay.minutes) facts.push(["delay", `Right now Mars is ${Math.round(ST.light_delay.minutes)} light-minutes from Earth. A radio message takes that long to arrive, and a rocket would take about ${val("mars_trip_months")} to ${val("mars_trip_months_max")} months. That is why the crew must solve problems alone.`]);
-    facts.push(["osdr", `Scientists measured the bodies of the 4 Inspiration4 space travelers (2021). Almost all of the changes went back to normal within a few months after landing. (NASA Open Science Data Repository)`]);
-    facts.push(["base", `Mars gives a little radiation every day, even with no storm: ${BASE_DOSE} mSv. NASA's Curiosity rover measured this. After ${r.sol} sol${r.sol > 1 ? "s" : ""}, that adds up to ${fmt(BASE_DOSE * r.sol, 2)} mSv.`]);
-    facts.push(["o2", `Air math: 4 astronauts × ${o2} kg = ${fmt(O2_NEED)} kg of oxygen each sol. Today your machine made ${fmt(r.o2Made)} kg.`]);
+    if (r.sepCount) facts.push(["sep", K("fact.sep", { ugy: val("curiosity_rad_2024_05_20_ugy") })]);
+    if (r.sepCount) facts.push(["limit", K("fact.limit", { career: val("career_dose_limit_msv"), raw: r.stormRaw, dose: r.stormDose })]);
+    if (r.alloc.ls < 2) facts.push(["o2", K("fact.o2low", { o2, need: O2_NEED, made: r.o2Made })]);
+    if (r.alloc.ls < 2) facts.push(["water", K("fact.water", { pct: val("iss_water_recovery_pct"), rec: Math.round(r.rec * 100) })]);
+    if (ST.light_delay && ST.light_delay.minutes) facts.push(["delay", K("fact.delay", { min: Math.round(ST.light_delay.minutes), m1: val("mars_trip_months"), m2: val("mars_trip_months_max") })]);
+    facts.push(["osdr", K("fact.osdr")]);
+    facts.push(["base", K("fact.base", { dose: BASE_DOSE, total: BASE_DOSE * r.sol })]);
+    facts.push(["o2", K("fact.o2", { o2, need: O2_NEED, made: r.o2Made })]);
     const pick = facts.find((f) => !S.factsSeen.has(f[0])) || facts[0];
     S.factsSeen.add(pick[0]);
     return pick[1];
   }
 
-  const NAMES = { ls: "Life Support", gh: "Greenhouse", sh: "Shield" };
-  function planText(a) { return `Life Support ${a.ls}, Greenhouse ${a.gh}, Shield ${a.sh}`; }
-  function biggestOther(a, except) {
-    const o = ["ls", "gh", "sh"].filter((k) => k !== except).sort((x, y) => a[y] - a[x])[0];
-    return `the ${NAMES[o]} got ${a[o]}`;
-  }
+  const SYSKEY = { ls: "sys.ls", gh: "sys.gh", sh: "sys.sh" };
+  const at = (r) => K("chain.at", { sol: r.sol, date: r.date });
+  const plan = (a) => K("chain.plan", { ls: a.ls, gh: a.gh, sh: a.sh });
 
-  /** Cause-and-effect chain for the end screen (ages 7-12): { items: [text], hint: text }. */
+  /** Cause-and-effect chain for the end screen: { items: [{k,v}], hint: {k,v} }. */
   function buildChain(S) {
     const L = S.log, last = L[L.length - 1], items = [];
-    const at = (r) => `Sol ${r.sol} (${fmtDate(r.date)})`;
     if (!S.fail) {
-      L.filter((r) => r.sepCount).forEach((r) => items.push(
-        `${at(r)}: storm particles! Shield at ${r.alloc.sh}. The storm dose went from ${fmt(r.stormRaw, 1)} down to ${fmt(r.stormDose, 1)} mSv. (${planText(r.alloc)})`));
-      items.push(`Total radiation: ${fmt(S.dose, 1)} mSv. That is under the ${RULES.doseLimit} mSv limit. Air, water and food lasted.`);
-      if (S.stars) items.push(`Science: you finished ${S.stars} mission${S.stars > 1 ? "s" : ""} and earned ${S.stars} ⭐.`);
-      return { items, hint: "These were real storm days. NASA recorded them." };
+      L.filter((r) => r.sepCount).forEach((r) => items.push(K("chain.win.storm", { at: at(r), sh: r.alloc.sh, raw: r.stormRaw, dose: r.stormDose, plan: plan(r.alloc) })));
+      items.push(K("chain.win.total", { dose: S.dose, limit: RULES.doseLimit }));
+      if (S.stars) items.push(K("chain.win.sci", { n: S.stars }));
+      return { items, hint: K("chain.win.hint") };
     }
     if (S.fail === "dose") {
-      L.filter((r) => r.stormDose > 0).forEach((r) => items.push(
-        `${at(r)}: ${r.sepCount} storm particle alert${r.sepCount > 1 ? "s" : ""} (protons). Shield at ${r.alloc.sh}. It blocked ${Math.round(RULES.shieldCut[r.alloc.sh] * 100)}%. The crew got +${fmt(r.stormDose, 1)} mSv.`));
-      items.push(`Everyday Mars radiation: ${L.length} sols × ${BASE_DOSE} = ${fmt(L.length * BASE_DOSE)} mSv.`);
-      items.push(`Total: ${fmt(S.dose, 1)} mSv on Sol ${last.sol}. That is more than the ${RULES.doseLimit} mSv limit. The crew had to go home. Mission failed.`);
-      return { items, hint: "Tip: on storm days, turn the shield up to 3. Take 1 power from the greenhouse for that day. On calm days, make extra air and food." };
+      L.filter((r) => r.stormDose > 0).forEach((r) => items.push(K("chain.dose.item", { at: at(r), n: r.sepCount, sh: r.alloc.sh, pct: Math.round(RULES.shieldCut[r.alloc.sh] * 100), dose: r.stormDose })));
+      items.push(K("chain.dose.base", { n: L.length, dose: BASE_DOSE, total: L.length * BASE_DOSE }));
+      items.push(K("chain.dose.total", { dose: S.dose, sol: last.sol, limit: RULES.doseLimit }));
+      return { items, hint: K("chain.dose.hint") };
     }
     const key = { o2: "o2Delta", water: "waterDelta", food: "foodDelta" }[S.fail];
     const sys = S.fail === "food" ? "gh" : "ls";
     L.filter((r) => r[key] < 0).forEach((r) => {
-      const sciNote = r.sci ? ", and 1 went to a science mission" : "";
-      const why = r.alloc[sys] < 2 ? `The ${NAMES[sys]} got only ${r.alloc[sys]} power (${biggestOther(r.alloc, sys)}${sciNote}${r.sepCount ? `, on a storm day` : ""}).` : `The ${NAMES[sys]} was at ${r.alloc[sys]}.`;
-      const what = S.fail === "o2" ? `It made ${fmt(r.o2Made)} kg of oxygen. The crew needed ${fmt(O2_NEED)} kg. (${sign(r.o2Delta)} kg)`
-        : S.fail === "water" ? `It reused only ${Math.round(r.rec * 100)} of 100 drops of water. (${sign(r.waterDelta, 1)} %)`
-        : `It grew ${r.alloc.gh * RULES.foodPerLevel} food packs. The crew ate ${RULES.foodNeed}. (${sign(r.foodDelta, 1)})`;
-      items.push(`${at(r)}: ${why} ${what}`);
+      const other = ["ls", "gh", "sh"].filter((k) => k !== sys).sort((x, y) => r.alloc[y] - r.alloc[x])[0];
+      const why = r.alloc[sys] < 2
+        ? K("chain.why.low", { sys: K(SYSKEY[sys]), lvl: r.alloc[sys], other: K("chain.why.other", { sys: K(SYSKEY[other]), lvl: r.alloc[other] }),
+                               sci: r.sci ? K("chain.why.sci") : "", storm: r.sepCount ? K("chain.why.storm") : "" })
+        : K("chain.why.ok", { sys: K(SYSKEY[sys]), lvl: r.alloc[sys] });
+      const what = S.fail === "o2" ? K("chain.what.o2", { made: r.o2Made, need: O2_NEED, d_o2: r.o2Delta })
+        : S.fail === "water" ? K("chain.what.water", { rec: Math.round(r.rec * 100), d_w: r.waterDelta })
+        : K("chain.what.food", { grew: r.alloc.gh * RULES.foodPerLevel, eat: RULES.foodNeed, d_f: r.foodDelta });
+      items.push({ k: "_join", parts: [at(r), why, what] });
     });
-    const label = { o2: "The air (oxygen)", water: "The water", food: "The food" }[S.fail];
-    items.push(`${label} ran out on Sol ${last.sol}. Mission failed.`);
-    return { items, hint: `Tip: give the ${NAMES[sys]} 2 power on most days. Use the shield only on storm days, one day at a time.` };
+    items.push(K("chain.out." + S.fail, { sol: last.sol }));
+    return { items, hint: K("chain.res.hint", { sys: K(SYSKEY[sys]) }) };
   }
 
-  /** "What you learned" (ages 7-12), max 3 facts, real NASA values. */
+  /** "What you learned": max 3 facts, real NASA values. */
   function learned(S) {
-    const stormSols = S.log.filter((r) => r.sepCount).length;
-    const o2 = val("o2_kg_per_crew_per_day");
     return [
-      `🫧 4 astronauts need about ${fmt(O2_NEED)} kg of oxygen every day (4 × ${o2} kg).`,
-      `☀️ The light of a space storm (solar flare) does not hurt. The tiny, fast pieces after it (protons) do. You had ${stormSols} real storm-particle day${stormSols === 1 ? "" : "s"}.`,
-      `⚡ Power is shared. More shield means less air and less food. So save extra before a storm!`
+      K("learned.1", { need: O2_NEED, o2: val("o2_kg_per_crew_per_day") }),
+      K("learned.2", { n: S.log.filter((r) => r.sepCount).length }),
+      K("learned.3")
     ];
   }
 

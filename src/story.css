@@ -1,10 +1,13 @@
-/* Storybook look for Mars Storm Replay (ages 7-12). No external fonts or images. */
+/* Storybook look for Mars Storm Replay (ages 7-12). Local font only (works offline). */
+/* Mali (SIL Open Font License 1.1, fonts/OFL-Mali.txt) has every Azerbaijani letter: ə Ə ğ Ğ ı İ ş Ş ç Ç ö Ö ü Ü */
+@font-face { font-family: "Mali"; src: url("../fonts/Mali-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Mali"; src: url("../fonts/Mali-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 :root {
   --ink: #2b1d16; --paper: #fff4e0; --cream: #fffaf1; --tomato: #ff6b4a; --sun: #ffc53d; --teal: #2ec4b6;
   --sky: #7fd8ff; --plum: #7b52c7; --leaf: #5cc96b; --muted: #6d5444;
   --air: #4cb8f0; --energy: #f5b51f; --food: #4fbf5f; --shield: #8f68d8;
-  --hand: "Segoe Print", "Comic Sans MS", "Chalkboard SE", "Marker Felt", cursive;
-  --round: "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --hand: "Mali", "Segoe UI", system-ui, sans-serif;
+  --round: "Mali", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 * { box-sizing: border-box; }
 html { background: #f3e2c6; }
@@ -22,7 +25,7 @@ a { color: #1d5fbf; }
 .topbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 16px;
   background: var(--sun); border-bottom: 5px solid var(--ink); }
 .topbar h1 { font-size: 28px; color: #fff; -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--ink); }
-.topbar h1 span { color: var(--tomato); }
+.topbar h1 .accent { color: var(--tomato); }
 .topbar .tools { display: flex; gap: 10px; flex-wrap: wrap; }
 .chip { background: #fff; border: 4px solid var(--ink); border-radius: 14px; padding: 6px 14px; font: 700 17px var(--round); cursor: pointer; box-shadow: 3px 3px 0 var(--ink); }
 .chip[aria-pressed="true"] { background: #c8f2cc; }
@@ -213,7 +216,7 @@ details { margin-top: 10px; font-size: 16px; } summary { cursor: pointer; font: 
 @keyframes radio { to { width: 100%; } }
 .msgs { min-height: 1.6em; }
 .msgs.waiting > * { display: none; }
-.msgs.waiting::before { content: "📡 Message on its way…"; font: 700 20px var(--round); color: var(--muted); }
+.msgwait { font: 700 20px var(--round); color: var(--muted); }
 .msgs:not(.waiting) { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .msgs p { font-size: 21px; margin: 6px 0; }
 .msgcard { background: #fff; border: 4px solid var(--ink); border-radius: 16px; padding: 10px 14px; box-shadow: 4px 4px 0 var(--ink); }

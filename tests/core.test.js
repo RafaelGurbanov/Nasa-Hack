@@ -98,6 +98,31 @@ check("Earth's advice arrives the NEXT sol", !sameSol && nextSol && nextSol.aske
 const picked = new Set();
 for (let i = 0; i < 60; i++) { C.newGame("random"); picked.add(C.storm.id); }
 check("random storm pick uses only the real storm weeks", [...picked].every((id) => C.storms.some((s) => s.id === id)), [...picked].sort().join(", "));
+
+// ---------------------------------------------------------------- languages (EN + AZ)
+const LOC = { en: JSON.parse(fs.readFileSync(path.join(root, "locales/en.json"), "utf8")), az: JSON.parse(fs.readFileSync(path.join(root, "locales/az.json"), "utf8")) };
+const enKeys = Object.keys(LOC.en), azKeys = Object.keys(LOC.az);
+check("EN and AZ have the same text keys", enKeys.length === azKeys.length && enKeys.every((k) => k in LOC.az), `${enKeys.length} keys`);
+const built = fs.readFileSync(path.join(root, "locales/locales.js"), "utf8");
+check("locales/locales.js is up to date (run python tools/build_locales.py)", built.includes(JSON.stringify(LOC.az["intro.1.title"]).slice(1, -1)) && built.includes(JSON.stringify(LOC.en["v3.credit"]).slice(1, -1)));
+const code = ["src/ui.js", "src/game.js", "src/scene3d.js"].map((f) => fs.readFileSync(path.join(root, f), "utf8")).join("\n");
+const used = new Set([...code.matchAll(/\b(?:t|tr|K|I\.has)\(\s*"([a-z0-9_]+(?:\.[A-Za-z0-9_]+)+)"/g)].map((m) => m[1]));
+const missingKeys = [...used].filter((k) => !(k in LOC.en));
+check("every literal text key used in the code exists", !missingKeys.length, missingKeys.length ? "missing: " + missingKeys.join(", ") : `${used.size} keys checked`);
+const families = [
+  ...[1, 2, 3, 4].flatMap((n) => ["title", "p1", "p2", "rovi"].map((x) => `intro.${n}.${x}`)),
+  ...C.QUIZ.flatMap((q) => ["q", "a0", "a1", "a2", "a3"].map((x) => `quiz.${q.n}.${x}`)),
+  ...C.D.science_missions.flatMap((m) => [`mission.${m.id}.title`, `mission.${m.id}.fact`]),
+  ...C.D.reference_values.map((r) => `ref.${r.key}`), ...C.D.caveats.map((_, i) => `caveat.${i}`),
+  ...[0, 1, 2, 3].map((i) => `crew.${i}.job`), ...["happy", "worried", "scared", "cheering", "ok", "sad"].map((m) => `mood.${m}`),
+  ...["Gold", "Silver", "Bronze"].map((r) => `rank.${r}`), ...["storm", "flare", "calm"].flatMap((k) => [`event.${k}.h`, `event.${k}.p`]),
+  ...["o2", "water", "food"].map((k) => `chain.out.${k}`), ...["on_time", "late", "none"].map((k) => `warn.${k}`),
+  ...["ls", "gh", "sh"].flatMap((k) => [`sys.${k}`, `sys.${k}.what`]), ...C.GAME_RULES_TABLE.flatMap(([k, v]) => [k, v.k])
+];
+const missingFam = families.filter((k) => !(k in LOC.en));
+check("every dynamic text key family exists", !missingFam.length, missingFam.length ? "missing: " + missingFam.join(", ") : `${families.length} keys checked`);
+const azLetters = "əƏğĞıİşŞçÇöÖüÜ";
+check("Azerbaijani text uses the special letters (font must support them)", [...azLetters].filter((c) => Object.values(LOC.az).join("").includes(c)).length >= 10);
 C.newGame();
 
 console.log(failed ? `\n${failed} test(s) failed` : "\nAll tests passed");

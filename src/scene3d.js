@@ -18,6 +18,7 @@
   const INK = 0x2b1d16;
   let three = null;                 // everything 3D lives here once started
   let mode = "2d";
+  const tr = (k, v) => (window.I18N ? window.I18N.t(k, v) : k);   // all text from locales/*.json
 
   /* ------------------------------------------------------------ panel controls (always present) */
   const toggle = document.createElement("button");
@@ -30,7 +31,7 @@
   box.className = "view3d hidden"; box.id = "view3d";
   box.innerHTML =
     '<div class="v3-canvas"></div>' +
-    '<button type="button" class="chip v3-reset">🎯 Reset view</button>' +
+    '<button type="button" class="chip v3-reset"></button>' +
     '<div class="v3-storm hidden" aria-live="polite"><b class="v3-storm-title"></b><span class="v3-dots" aria-hidden="true"></span><span class="v3-count"></span></div>' +
     '<div class="v3-hint hidden" aria-live="polite"></div>' +
     '<div class="v3-earth"></div>' +
@@ -43,16 +44,17 @@
   }
   function pref(v) { try { if (v) localStorage.setItem("msr-view", v); return localStorage.getItem("msr-view"); } catch (e) { return null; } }
 
-  function showNote(text) { note.textContent = text; note.classList.remove("hidden"); setTimeout(() => note.classList.add("hidden"), 6000); }
-  function setMode(m, why) {
-    if (m === "3d" && (!T || !DEM || !webglOK())) { m = "2d"; why = why || "3D is not available on this device, so you see the 2D picture."; }
-    if (m === "3d" && !three) { try { start(); } catch (e) { stop(); m = "2d"; why = "3D could not start here, so you see the 2D picture."; } }
+  function showNote(key, vars) { note.textContent = tr(key, vars); note.classList.remove("hidden"); setTimeout(() => note.classList.add("hidden"), 6000); }
+  function setMode(m, why, whyVars) {
+    if (m === "3d" && (!T || !DEM || !webglOK())) { m = "2d"; why = why || "v3.na"; }
+    if (m === "3d" && !three) { try { start(); } catch (e) { stop(); m = "2d"; why = "v3.fail"; } }
     mode = m;
     panel.classList.toggle("is3d", m === "3d");
     box.classList.toggle("hidden", m !== "3d");
-    toggle.textContent = m === "3d" ? "🖼️ Show 2D" : "🧊 Show 3D";
-    toggle.setAttribute("aria-label", m === "3d" ? "Switch to the 2D picture" : "Switch to the 3D view");
-    if (why) showNote(why);
+    toggle.textContent = tr(m === "3d" ? "v3.show2d" : "v3.show3d");
+    toggle.setAttribute("aria-label", tr(m === "3d" ? "v3.aria2d" : "v3.aria3d"));
+    box.querySelector(".v3-reset").textContent = tr("v3.reset");
+    if (why) showNote(why, whyVars);
     if (m === "3d") { sync(); three.fps.reset(); }
   }
   toggle.addEventListener("click", () => { const m = mode === "3d" ? "2d" : "3d"; pref(m); setMode(m); });
@@ -65,7 +67,7 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.outputEncoding = T.sRGBEncoding;
     canvasBox.appendChild(renderer.domElement);
-    renderer.domElement.addEventListener("webglcontextlost", (e) => { e.preventDefault(); fallback("The 3D view stopped, so you see the 2D picture."); });
+    renderer.domElement.addEventListener("webglcontextlost", (e) => { e.preventDefault(); fallback("v3.lost"); });
 
     const scene = new T.Scene();
     const camera = new T.PerspectiveCamera(50, 16 / 9, 0.1, 200);
@@ -261,15 +263,16 @@
     function click(e) {
       const o = hit(e); if (!o) return;
       if (o.userData.sys === "rock") {
-        if (rockReady()) { sampleTaken = true; hint("🪨 Sample collected! Press Go to finish the science mission. ⭐"); }
-        else hint("🪨 A rock for science. Turn on the science mission on a calm sol, then the rover drives here.");
+        if (rockReady()) { sampleTaken = true; hint("v3.sample"); }
+        else hint("v3.rockInfo");
         document.dispatchEvent(new CustomEvent("base3d:pick", { detail: { sys: "science" } }));
         return;
       }
       document.dispatchEvent(new CustomEvent("base3d:pick", { detail: { sys: o.userData.sys } }));
     }
     const hintEl = box.querySelector(".v3-hint");
-    function hint(t) { hintEl.textContent = t; hintEl.classList.toggle("hidden", !t); }
+    let hintKey = "";
+    function hint(k) { hintKey = k; hintEl.textContent = k ? tr(k) : ""; hintEl.classList.toggle("hidden", !k); }
 
     /* ---------- read the game state ---------- */
     const view = { storm: false, sh: 0, sci: 0, sol: 0, msg: false, cut: 0 };
@@ -293,18 +296,19 @@
       particles.visible = storm;
       scene.background.copy(storm ? skyStorm : skyCalm); scene.fog.color.copy(storm ? skyStorm : skyCalm);
       sunLight.intensity = storm ? 0.6 : 0.9;
-      box.querySelector(".v3-earth").textContent = `🔵 That blue dot is Earth. Its light needs about ${Math.round(C.storm.light_delay.minutes || 0)} minutes to reach you.`;
-      box.querySelector(".v3-credit").textContent = "Ground: real NASA MOLA height data of Gale crater, where Curiosity landed (heights ×3).";
+      box.querySelector(".v3-earth").textContent = tr("v3.earth", { min: Math.round(C.storm.light_delay.minutes || 0) });
+      if (hintKey) hintEl.textContent = tr(hintKey);
+      box.querySelector(".v3-credit").textContent = tr("v3.credit");
       const sb = box.querySelector(".v3-storm"); sb.classList.toggle("hidden", !storm); panel.classList.toggle("storm-on", storm);
       if (storm) {
         const k = Math.round(view.cut * 10);
-        sb.querySelector(".v3-storm-title").textContent = s.alloc.sh ? `🛡️ Shield ${s.alloc.sh}: it blocks ${k} of every 10 storm pieces` : "⚠️ No shield! Every storm piece gets in";
+        sb.querySelector(".v3-storm-title").textContent = s.alloc.sh ? tr("v3.shieldN", { sh: s.alloc.sh, k }) : tr("v3.noShield");
         sb.querySelector(".v3-dots").textContent = "🟡".repeat(k) + "🔴".repeat(10 - k);
       }
-      if (!storm && view.sci && !sampleTaken && roverT < 1) hint("🚙 The rover is driving to a rock for the science mission…");
-      if (!view.sci && hintEl.textContent.startsWith("🚙")) hint("");
-      if (storm) hint("👩‍🚀 Storm! The crew is safe inside the shelter.");
-      else if (hintEl.textContent.startsWith("👩‍🚀")) hint("");
+      if (!storm && view.sci && !sampleTaken && roverT < 1) hint("v3.driving");
+      if (!view.sci && hintKey === "v3.driving") hint("");
+      if (storm) hint("v3.shelter");
+      else if (hintKey === "v3.shelter") hint("");
     }
 
     /* ---------- animation loop with a frame-rate check ---------- */
@@ -327,7 +331,7 @@
       else if (!fps.warm && now - fps.t0 > 3000 && fps.frames >= 0) {
         const rate = fps.frames / ((now - fps.t0) / 1000);
         three.lastFps = Math.round(rate);
-        if (rate < 25) { fallback(`3D was slow here (${Math.round(rate)} pictures per second), so you see the 2D picture. You can try 3D again.`); return; }
+        if (rate < 25) { fallback("v3.slow", { fps: Math.round(rate) }); return; }
         fps.t0 = now; fps.frames = 0;
       }
       cam.apply();
@@ -356,7 +360,7 @@
       roverT = reduceMotion ? (wantRock ? 1 : 0) : Math.max(0, Math.min(1, roverT + (wantRock ? dt / 3 : -dt / 2)));
       rover.position.lerpVectors(garage, rockPos, roverT); rover.position.y = groundY(rover.position.x, rover.position.z);
       rover.lookAt(rockPos.x, rover.position.y, rockPos.z); rover.rotation.y -= Math.PI / 2;
-      if (rockReady() && !hintEl.textContent.startsWith("👆")) hint("👆 Click the glowing rock to collect the sample!");
+      if (rockReady() && hintKey !== "v3.click" && hintKey !== "v3.sample") hint("v3.click");
       rock.visible = !sampleTaken;
       rockMat.emissive.setHex(rockReady() ? (Math.sin(t * 6) > 0 ? 0xffc53d : 0x804000) : 0x000000);
       // storm particles
@@ -378,7 +382,7 @@
           if (d > 48 || pos[j + 1] < -1 || (st[i] === 2 && d < 1.2) || (st[i] === 1 && d > R + 3.8)) spawn(i, false);
         }
         pg.attributes.position.needsUpdate = true; pg.attributes.color.needsUpdate = true;
-        box.querySelector(".v3-count").textContent = `Bounced off: ${blocked} · Got in: ${gotIn}`;
+        box.querySelector(".v3-count").textContent = tr("v3.count", { b: blocked, g: gotIn });
         if (view.sh && !reduceMotion) shieldMat.emissiveIntensity = 0.3 + 0.2 * view.sh + 0.15 * Math.sin(t * 5);
       }
       renderer.render(scene, camera);
@@ -393,10 +397,11 @@
   }
 
   function stop() { if (three) { try { three.stop(); } catch (e) { /* ignore */ } } three = null; }
-  function fallback(why) { stop(); setMode("2d", why); }
+  function fallback(why, vars) { stop(); setMode("2d", why, vars); }
   function sync() { if (three && mode === "3d") three.sync(); }
 
   C.subscribe(() => sync());
+  if (window.I18N) window.I18N.onChange(() => { setMode(mode); sync(); });
   window.Base3D = { setMode: (m) => setMode(m), get mode() { return mode; }, get fps() { return three ? three.lastFps : null }, rockScreen: () => (three ? three.rockScreen() : null) };
 
   // start in 3D when possible (remember the child's choice), otherwise 2D
