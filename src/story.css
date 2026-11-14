@@ -171,6 +171,34 @@ details { margin-top: 10px; font-size: 16px; } summary { cursor: pointer; font: 
 .fact { margin-top: 14px; background: #dff3ff; border: 4px solid var(--ink); border-radius: 16px; padding: 12px 16px; font-size: 21px; box-shadow: 4px 4px 0 var(--ink); }
 .fact b { font-family: var(--hand); }
 
+/* ---------- 3D diorama (same panel as the 2D picture) ---------- */
+.scene.is3d { aspect-ratio: 16 / 9; }
+.scene.is3d .scene-svg, .scene.is3d .dust, .scene.is3d .zap { display: none !important; }
+.view3d { position: absolute; inset: 0; }
+.v3-canvas, .v3-canvas canvas { width: 100%; height: 100%; display: block; }
+.view-toggle { position: absolute; right: 12px; top: 12px; z-index: 6; }
+.v3-reset { position: absolute; right: 12px; bottom: 12px; z-index: 5; }
+.v3-storm { position: absolute; left: 50%; top: 58px; transform: translateX(-50%); display: grid; gap: 2px; text-align: center; z-index: 5;
+  background: #fff; border: 4px solid var(--ink); border-radius: 14px; padding: 6px 14px; font: 700 19px var(--round); box-shadow: 4px 4px 0 var(--ink); }
+.v3-dots { font-size: 22px; letter-spacing: 2px; }
+.v3-count { font-size: 15px; color: var(--muted); }
+.v3-hint { position: absolute; left: 12px; bottom: 54px; max-width: 62%; z-index: 5; background: #fff3c4; border: 3px solid var(--ink);
+  border-radius: 12px; padding: 6px 10px; font: 700 18px var(--round); }
+.v3-earth { position: absolute; left: 12px; top: 58px; max-width: 34%; z-index: 4; background: rgba(255,255,255,.88); border: 2px solid var(--ink);
+  border-radius: 10px; padding: 3px 8px; font: 700 14px var(--round); }
+.v3-credit { position: absolute; left: 12px; bottom: 12px; max-width: 62%; z-index: 4; background: rgba(255,255,255,.82); border-radius: 8px;
+  padding: 2px 8px; font: 600 12px var(--round); }
+.view-note { position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%); z-index: 7; max-width: 90%; background: #fff;
+  border: 3px solid var(--ink); border-radius: 12px; padding: 6px 12px; font: 700 16px var(--round); }
+.pick-glow { outline: 6px solid #ffc53d; outline-offset: 3px; animation: pickglow .55s ease-in-out 4 alternate; }
+@keyframes pickglow { to { outline-color: #ff6b4a; transform: scale(1.03); } }
+@media (max-width: 860px) {
+  .v3-earth { display: none; }
+  .v3-storm { top: auto; bottom: 54px; font-size: 15px; } .v3-dots { font-size: 17px; }
+  .v3-hint { max-width: 92%; font-size: 15px; bottom: 100px; }
+  .v3-credit { font-size: 10px; }
+}
+
 /* ---------- message from Earth ---------- */
 .earth { margin-top: 22px; background: #e3f4ff; }
 .earthhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }

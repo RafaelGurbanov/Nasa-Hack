@@ -217,7 +217,7 @@
       el("h3", {}, "Share your power ⚡"),
       el("div", { class: "pcards" }, ...SYSTEMS.map(([k, name, icon, what, bg]) => {
         const lvl = s.alloc[k];
-        return el("div", { class: "pcard" },
+        return el("div", { class: "pcard", "data-sys": k },
           el("div", { class: "ico", style: `background:${bg}` }, icon), el("div", { class: "nm" }, name), el("div", { class: "what" }, what),
           el("div", { class: "ctl" },
             el("button", { type: "button", "aria-label": `Less power to ${name}`, disabled: lvl <= 0 ? "" : null, onclick: () => { Sfx.play("down"); C.setLevel(k, lvl - 1); } }, "−"),
@@ -225,7 +225,7 @@
             el("button", { type: "button", "aria-label": `More power to ${name}`, disabled: lvl >= RULES.maxLevel || left <= 0 ? "" : null, onclick: () => { Sfx.play("up"); C.setLevel(k, lvl + 1); } }, "+")));
       })),
       scienceBox(s, left),
-      el("div", { class: "powerfoot" },
+      el("div", { class: "powerfoot", "data-sys": "energy" },
         el("div", { class: "powerleft" }, el("span", { class: "bolts" }, "⚡".repeat(used) + "▫️".repeat(left)), ` ${used} of ${RULES.power} used` + (left ? ` · ${left} left!` : " · great!")),
         el("button", { class: "btn red", id: "btnGo", type: "button", onclick: runSol }, "Go! ➜")));
   }
@@ -233,10 +233,10 @@
   function scienceBox(s, left) {
     const m = C.missionFor(s.sol), on = s.alloc.sci === 1;
     if (!C.isCalm(s.sol) || !m) {
-      return el("div", { class: "science off" }, el("div", { class: "ico" }, "🔬"),
+      return el("div", { class: "science off", "data-sys": "science" }, el("div", { class: "ico" }, "🔬"),
         el("div", {}, el("div", { class: "nm" }, "No science today"), el("div", { class: "what" }, "It is too dangerous to go outside in a particle storm.")));
     }
-    return el("div", { class: "science" + (on ? " on" : "") }, el("div", { class: "ico" }, m.icon),
+    return el("div", { class: "science" + (on ? " on" : ""), "data-sys": "science" }, el("div", { class: "ico" }, m.icon),
       el("div", {}, el("div", { class: "nm" }, `🔬 Science mission: ${m.title}`), el("div", { class: "what" }, "Optional. It uses 1 ⚡ power point and wins 1 ⭐.")),
       el("button", { class: "btn" + (on ? " green" : ""), type: "button", id: "btnScience", "aria-pressed": String(on),
         disabled: !on && left <= 0 ? "" : null, onclick: () => { Sfx.play(on ? "down" : "up"); C.setLevel("sci", on ? 0 : 1); } },
@@ -488,6 +488,19 @@
     else if (type === "next") renderSol();
     else if (type === "advice") renderEarth(true);
     else if (type === "end") endGame();
+  });
+
+  // Clicking an object in the 3D view highlights its card and its +/- buttons (the cards stay the main controls).
+  document.addEventListener("base3d:pick", (e) => {
+    const target = document.querySelector(`#powerPanel [data-sys="${e.detail.sys}"]`);
+    if (!target || $("powerPanel").classList.contains("hidden")) return;
+    document.querySelectorAll(".pick-glow").forEach((x) => x.classList.remove("pick-glow"));
+    target.classList.add("pick-glow");
+    target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+    const btn = target.querySelector("button:not([disabled])");
+    if (btn) btn.focus({ preventScroll: true });
+    Sfx.play("click");
+    setTimeout(() => target.classList.remove("pick-glow"), 2600);
   });
 
   scene = $("scene");
