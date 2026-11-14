@@ -56,7 +56,49 @@ REFERENCE_VALUES = [
         "unit": "kg O2 / crew member / day",
         "label": "Oxygen consumed per astronaut per day",
         "source": "NASA Life Support Baseline Values and Assumptions Document (BVAD), "
-                  "NASA/TP-2015-218570 (VERIFY exact revision and table)",
+                  "NASA/TP-2015-218570 (VERIFY exact revision and table); same 0.84 kg "
+                  "average also in NASA NTRS 20100036823",
+        "type": "published reference value",
+        "verify": True,
+    },
+    {
+        "key": "iss_water_recovery_pct",
+        "value": 98,
+        "unit": "% of water recovered",
+        "label": "ISS life support water recovery after the Brine Processor Assembly "
+                 "(93-94% before it)",
+        "source": "NASA ISS news release, June 2023 'NASA Achieves Water Recovery Milestone "
+                  "on International Space Station' (VERIFY URL on nasa.gov)",
+        "type": "published reference value",
+        "verify": True,
+    },
+    {
+        "key": "career_dose_limit_msv",
+        "value": 600,
+        "unit": "mSv (career effective dose)",
+        "label": "NASA astronaut career radiation limit",
+        "source": "NASA-STD-3001 Volume 1; NASA OCHMO Radiation Protection Technical Brief "
+                  "(nasa.gov) (VERIFY current revision)",
+        "type": "published reference value",
+        "verify": True,
+    },
+    {
+        "key": "sep_event_dose_limit_msv",
+        "value": 250,
+        "unit": "mSv per solar particle event",
+        "label": "Short-term limit for one solar particle event",
+        "source": "NASA-STD-3001 Volume 1 (seen via secondary source; VERIFY in the standard)",
+        "type": "published reference value",
+        "verify": True,
+    },
+    {
+        "key": "curiosity_rad_2024_05_20_ugy",
+        "value": 8100,
+        "unit": "micrograys (absorbed dose, one event)",
+        "label": "Dose Curiosity RAD measured on Mars during the 20 May 2024 storm from the "
+                 "same active region 13664 (about 30 chest X-rays). Outside our 10-sol window.",
+        "source": "NASA/JPL release June 2024 'NASA Watches Mars Light Up During Epic Solar "
+                  "Storm' (VERIFY URL on nasa.gov)",
         "type": "published reference value",
         "verify": True,
     },

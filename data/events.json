@@ -6,31 +6,31 @@
     "sols": 10,
     "note": "Sol N = UTC calendar date START + N-1. Real dates, replayed."
   },
-  "fetched_at": "2026-11-14T12:12:25Z",
+  "fetched_at": "2026-11-14T12:16:48Z",
   "sources": [
     {
       "endpoint": "https://api.nasa.gov/DONKI/notifications?startDate=2024-05-06&endDate=2024-05-15&type=FLR",
       "status": 200,
-      "rate_limit_remaining": "2485",
+      "rate_limit_remaining": "2482",
       "rate_limit_limit": "2500",
       "attempts": 1,
       "dataset": "DONKI notifications, type=FLR (GOES flare reports issued by CCMC)",
       "records": 47,
       "flares_parsed": 24,
-      "fetched_at": "2026-11-14T12:12:25Z",
+      "fetched_at": "2026-11-14T12:16:48Z",
       "type": "live-fetched",
       "fallback_for": "https://api.nasa.gov/DONKI/FLR?startDate=2024-05-06&endDate=2024-05-15",
-      "fallback_reason": "FLR endpoint HTTP 404 on 2026-11-14T12:12:25Z"
+      "fallback_reason": "FLR endpoint HTTP 404 on 2026-11-14T12:16:48Z"
     },
     {
       "endpoint": "https://api.nasa.gov/DONKI/SEP?startDate=2024-05-06&endDate=2024-05-15",
       "status": 200,
-      "rate_limit_remaining": "2484",
+      "rate_limit_remaining": "2481",
       "rate_limit_limit": "2500",
       "attempts": 1,
       "dataset": "DONKI SEP (solar energetic particle events)",
       "records": 14,
-      "fetched_at": "2026-11-14T12:12:25Z",
+      "fetched_at": "2026-11-14T12:16:48Z",
       "type": "live-fetched"
     }
   ],
@@ -56,7 +56,43 @@
       "value": 0.84,
       "unit": "kg O2 / crew member / day",
       "label": "Oxygen consumed per astronaut per day",
-      "source": "NASA Life Support Baseline Values and Assumptions Document (BVAD), NASA/TP-2015-218570 (VERIFY exact revision and table)",
+      "source": "NASA Life Support Baseline Values and Assumptions Document (BVAD), NASA/TP-2015-218570 (VERIFY exact revision and table); same 0.84 kg average also in NASA NTRS 20100036823",
+      "type": "published reference value",
+      "verify": true
+    },
+    {
+      "key": "iss_water_recovery_pct",
+      "value": 98,
+      "unit": "% of water recovered",
+      "label": "ISS life support water recovery after the Brine Processor Assembly (93-94% before it)",
+      "source": "NASA ISS news release, June 2023 'NASA Achieves Water Recovery Milestone on International Space Station' (VERIFY URL on nasa.gov)",
+      "type": "published reference value",
+      "verify": true
+    },
+    {
+      "key": "career_dose_limit_msv",
+      "value": 600,
+      "unit": "mSv (career effective dose)",
+      "label": "NASA astronaut career radiation limit",
+      "source": "NASA-STD-3001 Volume 1; NASA OCHMO Radiation Protection Technical Brief (nasa.gov) (VERIFY current revision)",
+      "type": "published reference value",
+      "verify": true
+    },
+    {
+      "key": "sep_event_dose_limit_msv",
+      "value": 250,
+      "unit": "mSv per solar particle event",
+      "label": "Short-term limit for one solar particle event",
+      "source": "NASA-STD-3001 Volume 1 (seen via secondary source; VERIFY in the standard)",
+      "type": "published reference value",
+      "verify": true
+    },
+    {
+      "key": "curiosity_rad_2024_05_20_ugy",
+      "value": 8100,
+      "unit": "micrograys (absorbed dose, one event)",
+      "label": "Dose Curiosity RAD measured on Mars during the 20 May 2024 storm from the same active region 13664 (about 30 chest X-rays). Outside our 10-sol window.",
+      "source": "NASA/JPL release June 2024 'NASA Watches Mars Light Up During Epic Solar Storm' (VERIFY URL on nasa.gov)",
       "type": "published reference value",
       "verify": true
     }

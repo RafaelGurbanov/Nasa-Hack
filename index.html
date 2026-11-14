@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mars Storm Replay</title>
+<meta name="description" content="Junior Astronaut Mission Trainer: run a Mars base for 10 sols through a real May 2024 solar storm, replayed from NASA DONKI data.">
+<style>
+  :root {
+    --bg: #120d0b; --panel: #1f1714; --panel2: #2a1f1a; --line: #4a362c;
+    --text: #f3e9e2; --muted: #c2ad9f; --accent: #ff8a4c; --good: #6fd08c;
+    --warn: #ffc857; --bad: #ff5d5d; --link: #8cc8ff;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+    padding: 12px 16px; border-bottom: 1px solid var(--line); background: #1a1210; }
+  header h1 { font-size: 20px; margin: 0; }
+  header h1 span { color: var(--accent); }
+  main { max-width: 980px; margin: 0 auto; padding: 16px; }
+  h2 { font-size: 22px; margin: 8px 0 12px; }
+  h3 { font-size: 18px; margin: 0 0 8px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 14px; }
+  .badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel2); }
+  .badge.live { border-color: var(--good); color: var(--good); }
+  .badge.ref { border-color: var(--link); color: var(--link); }
+  .badge.rule { border-color: var(--warn); color: var(--warn); }
+  .badge.bad { border-color: var(--bad); color: var(--bad); }
+  button { font: inherit; cursor: pointer; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--panel2); color: var(--text); padding: 8px 14px; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  button.primary { background: var(--accent); color: #1a0f0a; border-color: var(--accent); font-weight: 700; }
+  button:focus-visible, a:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+  a { color: var(--link); }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .gauge { background: var(--panel2); border-radius: 10px; padding: 10px 12px; border: 1px solid var(--line); }
+  .gauge .label { font-size: 14px; color: var(--muted); }
+  .gauge .value { font-size: 22px; font-weight: 700; }
+  .bar { height: 8px; border-radius: 99px; background: #3a2b24; overflow: hidden; margin-top: 6px; }
+  .bar > div { height: 100%; background: var(--good); }
+  .bar.warn > div { background: var(--warn); } .bar.bad > div { background: var(--bad); }
+  .timeline { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin: 8px 0 4px; }
+  .tl { text-align: center; font-size: 12px; padding: 4px 2px; border-radius: 6px; background: var(--panel2); border: 1px solid var(--line); }
+  .tl.now { border-color: var(--accent); background: #3b2418; }
+  .tl.done { opacity: .6; }
+  .tl .cls { font-weight: 700; display: block; }
+  .tl .sep { color: var(--bad); }
+  .event { border-left: 4px solid var(--accent); }
+  .event.sep { border-left-color: var(--bad); }
+  .flare { padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .flare:last-child { border-bottom: 0; }
+  .cls-X { color: var(--bad); font-weight: 700; } .cls-M { color: var(--warn); font-weight: 700; } .cls-C { color: var(--good); font-weight: 700; }
+  .alloc { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .alloc:last-of-type { border-bottom: 0; }
+  .stepper { display: flex; gap: 6px; align-items: center; }
+  .stepper button { width: 44px; height: 44px; padding: 0; font-size: 22px; }
+  .pips { display: flex; gap: 4px; min-width: 76px; justify-content: center; }
+  .pip { width: 16px; height: 16px; border-radius: 4px; background: #3a2b24; border: 1px solid var(--line); }
+  .pip.on { background: var(--accent); border-color: var(--accent); }
+  .power { font-size: 18px; margin: 8px 0; }
+  .fact { background: #17222c; border: 1px solid #2c4256; border-radius: 10px; padding: 10px 12px; margin-top: 10px; }
+  .fact b { color: var(--link); }
+  .chain li { margin-bottom: 6px; }
+  .result-win { color: var(--good); } .result-fail { color: var(--bad); }
+  .q { margin-bottom: 14px; }
+  .q label { display: block; padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+  .q label:hover { background: var(--panel2); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  dialog { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 12px; max-width: 860px; width: calc(100% - 32px); max-height: 85vh; }
+  dialog::backdrop { background: rgba(0,0,0,.6); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  td, th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
+  .banner { padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--bad); color: var(--bad); background: #2a1212; font-weight: 700; }
+  .hidden { display: none !important; }
+  @media (max-width: 560px) { .timeline { grid-template-columns: repeat(5, 1fr); } body { font-size: 16px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mars Storm <span>Replay</span> <span class="muted small">Junior Astronaut Mission Trainer</span></h1>
+  <div class="row">
+    <span id="dataBadge" class="badge">loading data</span>
+    <button id="btnSources" type="button">NASA data sources</button>
+  </div>
+</header>
+
+<main>
+  <div id="banner" class="banner hidden"></div>
+
+  <!-- INTRO -->
+  <section id="scrIntro" class="panel">
+    <h2>Your mission: keep 4 astronauts alive on Mars for 10 sols</h2>
+    <p>You command a small Mars base. A real solar storm is coming. The 10 sols you play replay the
+      real dates <b id="introWindow"></b>, using solar flare and proton records from NASA's
+      DONKI space-weather database.</p>
+    <p>Each sol you split <b id="introPower"></b> power units between three systems:</p>
+    <ul>
+      <li><b>Life Support</b>: makes oxygen and recycles water.</li>
+      <li><b>Greenhouse</b>: grows food.</li>
+      <li><b>Radiation Shield</b>: protects the crew from storm protons.</li>
+    </ul>
+    <p>Power is the fourth system, and it never covers everything. If oxygen, water or food runs out,
+      or the crew's radiation dose goes over the limit, the mission fails. If that happens, you will see the
+      exact chain of decisions that caused it.</p>
+    <p class="muted small">For students aged 12 to 16, in class, in a 10 to 15 minute session. First, a 3-question check (about 1 minute).</p>
+    <button class="primary" id="btnStart" type="button">Start the pre-mission check</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="scrQuiz" class="panel hidden">
+    <h2 id="quizTitle"></h2>
+    <p class="muted small" id="quizHint"></p>
+    <form id="quizForm"></form>
+    <button class="primary" id="btnQuizDone" type="button">Submit answers</button>
+  </section>
+
+  <!-- GAME -->
+  <section id="scrGame" class="hidden">
+    <div class="panel">
+      <div class="row" style="justify-content: space-between">
+        <h2 id="solTitle" style="margin:0"></h2>
+        <span class="badge live" title="Dates and events come from NASA DONKI records">Real storm replay</span>
+      </div>
+      <div class="timeline" id="timeline" aria-label="10-sol storm timeline"></div>
+      <p class="muted small" style="margin:0">Each box is one sol, mapped to one real UTC date. The top letter is the strongest flare that day, and a red "P" means a proton event (SEP) was recorded.</p>
+    </div>
+
+    <div class="grid" id="gauges"></div>
+
+    <div class="panel event" id="eventCard" style="margin-top:16px"></div>
+
+    <div class="panel" id="allocPanel">
+      <h3>Power plan for this sol</h3>
+      <div id="allocRows"></div>
+      <div class="power" id="powerLine"></div>
+      <div class="muted small" id="preview"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="primary" id="btnEndSol" type="button">Run this sol</button>
+      </div>
+    </div>
+
+    <div class="panel hidden" id="feedbackPanel">
+      <h3 id="fbTitle"></h3>
+      <ul id="fbList"></ul>
+      <div class="fact" id="fbFact"></div>
+      <div class="row" style="margin-top:12px"><button class="primary" id="btnNext" type="button">Next sol</button></div>
+    </div>
+  </section>
+
+  <!-- END -->
+  <section id="scrEnd" class="hidden">
+    <div class="panel">
+      <h2 id="endTitle"></h2>
+      <p id="endSummary"></p>
+      <h3>What chain of events led here</h3>
+      <ol class="chain" id="endChain"></ol>
+      <p class="muted small" id="endHint"></p>
+    </div>
+    <div class="panel">
+      <h3>What you learned</h3>
+      <ol id="endLearned"></ol>
+      <button class="primary" id="btnPostQuiz" type="button">Take the post-mission check</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="scrResults" class="panel hidden">
+    <h2>Learning check result</h2>
+    <p id="resultLine" style="font-size:20px"></p>
+    <table id="resultTable"></table>
+    <p class="muted small">This check runs only in this browser. Nothing is saved or sent anywhere.</p>
+    <div class="row">
+      <button class="primary" id="btnReplay" type="button">Fly the mission again</button>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlgSources" aria-labelledby="srcTitle">
+  <div class="row" style="justify-content: space-between">
+    <h2 id="srcTitle" style="margin:0">NASA data sources</h2>
+    <button id="btnCloseSources" type="button">Close</button>
+  </div>
+  <p class="muted small">Every number in this game falls into one of three groups:
+    <span class="badge live">live-fetched</span> from a NASA API,
+    <span class="badge ref">published reference value</span> from a NASA source, or
+    <span class="badge rule">game rule</span>, a simplification we chose so the game can be played. Game rules are not NASA data.</p>
+  <div id="srcBody"></div>
+</dialog>
+
+<script src="data/events.js"></script>
+<script>
+"use strict";
+/* ------------------------------------------------------------------ data */
+const D = window.MISSION_DATA;
+const $ = (id) => document.getElementById(id);
+
+/** Create an element safely (text only, never HTML from data). */
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") n.className = v;
+    else if (k === "href") { if (/^https:\/\//.test(v)) { n.href = v; n.target = "_blank"; n.rel = "noopener"; } }
+    else n.setAttribute(k, v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k));
+  return n;
+}
+
+if (!D) {
+  const b = $("banner");
+  b.textContent = "Data file data/events.js is missing. Run: python data/fetch_nasa_data.py";
+  b.classList.remove("hidden");
+  $("btnStart").disabled = true;
+  throw new Error("MISSION_DATA missing");
+}
+
+const REF = Object.fromEntries(D.reference_values.map((r) => [r.key, r]));
+const val = (k) => REF[k].value;
+
+/* ------------------------------------------------------------------ rules
+   NASA values come from events.json (REF). Everything else here is a GAME RULE:
+   a simplification chosen for playability, listed in the sources panel. */
+const CREW = 4;
+const O2_NEED = CREW * val("o2_kg_per_crew_per_day");             // 4 x 0.84 = 3.36 kg per sol
+const BASE_DOSE = val("mars_surface_dose_msv_per_day");            // 0.64 mSv per sol
+const RULES = {
+  power: 5,                    // power units available per sol
+  maxLevel: 3,
+  o2PerLevel: O2_NEED / 2,     // level 2 exactly covers the crew's need
+  o2Start: O2_NEED * 3,        // 3 sols of reserve
+  o2Max: O2_NEED * 5,
+  waterUsePct: 25,             // a full tank lasts 4 sols with no recycling
+  recovery: [0, 0.93, val("iss_water_recovery_pct") / 100, val("iss_water_recovery_pct") / 100],
+  foodStart: 12,               // crew-days of food (3 sols)
+  foodMax: 20,
+  foodPerLevel: 2,             // crew-days grown per greenhouse level
+  foodNeed: CREW,              // 1 crew-day per astronaut per sol
+  doseFromSep: 4,              // mSv per DONKI SEP record that sol, if unshielded (proxy)
+  shieldCut: [0, 0.4, 0.7, 0.9],
+  doseLimit: 30                // mSv drill limit for this 10-sol exercise
+};
+const GAME_RULES_TABLE = [
+  ["Crew size", "4 astronauts"],
+  ["Power per sol", RULES.power + " units (it never covers all three systems at full level)"],
+  ["Life Support output", "each power level makes " + fmt(RULES.o2PerLevel) + " kg O2, so level 2 covers 4 x 0.84 kg exactly"],
+  ["Oxygen reserve at start", fmt(RULES.o2Start) + " kg (3 sols), tank max " + fmt(RULES.o2Max) + " kg"],
+  ["Water recycling by Life Support level", "0: 0%, 1: 93%, 2-3: 98% (93% and 98% are the ISS values before and after the brine processor). A full tank lasts 4 sols with no recycling."],
+  ["Food", "start " + RULES.foodStart + " crew-days, each greenhouse level grows " + RULES.foodPerLevel + ", the crew eats " + RULES.foodNeed + " per sol, store max " + RULES.foodMax],
+  ["Storm dose (proxy)", RULES.doseFromSep + " mSv per DONKI SEP record on that date if unshielded. Real Mars storm doses vary a lot; Curiosity measured about 8 mGy on 20 May 2024."],
+  ["Shield effect", "levels 1/2/3 cut storm dose by 40% / 70% / 90%. The baseline 0.64 mSv/day from cosmic rays is not cut."],
+  ["Drill dose limit", RULES.doseLimit + " mSv for this 10-sol exercise (game rule, far below NASA's 600 mSv career limit)"],
+  ["Sol vs date", "1 sol = 1 real UTC date of the storm window (a real sol is 24 h 39 min)"]
+];
+
+/* ------------------------------------------------------------------ helpers */
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function fmtDate(iso) { const [y, m, d] = iso.slice(0, 10).split("-"); return `${+d} ${MONTHS[+m - 1]} ${y}`; }
+function fmtTime(iso) { return iso ? iso.slice(11, 16) + " UTC" : "?"; }
+function fmt(x, d = 2) { return (Math.round(x * 10 ** d) / 10 ** d).toString(); }
+function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+function show(id) {
+  for (const s of ["scrIntro", "scrQuiz", "scrGame", "scrEnd", "scrResults"]) $(s).classList.toggle("hidden", s !== id);
+  window.scrollTo(0, 0);
+}
+function solData(n) {
+  return {
+    info: D.sols.find((s) => s.sol === n),
+    flares: D.flares.filter((f) => f.sol === n),
+    seps: D.sep_events.filter((s) => s.sol === n)
+  };
+}
+
+/* ------------------------------------------------------------------ quiz */
+const QUIZ = [
+  { q: "Each astronaut uses about 0.84 kg of oxygen per day. How much does a crew of 4 need per sol?",
+    a: ["0.84 kg", "3.36 kg", "8.4 kg", "0.21 kg"], correct: 1 },
+  { q: "In a solar storm, what raises the radiation dose for astronauts on the Mars surface the most?",
+    a: ["The bright flash of light from the flare", "Fast protons from the Sun (a solar energetic particle event)",
+        "Heat from the flare", "Dust blown by the storm"], correct: 1 },
+  { q: "Your base has limited power. What happens if you put almost all power into the radiation shield?",
+    a: ["Nothing, the shield is free", "Oxygen making and food growing slow down, so oxygen or food can run out",
+        "Radiation goes up", "The base gets more power"], correct: 1 }
+];
+let quizPhase = "pre";
+const scores = { pre: null, post: null };
+
+function renderQuiz(phase) {
+  quizPhase = phase;
+  $("quizTitle").textContent = phase === "pre" ? "Pre-mission check (3 questions)" : "Post-mission check (same 3 questions)";
+  $("quizHint").textContent = phase === "pre"
+    ? "Don't worry if you don't know. We will compare with your answers after the mission."
+    : "Let's see what changed.";
+  const f = $("quizForm"); f.replaceChildren();
+  QUIZ.forEach((item, i) => {
+    const box = el("fieldset", { class: "q" }, el("legend", {}, `${i + 1}. ${item.q}`));
+    item.a.forEach((txt, j) => {
+      const id = `q${i}a${j}`;
+      box.append(el("label", { for: id }, el("input", { type: "radio", name: `q${i}`, id, value: String(j) }), " ", txt));
+    });
+    f.append(box);
+  });
+  show("scrQuiz");
+}
+
+function gradeQuiz() {
+  const picks = QUIZ.map((_, i) => {
+    const c = document.querySelector(`input[name=q${i}]:checked`);
+    return c ? +c.value : null;
+  });
+  if (picks.includes(null)) { alert("Please answer all 3 questions."); return; }
+  scores[quizPhase] = picks.map((p, i) => p === QUIZ[i].correct);
+  if (quizPhase === "pre") startGame(); else showResults();
+}
+
+/* ------------------------------------------------------------------ game state */
+let S;
+function newState() {
+  return { sol: 1, o2: RULES.o2Start, water: 100, food: RULES.foodStart, dose: 0,
+           alloc: { ls: 2, gh: 2, sh: 1 }, log: [], ended: false, fail: null, factsSeen: new Set() };
+}
+
+/** Pure simulation of one sol. Returns the changes and new values. */
+function simulate(state, alloc, n) {
+  const sd = solData(n);
+  const o2Made = alloc.ls * RULES.o2PerLevel;
+  const o2Delta = o2Made - O2_NEED;
+  const rec = RULES.recovery[alloc.ls];
+  const waterDelta = -(1 - rec) * RULES.waterUsePct;
+  const foodDelta = alloc.gh * RULES.foodPerLevel - RULES.foodNeed;
+  const stormRaw = sd.seps.length * RULES.doseFromSep;
+  const stormDose = stormRaw * (1 - RULES.shieldCut[alloc.sh]);
+  return {
+    sol: n, date: sd.info.date, alloc: { ...alloc }, o2Made, o2Delta, rec, waterDelta, foodDelta,
+    sepCount: sd.seps.length, stormRaw, stormDose, baseDose: BASE_DOSE,
+    after: {
+      o2: Math.min(RULES.o2Max, state.o2 + o2Delta),
+      water: Math.min(100, state.water + waterDelta),
+      food: Math.min(RULES.foodMax, state.food + foodDelta),
+      dose: state.dose + BASE_DOSE + stormDose
+    }
+  };
+}
+
+function checkFail(a) {
+  if (a.dose > RULES.doseLimit) return "dose";
+  if (a.o2 < 0) return "o2";
+  if (a.water <= 0) return "water";
+  if (a.food < 0) return "food";
+  return null;
+}
+
+/* ------------------------------------------------------------------ rendering */
+function renderTimeline() {
+  const t = $("timeline"); t.replaceChildren();
+  for (const s of D.sols) {
+    const cls = s.max_class ? s.max_class[0] : "-";
+    const box = el("div", { class: "tl" + (s.sol === S.sol ? " now" : "") + (s.sol < S.sol ? " done" : ""),
+                            title: `${fmtDate(s.date)}: ${s.flare_count} flares, max ${s.max_class || "none"}, ${s.sep_count} SEP records` },
+      el("span", { class: "cls cls-" + cls }, cls), `Sol ${s.sol}`,
+      s.sep_count ? el("span", { class: "sep" }, " P") : "");
+    t.append(box);
+  }
+}
+
+function gauge(label, valueText, frac, sub) {
+  const f = clamp(frac, 0, 1);
+  return el("div", { class: "gauge" },
+    el("div", { class: "label" }, label),
+    el("div", { class: "value" }, valueText),
+    el("div", { class: "bar" + (f < 0.25 ? " bad" : f < 0.5 ? " warn" : "") }, el("div", { style: `width:${f * 100}%` })),
+    sub ? el("div", { class: "muted small" }, sub) : "");
+}
+
+function renderGauges() {
+  $("gauges").replaceChildren(
+    gauge("Oxygen reserve", `${fmt(Math.max(0, S.o2))} kg`, S.o2 / RULES.o2Max, `crew needs ${fmt(O2_NEED)} kg per sol`),
+    gauge("Water tank", `${fmt(Math.max(0, S.water), 1)} %`, S.water / 100, "recycled by Life Support"),
+    gauge("Food store", `${fmt(Math.max(0, S.food), 1)} crew-days`, S.food / RULES.foodMax, `crew eats ${RULES.foodNeed} per sol`),
+    gauge("Crew radiation dose", `${fmt(S.dose, 1)} mSv`, 1 - S.dose / RULES.doseLimit, `drill limit ${RULES.doseLimit} mSv`)
+  );
+}
+
+function renderEvent() {
+  const { info, flares, seps } = solData(S.sol);
+  const card = $("eventCard");
+  card.className = "panel event" + (seps.length ? " sep" : "");
+  card.replaceChildren(el("h3", {}, `Space weather for ${fmtDate(info.date)} (real NASA record)`));
+  if (seps.length) {
+    card.append(el("p", {}, el("b", { class: "cls-X" }, "PROTON ALERT: "),
+      `DONKI logged ${seps.length} solar energetic particle (SEP) detection${seps.length > 1 ? "s" : ""} for this date. Protons raise the crew's dose, so shield now.`));
+  } else {
+    card.append(el("p", { class: "muted" }, "No proton (SEP) event recorded for this date. Flares are flashes of light; on their own they do not add dose at the surface in this game."));
+  }
+  if (!flares.length) card.append(el("p", { class: "muted" }, "No flare of class M5 or higher was reported on this date."));
+  for (const f of flares) {
+    card.append(el("div", { class: "flare" },
+      el("span", { class: "cls-" + f.class_letter }, `${f.class} flare`),
+      ` peaked at ${fmtTime(f.peak_time)}, region ${f.source_location}` + (f.active_region ? ` (AR ${f.active_region})` : ""),
+      f.linked_sep_id ? el("span", { class: "badge bad", style: "margin-left:6px" }, "linked to a proton event") : "",
+      el("div", { class: "muted small" }, "Source: ", el("a", { href: f.record_url }, f.source_line))));
+  }
+  for (const s of seps) {
+    card.append(el("div", { class: "muted small" }, "Source: ", el("a", { href: s.record_url }, s.source_line),
+      s.instruments.length ? ` (${s.instruments.join(", ")})` : ""));
+  }
+}
+
+const SYSTEMS = [
+  ["ls", "Life Support", "makes oxygen and recycles water"],
+  ["gh", "Greenhouse", "grows food"],
+  ["sh", "Radiation Shield", "cuts the storm dose"]
+];
+function used() { return S.alloc.ls + S.alloc.gh + S.alloc.sh; }
+
+function renderAlloc() {
+  const rows = $("allocRows"); rows.replaceChildren();
+  for (const [k, name, desc] of SYSTEMS) {
+    const lvl = S.alloc[k];
+    const pips = el("div", { class: "pips", "aria-hidden": "true" },
+      ...Array.from({ length: RULES.maxLevel }, (_, i) => el("span", { class: "pip" + (i < lvl ? " on" : "") })));
+    const minus = el("button", { type: "button", "aria-label": `Less power to ${name}` }, "−");
+    const plus = el("button", { type: "button", "aria-label": `More power to ${name}` }, "+");
+    minus.disabled = lvl <= 0;
+    plus.disabled = lvl >= RULES.maxLevel || used() >= RULES.power;
+    minus.onclick = () => { S.alloc[k]--; renderAlloc(); };
+    plus.onclick = () => { S.alloc[k]++; renderAlloc(); };
+    rows.append(el("div", { class: "alloc" },
+      el("div", {}, el("b", {}, name), el("div", { class: "muted small" }, desc)),
+      el("div", { class: "stepper" }, minus, pips, el("span", { "aria-live": "polite" }, `${lvl}`), plus)));
+  }
+  $("powerLine").textContent = `Power used: ${used()} / ${RULES.power}` + (used() < RULES.power ? " (unused power is wasted)" : "");
+  const p = simulate(S, S.alloc, S.sol);
+  $("preview").textContent =
+    `Forecast for this sol: oxygen ${sign(p.o2Delta)} kg, water ${sign(p.waterDelta, 1)} %, food ${sign(p.foodDelta, 1)} crew-days, ` +
+    `dose +${fmt(p.baseDose + p.stormDose, 1)} mSv.`;
+}
+function sign(x, d = 2) { return (x >= 0 ? "+" : "") + fmt(x, d); }
+
+function renderSol() {
+  $("solTitle").textContent = `Sol ${S.sol} of 10 · ${fmtDate(solData(S.sol).info.date)}`;
+  renderTimeline(); renderGauges(); renderEvent(); renderAlloc();
+  $("allocPanel").classList.remove("hidden");
+  $("feedbackPanel").classList.add("hidden");
+}
+
+/* ------------------------------------------------------------------ facts (one per decision) */
+function pickFact(r) {
+  const facts = [];
+  if (r.sepCount) facts.push(["sep", `Flares are flashes of light. The dangerous part is the fast protons that can follow them. On 20 May 2024, a storm from the same active region 13664 gave Curiosity's RAD detector on Mars about ${val("curiosity_rad_2024_05_20_ugy").toLocaleString("en-US")} micrograys, about 30 chest X-rays (NASA, 2024).`]);
+  if (r.sepCount) facts.push(["limit", `NASA limits an astronaut's whole-career radiation dose to ${val("career_dose_limit_msv")} mSv, and one solar particle event to ${val("sep_event_dose_limit_msv")} mSv (NASA-STD-3001). Your shield cut today's storm dose from ${fmt(r.stormRaw, 1)} to ${fmt(r.stormDose, 1)} mSv.`]);
+  if (r.alloc.ls < 2) facts.push(["o2", `Oxygen math: each astronaut uses about ${val("o2_kg_per_crew_per_day")} kg O2 per day (NASA life-support value). 4 × ${val("o2_kg_per_crew_per_day")} = ${fmt(O2_NEED)} kg, but your recycler made only ${fmt(r.o2Made)} kg.`]);
+  if (r.alloc.ls < 2) facts.push(["water", `The ISS recycles about ${val("iss_water_recovery_pct")}% of its water, including sweat and urine (NASA, 2023). With less power, your recycler recovered only ${Math.round(r.rec * 100)}%.`]);
+  facts.push(["base", `Even with no storm, Curiosity measured an average ${BASE_DOSE} mSv per day on the Mars surface (Hassler et al., Science 2014). After ${r.sol} sols that adds up to ${fmt(BASE_DOSE * r.sol, 2)} mSv, and shields don't stop most of it.`]);
+  facts.push(["o2", `Oxygen math: 4 astronauts × ${val("o2_kg_per_crew_per_day")} kg = ${fmt(O2_NEED)} kg of O2 per sol. Your recycler made ${fmt(r.o2Made)} kg.`]);
+  const pick = facts.find((f) => !S.factsSeen.has(f[0])) || facts[0];
+  S.factsSeen.add(pick[0]);
+  return pick[1];
+}
+
+/* ------------------------------------------------------------------ sol loop */
+function runSol() {
+  const r = simulate(S, S.alloc, S.sol);
+  Object.assign(S, r.after);
+  S.log.push(r);
+  S.fail = checkFail(r.after);
+
+  $("allocPanel").classList.add("hidden");
+  renderGauges();
+  $("fbTitle").textContent = `Sol ${r.sol} report`;
+  $("fbList").replaceChildren(
+    el("li", {}, `Life Support level ${r.alloc.ls}: made ${fmt(r.o2Made)} kg O2, crew used ${fmt(O2_NEED)} kg → ${sign(r.o2Delta)} kg. Water recycled ${Math.round(r.rec * 100)}% → ${sign(r.waterDelta, 1)} %.`),
+    el("li", {}, `Greenhouse level ${r.alloc.gh}: food ${sign(r.foodDelta, 1)} crew-days.`),
+    el("li", {}, r.sepCount
+      ? `Shield level ${r.alloc.sh}: the storm would have given ${fmt(r.stormRaw, 1)} mSv. Your shield let through ${fmt(r.stormDose, 1)} mSv, plus ${BASE_DOSE} mSv baseline.`
+      : `No proton event: only the baseline ${BASE_DOSE} mSv.` + (r.alloc.sh ? ` (Shield power was not needed today.)` : ""))
+  );
+  $("fbFact").replaceChildren(el("b", {}, "Real fact: "), pickFact(r));
+  $("btnNext").textContent = S.fail ? "See what happened" : (S.sol >= 10 ? "Finish mission" : "Next sol");
+  $("feedbackPanel").classList.remove("hidden");
+  $("feedbackPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function nextSol() {
+  if (S.fail || S.sol >= 10) return endGame();
+  S.sol++;
+  S.alloc.sh = Math.min(S.alloc.sh, RULES.power - S.alloc.ls - S.alloc.gh);
+  renderSol();
+}
+
+function startGame() { S = newState(); show("scrGame"); renderSol(); }
+
+/* ------------------------------------------------------------------ end: cause-and-effect chain */
+const NAMES = { ls: "Life Support", gh: "Greenhouse", sh: "Shield" };
+function planText(a) { return `Life Support ${a.ls}, Greenhouse ${a.gh}, Shield ${a.sh}`; }
+function biggestOther(a, except) {
+  const o = Object.keys(a).filter((k) => k !== except).sort((x, y) => a[y] - a[x])[0];
+  return `${NAMES[o]} took ${a[o]}`;
+}
+
+function buildChain() {
+  const L = S.log, last = L[L.length - 1], items = [];
+  const at = (r) => `Sol ${r.sol} (${fmtDate(r.date)})`;
+  if (S.fail === "dose") {
+    L.filter((r) => r.stormDose > 0).forEach((r) => items.push(
+      `${at(r)}: ${r.sepCount} proton detection${r.sepCount > 1 ? "s" : ""} in the real record. Shield at level ${r.alloc.sh} cut ${Math.round(RULES.shieldCut[r.alloc.sh] * 100)}%, so +${fmt(r.stormDose, 1)} mSv.`));
+    items.push(`Baseline Mars radiation: ${L.length} sols × ${BASE_DOSE} mSv = ${fmt(L.length * BASE_DOSE)} mSv.`);
+    items.push(`Total ${fmt(S.dose, 1)} mSv went over the ${RULES.doseLimit} mSv drill limit on Sol ${last.sol}. The crew had to evacuate. MISSION FAILED.`);
+    return { items, hint: "What would have worked: on proton-alert sols, put the Shield at 3 and take 1 power from the Greenhouse or Life Support for that sol. Use the quiet sols to rebuild food and oxygen." };
+  }
+  const key = { o2: "o2Delta", water: "waterDelta", food: "foodDelta" }[S.fail];
+  const sys = S.fail === "food" ? "gh" : "ls";
+  L.filter((r) => r[key] < 0).forEach((r) => {
+    const why = r.alloc[sys] < 2 ? `${NAMES[sys]} got only ${r.alloc[sys]} power (${biggestOther(r.alloc, sys)}${r.sepCount ? `, during a real proton alert` : ""})` : `${NAMES[sys]} at ${r.alloc[sys]}`;
+    const what = S.fail === "o2" ? `the recycler made ${fmt(r.o2Made)} kg O2 but the crew needed ${fmt(O2_NEED)} kg → ${sign(r.o2Delta)} kg`
+      : S.fail === "water" ? `water was recycled at only ${Math.round(r.rec * 100)}% → ${sign(r.waterDelta, 1)} %`
+      : `the greenhouse grew ${r.alloc.gh * RULES.foodPerLevel} crew-days but the crew ate ${RULES.foodNeed} → ${sign(r.foodDelta, 1)} crew-days`;
+    items.push(`${at(r)}: ${why}, so ${what}.`);
+  });
+  const label = { o2: "Oxygen reserve", water: "Water tank", food: "Food store" }[S.fail];
+  items.push(`${label} ran out on Sol ${last.sol}. MISSION FAILED.`);
+  return { items, hint: `What would have worked: keep ${NAMES[sys]} at level 2 or more on most sols. Take power for the shield only on proton-alert sols, and only for one sol at a time.` };
+}
+
+function endGame() {
+  show("scrEnd");
+  const won = !S.fail;
+  const t = $("endTitle");
+  t.className = won ? "result-win" : "result-fail";
+  t.textContent = won ? "MISSION SUCCESS: all 4 astronauts made it through the storm" : "MISSION FAILED";
+  $("endSummary").textContent = `You played ${S.log.length} sols of the real ${fmtDate(D.window.start)} to ${fmtDate(D.window.end)} storm. ` +
+    `Final: oxygen ${fmt(Math.max(0, S.o2))} kg, water ${fmt(Math.max(0, S.water), 1)} %, food ${fmt(Math.max(0, S.food), 1)} crew-days, dose ${fmt(S.dose, 1)} mSv.`;
+  let chain;
+  if (won) {
+    const storm = S.log.filter((r) => r.sepCount);
+    const items = storm.map((r) => `Sol ${r.sol} (${fmtDate(r.date)}): proton alert, shield ${r.alloc.sh}, storm dose cut from ${fmt(r.stormRaw, 1)} to ${fmt(r.stormDose, 1)} mSv (${planText(r.alloc)}).`);
+    items.push(`Total dose ${fmt(S.dose, 1)} mSv stayed under the ${RULES.doseLimit} mSv drill limit, and no supply ran out.`);
+    chain = { items, hint: "Real crews would face this too: these are the actual proton events NASA recorded in May 2024." };
+  } else chain = buildChain();
+  $("endChain").replaceChildren(...chain.items.map((x) => el("li", {}, x)));
+  $("endHint").textContent = chain.hint;
+
+  const stormSols = S.log.filter((r) => r.sepCount).length;
+  $("endLearned").replaceChildren(
+    el("li", {}, `Oxygen: crew need = astronauts × ${val("o2_kg_per_crew_per_day")} kg per day. 4 × ${val("o2_kg_per_crew_per_day")} = ${fmt(O2_NEED)} kg every sol.`),
+    el("li", {}, `Solar flares are light. Fast protons (SEP events) are what raise the dose. You faced ${stormSols} real proton-alert sol${stormSols === 1 ? "" : "s"}, on top of Mars' everyday ${BASE_DOSE} mSv per day.`),
+    el("li", {}, `Power is shared. Every unit you gave the shield was taken from oxygen or food. That trade-off is why a base needs reserves before a storm.`)
+  );
+}
+
+/* ------------------------------------------------------------------ results */
+function showResults() {
+  show("scrResults");
+  const pre = scores.pre ? scores.pre.filter(Boolean).length : null;
+  const post = scores.post.filter(Boolean).length;
+  $("resultLine").textContent = pre == null
+    ? `Post-mission check: ${post} / 3 correct.`
+    : `Before the mission: ${pre} / 3 · After the mission: ${post} / 3 (${post - pre >= 0 ? "+" : ""}${post - pre})`;
+  const tbl = $("resultTable");
+  tbl.replaceChildren(el("tr", {}, el("th", {}, "Question"), el("th", {}, "Before"), el("th", {}, "After"), el("th", {}, "Correct answer")),
+    ...QUIZ.map((q, i) => el("tr", {}, el("td", {}, q.q),
+      el("td", {}, scores.pre ? (scores.pre[i] ? "✓" : "✗") : "-"),
+      el("td", {}, scores.post[i] ? "✓" : "✗"),
+      el("td", {}, q.a[q.correct]))));
+}
+
+/* ------------------------------------------------------------------ sources panel */
+function renderSources() {
+  const b = $("srcBody"); b.replaceChildren();
+  b.append(el("h3", {}, "Live-fetched (NASA DONKI via api.nasa.gov)"));
+  if (D.data_status.startsWith("SAMPLE")) b.append(el("p", { class: "banner" }, D.data_status));
+  for (const s of D.sources) {
+    b.append(el("p", {}, el("span", { class: "badge live" }, "live-fetched"), " ", el("b", {}, s.dataset), el("br"),
+      el("span", { class: "small muted" }, `Endpoint: ${s.endpoint} · HTTP ${s.status} · ${s.records} records` +
+        (s.flares_parsed != null ? ` (${s.flares_parsed} flares parsed)` : "") + ` · fetched ${s.fetched_at}`),
+      s.fallback_reason ? el("span", { class: "small muted" }, el("br"), `Note: used because ${s.fallback_reason}.`) : ""));
+  }
+  b.append(el("p", { class: "small" }, `Storm window: ${fmtDate(D.window.start)} to ${fmtDate(D.window.end)} (10 sols). ${D.flares.length} flares and ${D.sep_events.length} SEP records are used, each with its source line on the event card. Raw API responses: data/raw/.`));
+  b.append(el("h3", {}, "Published reference values"));
+  const t = el("table", {}, el("tr", {}, el("th", {}, "Value"), el("th", {}, "What"), el("th", {}, "Source")));
+  for (const r of D.reference_values) t.append(el("tr", {},
+    el("td", {}, el("span", { class: "badge ref" }, "reference"), ` ${r.value} ${r.unit}`),
+    el("td", {}, r.label), el("td", {}, r.source)));
+  b.append(t);
+  b.append(el("h3", { style: "margin-top:14px" }, "Game rules (simplified, not NASA data)"));
+  const g = el("table", {});
+  for (const [k, v] of GAME_RULES_TABLE) g.append(el("tr", {}, el("td", {}, el("span", { class: "badge rule" }, "game rule"), " ", k), el("td", {}, v)));
+  b.append(g);
+  b.append(el("h3", { style: "margin-top:14px" }, "Honest caveats"));
+  b.append(el("ul", {}, ...[...D.caveats, ...D.warnings].map((c) => el("li", { class: "small" }, c))));
+}
+
+/* ------------------------------------------------------------------ wiring */
+function init() {
+  const sample = D.data_status.startsWith("SAMPLE");
+  const badge = $("dataBadge");
+  badge.className = "badge " + (sample ? "bad" : "live");
+  badge.textContent = sample ? "SAMPLE DATA - NOT REAL" : `NASA DONKI data, fetched ${D.fetched_at.slice(0, 10)}`;
+  if (sample) { $("banner").textContent = "SAMPLE DATA - NOT REAL NASA DATA. Run python data/fetch_nasa_data.py."; $("banner").classList.remove("hidden"); }
+  $("introWindow").textContent = `${fmtDate(D.window.start)} to ${fmtDate(D.window.end)}`;
+  $("introPower").textContent = RULES.power;
+  $("btnStart").onclick = () => renderQuiz("pre");
+  $("btnQuizDone").onclick = gradeQuiz;
+  $("btnEndSol").onclick = runSol;
+  $("btnNext").onclick = nextSol;
+  $("btnPostQuiz").onclick = () => renderQuiz("post");
+  $("btnReplay").onclick = startGame;
+  $("btnSources").onclick = () => { renderSources(); $("dlgSources").showModal(); };
+  $("btnCloseSources").onclick = () => $("dlgSources").close();
+}
+init();
+</script>
+</body>
+</html>
