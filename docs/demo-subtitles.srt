@@ -1,0 +1,29 @@
+1
+00:00:00,000 --> 00:00:04,800
+A calm day on Mars.
+Save extra air and food while the Sun is quiet.
+
+2
+00:00:05,000 --> 00:00:09,800
+Earth sees a blast on the Sun.
+The warning takes 16 minutes to reach Mars.
+
+3
+00:00:10,000 --> 00:00:14,800
+Real proton storm, May 2024.
+Shield at 0: the crew gets 24 mSv in one day.
+
+4
+00:00:15,000 --> 00:00:19,800
+Shield at 3 blocks 9 of every 10 storm pieces.
+Only 2.4 mSv.
+
+5
+00:00:20,000 --> 00:00:24,800
+All 4 astronauts are safe.
+The secret storm was real: 6 to 15 May 2024.
+
+6
+00:00:25,000 --> 00:00:29,800
+And the Sun today? Live NASA DONKI data.
+Mars Storm Replay.

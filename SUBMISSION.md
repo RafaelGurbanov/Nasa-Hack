@@ -1,5 +1,7 @@
 # Submission pack: Mars Storm Replay
 
+> **Use [SUBMISSION_FORM.md](SUBMISSION_FORM.md) for the form text and [docs/PITCH.md](docs/PITCH.md) for the pitch.** They replace sections 1, 3, 5, 6 and 8 below, which are older (written before the 3D view, the AI-art mark, demo mode and class results). The checklists below are still useful.
+
 Space Apps 2026, Ganja. Challenge #07: *Build a Junior Astronaut Mission Trainer*.
 Everything here is in English and ready to paste. **VERIFY** every length limit on the
 official submission form before pasting. Click **"Submit for Judging" before the pitch**,

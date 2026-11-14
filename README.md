@@ -45,7 +45,7 @@ VERIFY: compare each row with the official 2026 challenge text on spaceappschall
 | Relevance (20) | Exactly the 4 required systems, which depend on each other, plus a hard fail rule. Table above |
 | Impact (20) | Target user stated. One fact per decision, a 3-fact recap, and a pre/post learning check shown on screen. No measured results are claimed yet |
 | Creativity (15) | One signature mechanic: the real storm replay (sol N = a real date from the NASA record), plus the cause-and-effect failure chain |
-| Presentation (15) | `SUBMISSION.md`: timed 5-minute script for 4 speakers, 2-minute demo path, fallback plan, Q&A answers |
+| Presentation (15) | [`docs/PITCH.md`](docs/PITCH.md) (5-minute script, judge answers), [`SUBMISSION_FORM.md`](SUBMISSION_FORM.md) (form text, video storyboard, 7-slide outline), demo mode `?demo=1` |
 
 ---
 
@@ -53,7 +53,7 @@ VERIFY: compare each row with the official 2026 challenge text on spaceappschall
 
 All pictures are cartoon SVG drawn in code (`src/art.js`, `src/story.css`): layered Mars hills, rocks and craters, a base that glows when the crew is fine and dims when it is in trouble, solar panels that light up with the power in use, a greenhouse whose plants grow with the food store, and a shield dome. On real proton days the sky turns red, dust blows, proton streaks fall, the Sun turns angry and spiky with a ZAP burst, and the shield glows. The pictures only read the game state; they never change the rules.
 
-**AI-made visuals:** every picture (Rovi, the astronauts, the Mars scene, the certificate) was drawn in code by an AI assistant (Claude). No photos, no image files and no NASA logos are used. The earlier three.js 3D view was removed because it clashed with the storybook look.
+**AI-made visuals:** every picture (Rovi, the astronauts, the Mars scene, the certificate) was drawn in code by an AI assistant (Claude). No photos, no image files and no NASA logos are used. The optional 3D view (three.js r149, local) shows the base on real NASA MOLA terrain of Gale crater and falls back to 2D. A visible "🤖 AI-generated art" mark is in the top bar of every screen and on the certificate.
 
 ## NASA data
 
@@ -87,7 +87,9 @@ are not NASA data.
 | Play offline | Double-click `index.html` (no server, no install) |
 | Re-fetch NASA data | Put your key from api.nasa.gov in `data/.env` (see `data/.env.example`), then run `python data/fetch_nasa_data.py` (Python 3.9+, standard library only) |
 | Print one raw API record | `python data/fetch_nasa_data.py --raw` |
-| Run tests | `node tests/core.test.js` |
+| Run tests | `node tests/core.test.js` and `node tests/balance.js` |
+| Demo mode (presenter bar) | open `index.html?demo=1` |
+| Azerbaijani | press "🌐 Azərbaycanca" in the top bar, or open `index.html?lang=az` |
 
 ## Project structure
 
@@ -98,6 +100,9 @@ src/ui.js               2D screens: quiz, sols, end screen, sources panel
 src/story.css           storybook look (comic panels, colours, print style for the certificate)
 src/art.js              all pictures as SVG drawn in code (Rovi, astronauts, Mars scene) - AI-made
 src/sound.js            small sound effects made with Web Audio (no files), off by default
+src/i18n.js             English / Azerbaijani text (locales/*.json -> locales/locales.js)
+src/demo.js             presenter bar, only with ?demo=1
+src/scene3d.js          optional 3D diorama (vendor/three.min.js, data/gale_heightmap.js)
 design/                 the 3 design mockups (A, B, C); B was chosen
 data/fetch_nasa_data.py fetches DONKI, writes the cache below
 data/events.json|.js    cached NASA data (.js is loaded by the page, so it works offline)
@@ -111,13 +116,20 @@ AI_USE.md               how AI was used, what humans tested
 
 1. The storm dose is a game proxy (4 mSv per SEP record), not a physics model. Next: drive it from real Curiosity RAD dose data.
 2. The flare geometry is Earth-based; Mars' position relative to the Sun is not modeled.
-3. The learning check exists, but it has not been run with a real class yet, so there are no measured results.
+3. The learning check exists and the teacher panel now stores results (this browser only, CSV export), but it has not been run with a real class yet, so there are no measured results.
+4. "Sun today" uses NASA's shared DEMO_KEY (a few calls per hour per network). When the limit is reached it shows the archived copy, labelled as archived.
+5. Levels and a guided training round are not built yet; each game is a random real storm week.
 
 ## Use of AI
 
 See [AI_USE.md](AI_USE.md). No NASA logo or NASA branding is used in this project.
 
 ## New in this version (3d branch)
+
+- **Submission texts:** [SUBMISSION_FORM.md](SUBMISSION_FORM.md), [docs/PITCH.md](docs/PITCH.md), [docs/demo-subtitles.srt](docs/demo-subtitles.srt), [docs/HACKATHON_LOG.md](docs/HACKATHON_LOG.md) (built before vs during the hackathon).
+- **Demo mode** (`?demo=1`): presenter bar that replays valid plans on the real May 2024 week (calm day, Earth warning, sol 8 with shield 0 vs 3, Gold win, loss chain, Sun today). Demo games are not saved.
+- **Class results:** each finished game (date, storm week, rank, quiz before/after; no names) is stored in this browser; the teacher panel shows the average and exports CSV.
+- **English + Azerbaijani** (`locales/`), Mali font (OFL) with all Azerbaijani letters.
 
 - **Mystery storm:** each game picks one of 3 real DONKI storm weeks (May 2024, Sep-Oct 2022, Nov 2025). The date stays secret until the end screen reveals it.
 - **Message from Earth:** a radio wave fills up, labeled with the real Earth-Mars light delay for that week (6.6 to 20.1 minutes). "Today" and "For tomorrow" cards show Earth's warnings, based on the flares and CMEs DONKI links to each proton storm. Most real warnings came too late, and the game says so. "Ask Earth for advice" answers only on the next sol.

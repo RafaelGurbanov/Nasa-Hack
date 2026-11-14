@@ -95,3 +95,16 @@ TODO (team): each member plays once on their own device and adds a row here.
 | `DATA_SOURCES.md` | all | - |
 
 Not tested by a human yet. The real-world facts on the science cards and the OSDR fact were checked through NASA-linked news coverage (see DATA_SOURCES.md, items marked VERIFY).
+
+## Submission night (15 Nov 2026, 01:00-): written by Claude, tested by Claude
+
+| Piece | Written by Claude | Tested |
+|---|---|---|
+| Azerbaijani + English (`locales/`, `src/i18n.js`, Mali font) | all | language tests in `tests/core.test.js`; full AZ game in Chrome |
+| "🤖 AI-generated art" mark (top bar, certificate) | all | seen in Chrome at 360 and 1280 px |
+| Demo mode `src/demo.js` (`?demo=1`) | all | all 7 jumps in Chrome; sol 8 shield 0 = 24.0 mSv and loss, shield 3 = 2.4 mSv |
+| Class results (teacher panel, CSV, reset) | all | full game + both quizzes at 360×640: row saved (pre 1/3, post 3/3), average shown |
+| Phone layout fixes (360 px, 48 px buttons, phones start in 2D) | all | no sideways scroll on game, report, end, certificate, quiz, results, teacher panel |
+| `SUBMISSION_FORM.md`, `docs/PITCH.md`, `docs/demo-subtitles.srt`, `docs/HACKATHON_LOG.md` | drafts | numbers checked against the game and `DATA_SOURCES.md`; **the team must review them** |
+
+Still not tested by a human.
