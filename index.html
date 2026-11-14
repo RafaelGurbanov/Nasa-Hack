@@ -4,122 +4,151 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mars Storm Replay</title>
-<meta name="description" content="Junior Astronaut Mission Trainer: run a Mars base for 10 sols through a real May 2024 solar storm, replayed from NASA DONKI data.">
+<meta name="description" content="Junior Astronaut Mission Trainer for kids aged 7-12: keep a Mars base safe for 10 sols through a real May 2024 space storm, replayed from NASA DONKI data.">
 <style>
   :root {
-    --bg: #120d0b; --panel: #1f1714; --panel2: #2a1f1a; --line: #4a362c;
-    --text: #f3e9e2; --muted: #c2ad9f; --accent: #ff8a4c; --good: #6fd08c;
-    --warn: #ffc857; --bad: #ff5d5d; --link: #8cc8ff;
+    --bg: #1b1020; --panel: #2a1a2e; --panel2: #382440; --line: #5c3f66;
+    --text: #fff7f0; --muted: #e6cfe0; --accent: #ff8a3d; --good: #5fe08a;
+    --warn: #ffd23f; --bad: #ff5c6c; --link: #8fd3ff;
+    --air: #4cc3ff; --energy: #ffd23f; --food: #5fe08a; --shield: #c69bff;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
-    font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    font: 19px/1.55 "Trebuchet MS", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
   header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
-    padding: 12px 16px; border-bottom: 1px solid var(--line); background: #1a1210; }
-  header h1 { font-size: 20px; margin: 0; }
+    padding: 12px 16px; border-bottom: 2px solid var(--line); background: #22142a; }
+  header h1 { font-size: 24px; margin: 0; }
   header h1 span { color: var(--accent); }
+  header .tag { font-size: 15px; color: var(--muted); font-weight: normal; }
   main { max-width: 980px; margin: 0 auto; padding: 16px; }
-  h2 { font-size: 22px; margin: 8px 0 12px; }
-  h3 { font-size: 18px; margin: 0 0 8px; }
-  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  h2 { font-size: 28px; margin: 6px 0 12px; line-height: 1.25; }
+  h3 { font-size: 22px; margin: 0 0 8px; }
+  .panel { background: var(--panel); border: 2px solid var(--line); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
   .muted { color: var(--muted); }
-  .small { font-size: 14px; }
-  .badge { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel2); }
+  .small { font-size: 16px; }
+  .big-emoji { font-size: 56px; line-height: 1; margin-bottom: 6px; }
+  .badge { display: inline-block; font-size: 14px; padding: 2px 10px; border-radius: 99px; border: 2px solid var(--line); background: var(--panel2); }
   .badge.live { border-color: var(--good); color: var(--good); }
   .badge.ref { border-color: var(--link); color: var(--link); }
   .badge.rule { border-color: var(--warn); color: var(--warn); }
   .badge.bad { border-color: var(--bad); color: var(--bad); }
-  button { font: inherit; cursor: pointer; border-radius: 10px; border: 1px solid var(--line);
-    background: var(--panel2); color: var(--text); padding: 8px 14px; }
+  button { font: inherit; cursor: pointer; border-radius: 14px; border: 2px solid var(--line);
+    background: var(--panel2); color: var(--text); padding: 10px 18px; }
   button:hover:not(:disabled) { border-color: var(--accent); }
-  button:disabled { opacity: .45; cursor: not-allowed; }
-  button.primary { background: var(--accent); color: #1a0f0a; border-color: var(--accent); font-weight: 700; }
-  button:focus-visible, a:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  button.primary { background: var(--accent); color: #2a1206; border-color: var(--accent); font-weight: 700; font-size: 21px; padding: 12px 24px; }
+  button:focus-visible, a:focus-visible, summary:focus-visible { outline: 4px solid var(--link); outline-offset: 2px; }
   a { color: var(--link); }
-  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
-  .gauge { background: var(--panel2); border-radius: 10px; padding: 10px 12px; border: 1px solid var(--line); }
-  .gauge .label { font-size: 14px; color: var(--muted); }
-  .gauge .value { font-size: 22px; font-weight: 700; }
-  .bar { height: 8px; border-radius: 99px; background: #3a2b24; overflow: hidden; margin-top: 6px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .gauge { background: var(--panel2); border-radius: 14px; padding: 12px 14px; border: 2px solid var(--line); border-top-width: 6px; }
+  .gauge.air { border-top-color: var(--air); } .gauge.energy { border-top-color: var(--energy); }
+  .gauge.food { border-top-color: var(--food); } .gauge.shield { border-top-color: var(--shield); }
+  .gauge .label { font-size: 17px; color: var(--muted); }
+  .gauge .value { font-size: 24px; font-weight: 700; }
+  .bar { height: 12px; border-radius: 99px; background: #4a3350; overflow: hidden; margin-top: 6px; }
   .bar > div { height: 100%; background: var(--good); }
   .bar.warn > div { background: var(--warn); } .bar.bad > div { background: var(--bad); }
-  .timeline { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin: 8px 0 4px; }
-  .tl { text-align: center; font-size: 12px; padding: 4px 2px; border-radius: 6px; background: var(--panel2); border: 1px solid var(--line); }
-  .tl.now { border-color: var(--accent); background: #3b2418; }
-  .tl.done { opacity: .6; }
-  .tl .cls { font-weight: 700; display: block; }
-  .tl .sep { color: var(--bad); }
-  .event { border-left: 4px solid var(--accent); }
+  .timeline { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin: 8px 0 4px; }
+  .tl { text-align: center; font-size: 14px; padding: 5px 2px; border-radius: 10px; background: var(--panel2); border: 2px solid var(--line); }
+  .tl.now { border-color: var(--accent); background: #5a2e22; }
+  .tl.done { opacity: .55; }
+  .tl .ico { display: block; font-size: 18px; }
+  .event { border-left: 8px solid var(--good); }
   .event.sep { border-left-color: var(--bad); }
+  .alert { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
   .flare { padding: 6px 0; border-bottom: 1px dashed var(--line); }
   .flare:last-child { border-bottom: 0; }
   .cls-X { color: var(--bad); font-weight: 700; } .cls-M { color: var(--warn); font-weight: 700; } .cls-C { color: var(--good); font-weight: 700; }
-  .alloc { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  details { margin-top: 8px; } summary { cursor: pointer; color: var(--link); font-size: 16px; }
+  .alloc { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
   .alloc:last-of-type { border-bottom: 0; }
-  .stepper { display: flex; gap: 6px; align-items: center; }
-  .stepper button { width: 44px; height: 44px; padding: 0; font-size: 22px; }
-  .pips { display: flex; gap: 4px; min-width: 76px; justify-content: center; }
-  .pip { width: 16px; height: 16px; border-radius: 4px; background: #3a2b24; border: 1px solid var(--line); }
+  .alloc .name { font-size: 21px; font-weight: 700; }
+  .stepper { display: flex; gap: 8px; align-items: center; }
+  .stepper button { width: 52px; height: 52px; padding: 0; font-size: 28px; font-weight: 700; }
+  .pips { display: flex; gap: 5px; min-width: 84px; justify-content: center; }
+  .pip { width: 20px; height: 20px; border-radius: 6px; background: #4a3350; border: 2px solid var(--line); }
   .pip.on { background: var(--accent); border-color: var(--accent); }
-  .power { font-size: 18px; margin: 8px 0; }
-  .fact { background: #17222c; border: 1px solid #2c4256; border-radius: 10px; padding: 10px 12px; margin-top: 10px; }
+  .power { font-size: 21px; margin: 10px 0; font-weight: 700; }
+  .fact { background: #153049; border: 2px solid #2f6ea0; border-radius: 14px; padding: 12px 14px; margin-top: 12px; font-size: 19px; }
   .fact b { color: var(--link); }
-  .chain li { margin-bottom: 6px; }
+  #fbList { list-style: none; padding: 0; margin: 0; }
+  #fbList li { padding: 6px 0; font-size: 19px; }
+  .chain li { margin-bottom: 8px; }
   .result-win { color: var(--good); } .result-fail { color: var(--bad); }
-  .q { margin-bottom: 14px; }
-  .q label { display: block; padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+  .q { margin-bottom: 14px; border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px; }
+  .q legend { font-weight: 700; padding: 0 6px; }
+  .q label { display: block; padding: 8px 10px; border-radius: 10px; cursor: pointer; }
   .q label:hover { background: var(--panel2); }
+  .q input { width: 20px; height: 20px; vertical-align: -3px; }
   .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  dialog { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 12px; max-width: 860px; width: calc(100% - 32px); max-height: 85vh; }
+  .steps { display: flex; gap: 8px; margin-bottom: 10px; }
+  .steps i { width: 14px; height: 14px; border-radius: 50%; background: var(--line); display: inline-block; }
+  .steps i.on { background: var(--accent); }
+  dialog { background: var(--panel); color: var(--text); border: 2px solid var(--line); border-radius: 16px; max-width: 900px; width: calc(100% - 32px); max-height: 85vh; font-size: 16px; }
   dialog::backdrop { background: rgba(0,0,0,.6); }
-  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
   td, th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
-  .banner { padding: 10px 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid var(--bad); color: var(--bad); background: #2a1212; font-weight: 700; }
-  .scene3d-canvas { height: 300px; border-radius: 10px; overflow: hidden; background: #2a1a14; }
+  .banner { padding: 10px 14px; border-radius: 12px; margin-bottom: 12px; border: 2px solid var(--bad); color: var(--bad); background: #3a1420; font-weight: 700; }
+  .scene3d-canvas { height: 340px; border-radius: 14px; overflow: hidden; background: linear-gradient(#e7a36b, #8a4a32); }
   .scene3d-canvas canvas { width: 100% !important; height: 100% !important; display: block; }
-  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px; margin-top: 8px; }
-  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 16px; margin-top: 8px; }
   .hidden { display: none !important; }
-  @media (max-width: 560px) { .timeline { grid-template-columns: repeat(5, 1fr); } body { font-size: 16px; } }
+  @media (max-width: 560px) {
+    body { font-size: 18px; } h2 { font-size: 24px; }
+    .timeline { grid-template-columns: repeat(5, 1fr); }
+    .scene3d-canvas { height: 240px; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <h1>Mars Storm <span>Replay</span> <span class="muted small">Junior Astronaut Mission Trainer</span></h1>
+  <h1>🚀 Mars Storm <span>Replay</span> <span class="tag">Junior Astronaut Mission Trainer</span></h1>
   <div class="row">
     <span id="dataBadge" class="badge">loading data</span>
-    <button id="btnSources" type="button">NASA data sources</button>
+    <button id="btnSources" type="button">📡 NASA data (for teachers)</button>
   </div>
 </header>
 
 <main>
   <div id="banner" class="banner hidden"></div>
 
-  <!-- INTRO -->
+  <!-- INTRO: one idea per card -->
   <section id="scrIntro" class="panel">
-    <h2>Your mission: keep 4 astronauts alive on Mars for 10 sols</h2>
-    <p>You command a small Mars base. A real solar storm is coming. The 10 sols you play replay the
-      real dates <b id="introWindow"></b>, using solar flare and proton records from NASA's
-      DONKI space-weather database.</p>
-    <p>Each sol you split <b id="introPower"></b> power units between three systems:</p>
-    <ul>
-      <li><b>Life Support</b>: makes oxygen and recycles water.</li>
-      <li><b>Greenhouse</b>: grows food.</li>
-      <li><b>Radiation Shield</b>: protects the crew from storm protons.</li>
-    </ul>
-    <p>Your 4 systems are Life Support (oxygen/water), Energy, Food and Radiation Protection. Energy is shared, and it never covers everything. If oxygen, water or food runs out,
-      or the crew's radiation dose goes over the limit, the mission fails. If that happens, you will see the
-      exact chain of decisions that caused it.</p>
-    <p class="muted small">For students aged 12 to 16, in class, in a 10 to 15 minute session. First, a 3-question check (about 1 minute).</p>
-    <button class="primary" id="btnStart" type="button">Start the pre-mission check</button>
+    <div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    <div class="intro-step" data-step="0">
+      <div class="big-emoji">👩‍🚀</div>
+      <h2>Hello, Commander!</h2>
+      <p>You are in charge of a base on Mars.</p>
+      <p>4 astronauts live there. Keep them safe for 10 days.</p>
+      <p class="muted">A day on Mars is called a <b>sol</b>.</p>
+    </div>
+    <div class="intro-step hidden" data-step="1">
+      <div class="big-emoji">☀️</div>
+      <h2>A real space storm is coming!</h2>
+      <p>In May 2024, the Sun had a huge storm. NASA recorded it.</p>
+      <p>You will play those same 10 days: <b id="introWindow"></b>.</p>
+    </div>
+    <div class="intro-step hidden" data-step="2">
+      <div class="big-emoji">⚡</div>
+      <h2>Share your power</h2>
+      <p>Each sol you get <b id="introPower"></b> power points. Share them:</p>
+      <p>🫧 <b>Life Support</b> makes air and water.<br>🥕 <b>Greenhouse</b> grows food.<br>🛡️ <b>Shield</b> blocks storm particles.</p>
+      <p>If air, water or food runs out, or radiation gets too high, the mission stops. Then you will see why, and you can try again!</p>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button id="btnIntroBack" type="button" class="hidden">← Back</button>
+      <button class="primary" id="btnIntroNext" type="button">Next →</button>
+      <button class="primary hidden" id="btnStart" type="button">Start! First, 3 quick questions</button>
+    </div>
+    <p class="muted small" style="margin-top:12px">For kids aged 7 to 12, in class, in about 10 to 15 minutes.</p>
   </section>
 
   <!-- QUIZ -->
   <section id="scrQuiz" class="panel hidden">
     <h2 id="quizTitle"></h2>
-    <p class="muted small" id="quizHint"></p>
+    <p class="muted" id="quizHint"></p>
     <form id="quizForm"></form>
-    <button class="primary" id="btnQuizDone" type="button">Submit answers</button>
+    <button class="primary" id="btnQuizDone" type="button">Done!</button>
   </section>
 
   <!-- GAME -->
@@ -127,24 +156,21 @@
     <div class="panel">
       <div class="row" style="justify-content: space-between">
         <h2 id="solTitle" style="margin:0"></h2>
-        <span class="badge live" title="Dates and events come from NASA DONKI records">Real storm replay</span>
+        <span class="badge live" title="Dates and events come from NASA records">Real NASA storm days</span>
       </div>
-      <div class="timeline" id="timeline" aria-label="10-sol storm timeline"></div>
-      <p class="muted small" style="margin:0">Each box is one sol, mapped to one real UTC date. The top letter is the strongest flare that day, and a red "P" means a proton event (SEP) was recorded.</p>
+      <div class="timeline" id="timeline" aria-label="Your 10 sols"></div>
+      <p class="muted small" style="margin:0">⚠️ = storm particles (protons) that day. ☀️ = calm for the crew.</p>
     </div>
 
     <div class="panel hidden" id="scene3d" aria-hidden="true">
       <div class="row" style="justify-content: space-between; margin-bottom:8px">
-        <h3 style="margin:0">Your base (3D view, visual only)</h3>
-        <button class="scene3d-toggle" type="button">Hide 3D view</button>
+        <h3 style="margin:0">Your Mars base</h3>
+        <button class="scene3d-toggle" type="button">Hide 3D</button>
       </div>
       <div class="scene3d-canvas"></div>
       <div class="legend">
-        <span><i style="background:#3fa9f5"></i>Life Support (oxygen/water)</span>
-        <span><i style="background:#ffc857"></i>Energy (lit panels = power in use)</span>
-        <span><i style="background:#6fd08c"></i>Food (greenhouse)</span>
-        <span><i style="background:#b48cff"></i>Radiation Protection (dome)</span>
-        <span class="muted">Bars: green = OK, yellow = low, red = danger. Red dots = real proton event.</span>
+        <span>🫧 Life Support</span><span>⚡ Solar panels</span><span>🥕 Greenhouse</span><span>🛡️ Shield dome</span>
+        <span class="muted">Red sparks = real storm particles</span>
       </div>
     </div>
 
@@ -153,12 +179,12 @@
     <div class="panel event" id="eventCard" style="margin-top:16px"></div>
 
     <div class="panel" id="allocPanel">
-      <h3>Power plan for this sol</h3>
+      <h3>Share your power for this sol</h3>
       <div id="allocRows"></div>
       <div class="power" id="powerLine"></div>
       <div class="muted small" id="preview"></div>
-      <div class="row" style="margin-top:10px">
-        <button class="primary" id="btnEndSol" type="button">Run this sol</button>
+      <div class="row" style="margin-top:12px">
+        <button class="primary" id="btnEndSol" type="button">Go! Run this sol</button>
       </div>
     </div>
 
@@ -166,7 +192,7 @@
       <h3 id="fbTitle"></h3>
       <ul id="fbList"></ul>
       <div class="fact" id="fbFact"></div>
-      <div class="row" style="margin-top:12px"><button class="primary" id="btnNext" type="button">Next sol</button></div>
+      <div class="row" style="margin-top:14px"><button class="primary" id="btnNext" type="button">Next sol →</button></div>
     </div>
   </section>
 
@@ -175,25 +201,25 @@
     <div class="panel">
       <h2 id="endTitle"></h2>
       <p id="endSummary"></p>
-      <h3>What chain of events led here</h3>
+      <h3>What happened, step by step</h3>
       <ol class="chain" id="endChain"></ol>
-      <p class="muted small" id="endHint"></p>
+      <p class="fact" id="endHint"></p>
     </div>
     <div class="panel">
-      <h3>What you learned</h3>
+      <h3>🧠 What you learned</h3>
       <ol id="endLearned"></ol>
-      <button class="primary" id="btnPostQuiz" type="button">Take the post-mission check</button>
+      <button class="primary" id="btnPostQuiz" type="button">Try the 3 questions again</button>
     </div>
   </section>
 
   <!-- RESULTS -->
   <section id="scrResults" class="panel hidden">
-    <h2>Learning check result</h2>
-    <p id="resultLine" style="font-size:20px"></p>
+    <h2>Your quiz score</h2>
+    <p id="resultLine" style="font-size:26px; font-weight:700"></p>
     <table id="resultTable"></table>
-    <p class="muted small">This check runs only in this browser. Nothing is saved or sent anywhere.</p>
+    <p class="muted small">Your answers stay in this browser. Nothing is saved or sent.</p>
     <div class="row">
-      <button class="primary" id="btnReplay" type="button">Fly the mission again</button>
+      <button class="primary" id="btnReplay" type="button">Play again 🚀</button>
     </div>
   </section>
 </main>
@@ -206,7 +232,8 @@
   <p class="muted small">Every number in this game falls into one of three groups:
     <span class="badge live">live-fetched</span> from a NASA API,
     <span class="badge ref">published reference value</span> from a NASA source, or
-    <span class="badge rule">game rule</span>, a simplification we chose so the game can be played. Game rules are not NASA data.</p>
+    <span class="badge rule">game rule</span>, a simplification we chose so the game can be played. Game rules are not NASA data.
+    No photos and no AI-generated images are used; all visuals are drawn in code.</p>
   <div id="srcBody"></div>
 </dialog>
 

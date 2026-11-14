@@ -1,6 +1,6 @@
 /*
- * 2D user interface. Reads state from MissionCore (src/game.js) and calls its
- * actions from buttons. Contains no game rules.
+ * 2D user interface (ages 7-12). Reads state from MissionCore (src/game.js) and calls
+ * its actions from buttons. Contains no game rules.
  */
 (function () {
   "use strict";
@@ -23,7 +23,7 @@
     const b = $("banner");
     b.textContent = "Data file data/events.js is missing. Run: python data/fetch_nasa_data.py";
     b.classList.remove("hidden");
-    $("btnStart").disabled = true;
+    $("btnIntroNext").disabled = true;
     return;
   }
 
@@ -36,16 +36,28 @@
     window.scrollTo(0, 0);
   }
 
+  /* ---------------------------------------------------------------- intro: one idea per card */
+  let introStep = 0;
+  const steps = document.querySelectorAll(".intro-step");
+  function renderIntro() {
+    steps.forEach((s, i) => s.classList.toggle("hidden", i !== introStep));
+    document.querySelectorAll(".steps i").forEach((d, i) => d.classList.toggle("on", i === introStep));
+    const last = introStep === steps.length - 1;
+    $("btnIntroBack").classList.toggle("hidden", introStep === 0);
+    $("btnIntroNext").classList.toggle("hidden", last);
+    $("btnStart").classList.toggle("hidden", !last);
+  }
+
   /* ---------------------------------------------------------------- quiz */
   let quizPhase = "pre";
   const scores = { pre: null, post: null };
 
   function renderQuiz(phase) {
     quizPhase = phase;
-    $("quizTitle").textContent = phase === "pre" ? "Pre-mission check (3 questions)" : "Post-mission check (same 3 questions)";
+    $("quizTitle").textContent = phase === "pre" ? "🤔 3 quick questions" : "🤔 The same 3 questions again";
     $("quizHint").textContent = phase === "pre"
-      ? "Don't worry if you don't know. We will compare with your answers after the mission."
-      : "Let's see what changed.";
+      ? "It's OK if you don't know yet! Just pick your best guess."
+      : "Let's see what you learned on Mars.";
     const f = $("quizForm"); f.replaceChildren();
     QUIZ.forEach((item, i) => {
       const box = el("fieldset", { class: "q" }, el("legend", {}, `${i + 1}. ${item.q}`));
@@ -63,7 +75,7 @@
       const c = document.querySelector(`input[name=q${i}]:checked`);
       return c ? +c.value : null;
     });
-    if (picks.includes(null)) { alert("Please answer all 3 questions."); return; }
+    if (picks.includes(null)) { alert("Please pick an answer for all 3 questions."); return; }
     scores[quizPhase] = picks.map((p, i) => p === QUIZ[i].correct);
     if (quizPhase === "pre") startGame(); else showResults();
   }
@@ -72,17 +84,15 @@
   function renderTimeline() {
     const t = $("timeline"); t.replaceChildren();
     for (const s of D.sols) {
-      const cls = s.max_class ? s.max_class[0] : "-";
       t.append(el("div", { class: "tl" + (s.sol === S().sol ? " now" : "") + (s.sol < S().sol ? " done" : ""),
-                           title: `${fmtDate(s.date)}: ${s.flare_count} flares, max ${s.max_class || "none"}, ${s.sep_count} SEP records` },
-        el("span", { class: "cls cls-" + cls }, cls), `Sol ${s.sol}`,
-        s.sep_count ? el("span", { class: "sep" }, " P") : ""));
+                           title: `${fmtDate(s.date)}: ${s.flare_count} big flashes (solar flares), biggest ${s.max_class || "none"}, ${s.sep_count} particle alerts` },
+        el("span", { class: "ico" }, s.sep_count ? "⚠️" : "☀️"), `Sol ${s.sol}`));
     }
   }
 
-  function gauge(label, valueText, frac, sub) {
+  function gauge(cls, label, valueText, frac, sub) {
     const f = clamp(frac, 0, 1);
-    return el("div", { class: "gauge" },
+    return el("div", { class: "gauge " + cls },
       el("div", { class: "label" }, label),
       el("div", { class: "value" }, valueText),
       el("div", { class: "bar" + (f < 0.25 ? " bad" : f < 0.5 ? " warn" : "") }, el("div", { style: `width:${f * 100}%` })),
@@ -94,12 +104,13 @@
     const s = S();
     const o2 = Math.max(0, s.o2), water = Math.max(0, s.water), food = Math.max(0, s.food);
     $("gauges").replaceChildren(
-      gauge("Life Support (oxygen/water)", `${fmt(o2)} kg O2 · ${fmt(water, 1)} % water`,
-        Math.min(s.o2 / RULES.o2Max, s.water / 100), `crew needs ${fmt(O2_NEED)} kg O2 per sol`),
-      gauge("Energy", `${C.used()} / ${RULES.power} power units`, C.used() / RULES.power,
-        "fixed supply per sol, shared by all systems"),
-      gauge("Food", `${fmt(food, 1)} crew-days`, s.food / RULES.foodMax, `crew eats ${RULES.foodNeed} per sol`),
-      gauge("Radiation Protection", `${fmt(s.dose, 1)} mSv dose`, 1 - s.dose / RULES.doseLimit, `drill limit ${RULES.doseLimit} mSv`)
+      gauge("air", "🫧 Life Support (oxygen/water)", `${fmt(o2, 1)} kg air · ${Math.round(water)}% water`,
+        Math.min(s.o2 / RULES.o2Max, s.water / 100), `The crew breathes ${fmt(O2_NEED)} kg each sol`),
+      gauge("energy", "⚡ Energy", `${C.used()} of ${RULES.power} power used`, C.used() / RULES.power,
+        "Same power every sol"),
+      gauge("food", "🥕 Food", `${fmt(food, 0)} food packs`, s.food / RULES.foodMax, `The crew eats ${RULES.foodNeed} packs each sol`),
+      gauge("shield", "🛡️ Radiation Protection", `${fmt(s.dose, 1)} of ${RULES.doseLimit} mSv`, 1 - s.dose / RULES.doseLimit,
+        "Radiation dose (mSv). Keep it low!")
     );
   }
 
@@ -107,31 +118,40 @@
     const { info, flares, seps } = C.solData(S().sol);
     const card = $("eventCard");
     card.className = "panel event" + (seps.length ? " sep" : "");
-    card.replaceChildren(el("h3", {}, `Space weather for ${fmtDate(info.date)} (real NASA record)`));
+    card.replaceChildren(el("h3", {}, `Space weather on ${fmtDate(info.date)} (real NASA record)`));
     if (seps.length) {
-      card.append(el("p", {}, el("b", { class: "cls-X" }, "PROTON ALERT: "),
-        `DONKI logged ${seps.length} solar energetic particle (SEP) detection${seps.length > 1 ? "s" : ""} for this date. Protons raise the crew's dose, so shield now.`));
+      card.append(el("p", { class: "alert cls-X" }, "⚠️ Storm particles are coming!"),
+        el("p", {}, `NASA counted ${seps.length} alert${seps.length > 1 ? "s" : ""} of tiny, fast pieces from the Sun (protons). They raise the crew's radiation. Turn your shield up!`));
     } else {
-      card.append(el("p", { class: "muted" }, "No proton (SEP) event recorded for this date. Flares are flashes of light; on their own they do not add dose at the surface in this game."));
+      card.append(el("p", { class: "alert", style: "color:var(--good)" }, "☀️ Calm day for the crew"),
+        el("p", {}, flares.length
+          ? "The Sun made big flashes of light (solar flares). The light can't hurt the crew. No harmful particles came today."
+          : "No big flashes and no harmful particles today."));
     }
-    if (!flares.length) card.append(el("p", { class: "muted" }, "No flare of class M5 or higher was reported on this date."));
+    if (flares.length) {
+      card.append(el("p", { class: "small muted" }, `Big flashes today: `,
+        ...flares.map((f, i) => el("span", {}, i ? ", " : "", el("span", { class: "cls-" + f.class_letter }, f.class))),
+        " (X is the biggest kind, M is medium)"));
+    }
+    const det = el("details", {}, el("summary", {}, "Where is this from? (NASA records)"));
     for (const f of flares) {
-      card.append(el("div", { class: "flare" },
-        el("span", { class: "cls-" + f.class_letter }, `${f.class} flare`),
+      det.append(el("div", { class: "flare small" },
+        el("span", { class: "cls-" + f.class_letter }, `${f.class} solar flare`),
         ` peaked at ${fmtTime(f.peak_time)}, region ${f.source_location}` + (f.active_region ? ` (AR ${f.active_region})` : ""),
         f.linked_sep_id ? el("span", { class: "badge bad", style: "margin-left:6px" }, "linked to a proton event") : "",
-        el("div", { class: "muted small" }, "Source: ", el("a", { href: f.record_url }, f.source_line))));
+        el("div", { class: "muted" }, "Source: ", el("a", { href: f.record_url }, f.source_line))));
     }
     for (const s of seps) {
-      card.append(el("div", { class: "muted small" }, "Source: ", el("a", { href: s.record_url }, s.source_line),
+      det.append(el("div", { class: "muted small" }, "Source: ", el("a", { href: s.record_url }, s.source_line),
         s.instruments.length ? ` (${s.instruments.join(", ")})` : ""));
     }
+    card.append(det);
   }
 
   const SYSTEMS = [
-    ["ls", "Life Support", "makes oxygen and recycles water"],
-    ["gh", "Greenhouse", "grows food"],
-    ["sh", "Radiation Shield", "cuts the storm dose"]
+    ["ls", "🫧 Life Support", "makes air (oxygen) and cleans water"],
+    ["gh", "🥕 Greenhouse", "grows food"],
+    ["sh", "🛡️ Shield", "blocks storm particles"]
   ];
 
   function renderAlloc() {
@@ -140,21 +160,22 @@
       const lvl = S().alloc[k];
       const pips = el("div", { class: "pips", "aria-hidden": "true" },
         ...Array.from({ length: RULES.maxLevel }, (_, i) => el("span", { class: "pip" + (i < lvl ? " on" : "") })));
-      const minus = el("button", { type: "button", "aria-label": `Less power to ${name}` }, "−");
-      const plus = el("button", { type: "button", "aria-label": `More power to ${name}` }, "+");
+      const label = name.replace(/^\S+\s/, "");
+      const minus = el("button", { type: "button", "aria-label": `Less power to ${label}` }, "−");
+      const plus = el("button", { type: "button", "aria-label": `More power to ${label}` }, "+");
       minus.disabled = lvl <= 0;
       plus.disabled = lvl >= RULES.maxLevel || C.used() >= RULES.power;
       minus.onclick = () => C.setLevel(k, lvl - 1);
       plus.onclick = () => C.setLevel(k, lvl + 1);
       rows.append(el("div", { class: "alloc" },
-        el("div", {}, el("b", {}, name), el("div", { class: "muted small" }, desc)),
+        el("div", {}, el("div", { class: "name" }, name), el("div", { class: "muted small" }, desc)),
         el("div", { class: "stepper" }, minus, pips, el("span", { "aria-live": "polite" }, `${lvl}`), plus)));
     }
-    $("powerLine").textContent = `Power used: ${C.used()} / ${RULES.power}` + (C.used() < RULES.power ? " (unused power is wasted)" : "");
+    const left = RULES.power - C.used();
+    $("powerLine").textContent = `⚡ Power used: ${C.used()} of ${RULES.power}` + (left ? ` (${left} left, use it!)` : " 👍");
     const p = C.preview();
     $("preview").textContent =
-      `Forecast for this sol: oxygen ${sign(p.o2Delta)} kg, water ${sign(p.waterDelta, 1)} %, food ${sign(p.foodDelta, 1)} crew-days, ` +
-      `dose +${fmt(p.baseDose + p.stormDose, 1)} mSv.`;
+      `If you press Go: air ${sign(p.o2Delta, 1)} kg, water ${sign(p.waterDelta, 1)}%, food ${sign(p.foodDelta, 0)} packs, radiation +${fmt(p.baseDose + p.stormDose, 1)} mSv.`;
   }
 
   function renderSol() {
@@ -167,16 +188,25 @@
   function renderReport(r) {
     $("allocPanel").classList.add("hidden");
     renderGauges();
-    $("fbTitle").textContent = `Sol ${r.sol} report`;
+    $("fbTitle").textContent = S().fail ? `Sol ${r.sol}: uh-oh!` : `Sol ${r.sol}: done!`;
     $("fbList").replaceChildren(
-      el("li", {}, `Life Support level ${r.alloc.ls}: made ${fmt(r.o2Made)} kg O2, crew used ${fmt(O2_NEED)} kg → ${sign(r.o2Delta)} kg. Water recycled ${Math.round(r.rec * 100)}% → ${sign(r.waterDelta, 1)} %.`),
-      el("li", {}, `Greenhouse level ${r.alloc.gh}: food ${sign(r.foodDelta, 1)} crew-days.`),
+      el("li", {}, r.o2Delta >= 0
+        ? `😊 Air: everyone can breathe. (${sign(r.o2Delta, 1)} kg oxygen)`
+        : `😟 Air went down: ${sign(r.o2Delta, 2)} kg. Life Support needs more power.`),
+      el("li", {}, r.rec >= 0.98
+        ? `💧 Water: cleaned and reused. (${sign(r.waterDelta, 1)}%)`
+        : `😟 Water went down: ${sign(r.waterDelta, 1)}%. Life Support had too little power to clean it.`),
+      el("li", {}, r.foodDelta >= 0
+        ? `🥕 Food: the greenhouse grew enough. (${sign(r.foodDelta, 0)} packs)`
+        : `😟 Food went down: ${sign(r.foodDelta, 0)} packs. The greenhouse needs more power.`),
       el("li", {}, r.sepCount
-        ? `Shield level ${r.alloc.sh}: the storm would have given ${fmt(r.stormRaw, 1)} mSv. Your shield let through ${fmt(r.stormDose, 1)} mSv, plus ${BASE_DOSE} mSv baseline.`
-        : `No proton event: only the baseline ${BASE_DOSE} mSv.` + (r.alloc.sh ? ` (Shield power was not needed today.)` : ""))
+        ? (r.alloc.sh >= 2
+            ? `🛡️ Great shielding! Only ${fmt(r.stormDose, 1)} mSv got through. Without a shield it would be ${fmt(r.stormRaw, 1)}.`
+            : `⚠️ The storm hit hard: +${fmt(r.stormDose, 1)} mSv. A stronger shield blocks more.`)
+        : `☀️ No storm particles. Just normal Mars radiation: +${BASE_DOSE} mSv.` + (r.alloc.sh ? " (The shield wasn't needed today.)" : ""))
     );
-    $("fbFact").replaceChildren(el("b", {}, "Real fact: "), r.fact);
-    $("btnNext").textContent = S().fail ? "See what happened" : (S().sol >= 10 ? "Finish mission" : "Next sol");
+    $("fbFact").replaceChildren(el("b", {}, "🧠 Real fact: "), r.fact);
+    $("btnNext").textContent = S().fail ? "See what happened →" : (S().sol >= 10 ? "Finish the mission 🏁" : "Next sol →");
     $("feedbackPanel").classList.remove("hidden");
     $("feedbackPanel").scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -189,12 +219,12 @@
     const s = S(), won = !s.fail;
     const t = $("endTitle");
     t.className = won ? "result-win" : "result-fail";
-    t.textContent = won ? "MISSION SUCCESS: all 4 astronauts made it through the storm" : "MISSION FAILED";
-    $("endSummary").textContent = `You played ${s.log.length} sols of the real ${fmtDate(D.window.start)} to ${fmtDate(D.window.end)} storm. ` +
-      `Final: oxygen ${fmt(Math.max(0, s.o2))} kg, water ${fmt(Math.max(0, s.water), 1)} %, food ${fmt(Math.max(0, s.food), 1)} crew-days, dose ${fmt(s.dose, 1)} mSv.`;
+    t.textContent = won ? "🎉 Mission success! All 4 astronauts are safe." : "💥 Mission failed. Now you know why!";
+    $("endSummary").textContent = `You played ${s.log.length} sol${s.log.length > 1 ? "s" : ""} of the real ${fmtDate(D.window.start)} to ${fmtDate(D.window.end)} storm. ` +
+      `At the end: ${fmt(Math.max(0, s.o2), 1)} kg air, ${Math.round(Math.max(0, s.water))}% water, ${fmt(Math.max(0, s.food), 0)} food packs, ${fmt(s.dose, 1)} mSv radiation.`;
     const chain = C.buildChain(s);
     $("endChain").replaceChildren(...chain.items.map((x) => el("li", {}, x)));
-    $("endHint").textContent = chain.hint;
+    $("endHint").textContent = "💡 " + chain.hint;
     $("endLearned").replaceChildren(...C.learned(s).map((x) => el("li", {}, x)));
   }
 
@@ -202,18 +232,19 @@
     show("scrResults");
     const pre = scores.pre ? scores.pre.filter(Boolean).length : null;
     const post = scores.post.filter(Boolean).length;
+    const diff = pre == null ? 0 : post - pre;
     $("resultLine").textContent = pre == null
-      ? `Post-mission check: ${post} / 3 correct.`
-      : `Before the mission: ${pre} / 3 · After the mission: ${post} / 3 (${post - pre >= 0 ? "+" : ""}${post - pre})`;
+      ? `${post} of 3 right!`
+      : `Before: ${pre} of 3 → After: ${post} of 3 ${diff > 0 ? "🎉" : post === 3 ? "⭐" : ""}`;
     $("resultTable").replaceChildren(
-      el("tr", {}, el("th", {}, "Question"), el("th", {}, "Before"), el("th", {}, "After"), el("th", {}, "Correct answer")),
+      el("tr", {}, el("th", {}, "Question"), el("th", {}, "Before"), el("th", {}, "After"), el("th", {}, "Right answer")),
       ...QUIZ.map((q, i) => el("tr", {}, el("td", {}, q.q),
         el("td", {}, scores.pre ? (scores.pre[i] ? "✓" : "✗") : "-"),
         el("td", {}, scores.post[i] ? "✓" : "✗"),
         el("td", {}, q.a[q.correct]))));
   }
 
-  /* ---------------------------------------------------------------- sources panel */
+  /* ---------------------------------------------------------------- sources panel (for teachers and judges) */
   function renderSources() {
     const b = $("srcBody"); b.replaceChildren();
     b.append(el("h3", {}, "Live-fetched (NASA DONKI via api.nasa.gov)"));
@@ -250,10 +281,12 @@
   const sample = D.data_status.startsWith("SAMPLE");
   const badge = $("dataBadge");
   badge.className = "badge " + (sample ? "bad" : "live");
-  badge.textContent = sample ? "SAMPLE DATA - NOT REAL" : `NASA DONKI data, fetched ${D.fetched_at.slice(0, 10)}`;
+  badge.textContent = sample ? "SAMPLE DATA - NOT REAL" : `Real NASA data · fetched ${D.fetched_at.slice(0, 10)}`;
   if (sample) { $("banner").textContent = "SAMPLE DATA - NOT REAL NASA DATA. Run python data/fetch_nasa_data.py."; $("banner").classList.remove("hidden"); }
   $("introWindow").textContent = `${fmtDate(D.window.start)} to ${fmtDate(D.window.end)}`;
   $("introPower").textContent = RULES.power;
+  $("btnIntroNext").onclick = () => { introStep = Math.min(steps.length - 1, introStep + 1); renderIntro(); };
+  $("btnIntroBack").onclick = () => { introStep = Math.max(0, introStep - 1); renderIntro(); };
   $("btnStart").onclick = () => renderQuiz("pre");
   $("btnQuizDone").onclick = gradeQuiz;
   $("btnEndSol").onclick = () => C.runSol();
@@ -262,4 +295,5 @@
   $("btnReplay").onclick = startGame;
   $("btnSources").onclick = () => { renderSources(); $("dlgSources").showModal(); };
   $("btnCloseSources").onclick = () => $("dlgSources").close();
+  renderIntro();
 })();
