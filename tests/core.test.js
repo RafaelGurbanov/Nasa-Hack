@@ -48,11 +48,57 @@ console.log(`${refused ? "PASS" : "FAIL"}  core refuses a plan over the power bu
 if (!refused) failed++;
 
 // Every flare card must point to a raw record that exists in data/raw.
-const raw = JSON.parse(fs.readFileSync(path.join(root, "data/raw/notifications_flr.json"), "utf8"));
+const raw = JSON.parse(fs.readFileSync(path.join(root, "data/raw/2024-05/notifications_flr.json"), "utf8"));
 const ids = new Set(raw.map((r) => r.messageID));
-const missing = C.D.flares.filter((f) => !ids.has(f.message_id)).length;
-console.log(`${missing ? "FAIL" : "PASS"}  all ${C.D.flares.length} flare cards match a raw DONKI record`);
+const missing = C.storm.flares.filter((f) => !ids.has(f.message_id)).length;
+console.log(`${missing ? "FAIL" : "PASS"}  all ${C.storm.flares.length} flare cards match a raw DONKI record`);
 if (missing) failed++;
+
+// ---------------------------------------------------------------- new features
+function check(name, ok, detail = "") {
+  console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  ->  " + detail : ""}`);
+  if (!ok) failed++;
+}
+
+// Every storm week: every flare card and SEP card matches its raw DONKI file.
+for (const st of C.storms) {
+  const dir = path.join(root, "data/raw", st.id);
+  const notes = new Set(JSON.parse(fs.readFileSync(path.join(dir, "notifications_flr.json"), "utf8")).map((r) => r.messageID));
+  const seps = new Set(JSON.parse(fs.readFileSync(path.join(dir, "sep.json"), "utf8")).map((r) => r.sepID));
+  const badF = st.flares.filter((f) => !notes.has(f.message_id)).length, badS = st.sep_events.filter((s) => !seps.has(s.sep_id)).length;
+  check(`storm ${st.id}: ${st.flares.length} flares + ${st.sep_events.length} SEP records match raw DONKI files`, !badF && !badS);
+  const linkedOk = st.earth_warnings.every((w) => !w.blast || st.sep_events.some((s) => s.sol === w.storm_sol && s.linked_ids.includes(w.blast.id)));
+  check(`storm ${st.id}: every Earth warning comes from a blast DONKI links to that storm`, linkedOk, st.earth_warnings.map((w) => `sol ${w.storm_sol}:${w.status}`).join(", "));
+}
+
+// Science missions: calm sols only, cost 1 power point, +1 star; not allowed on storm sols.
+C.newGame("2024-05");
+check("science allowed on a calm sol (sol 1) with 2/2/0 + science", C.setAlloc({ ls: 2, gh: 2, sh: 0, sci: 1 }));
+check("science + 2/2/1 is over the 5-point budget", !C.setAlloc({ ls: 2, gh: 2, sh: 1, sci: 1 }));
+let r = C.runSol();
+check("science gives +1 star and does not change air, water or food rules", C.state.stars === 1 && r.o2Delta === 0 && r.foodDelta === 0);
+C.nextSol();
+check("science choice resets to 0 on the next sol", C.state.alloc.sci === 0);
+for (let i = 0; i < 2; i++) { C.runSol(); C.nextSol(); }
+check("science is refused on a storm sol (sol 4)", C.state.sol === 4 && !C.setAlloc({ ls: 2, gh: 1, sh: 1, sci: 1 }));
+
+// Ranks.
+check("rank: survived with 0-2 stars = Bronze, 3-4 = Silver, 5+ = Gold",
+  C.rank({ fail: null, stars: 2 }) === "Bronze" && C.rank({ fail: null, stars: 3 }) === "Silver" && C.rank({ fail: null, stars: 5 }) === "Gold" && C.rank({ fail: "dose", stars: 9 }) === null);
+
+// Ask Earth: the answer arrives next sol, not the same sol.
+C.newGame("2024-05");
+C.askEarth();
+const sameSol = C.adviceArriving(1);
+C.runSol(); C.nextSol();
+const nextSol = C.adviceArriving(2);
+check("Earth's advice arrives the NEXT sol", !sameSol && nextSol && nextSol.askedSol === 1, nextSol && nextSol.text);
+
+// Mystery storm: random pick only chooses real storm weeks.
+const picked = new Set();
+for (let i = 0; i < 60; i++) { C.newGame("random"); picked.add(C.storm.id); }
+check("random storm pick uses only the real storm weeks", [...picked].every((id) => C.storms.some((s) => s.id === id)), [...picked].sort().join(", "));
+C.newGame();
 
 console.log(failed ? `\n${failed} test(s) failed` : "\nAll tests passed");
 process.exit(failed ? 1 : 0);
