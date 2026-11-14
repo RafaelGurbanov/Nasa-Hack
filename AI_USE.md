@@ -10,7 +10,8 @@ Space Apps submission. Rule: nothing is marked as working unless a test result i
 | Claude (Anthropic), through the Claude Code CLI | writing code and docs, checking the NASA API, automated tests |
 | Claude web search | checking published reference values (sources are listed in the game's data panel) |
 
-No AI-generated images, video or audio are used so far. If any are added, they keep their
+No AI-generated images, video or audio are used so far. No photos (NASA or other) are used: every visual
+(terrain, sky, Sun, base, astronaut, labels) is drawn in code by `src/scene3d.js`. If any are added, they keep their
 visible watermark and are listed here.
 
 ## What Claude wrote (14 Nov 2026, during the hackathon)
@@ -30,7 +31,8 @@ visible watermark and are listed here.
 Team decisions given to Claude (human input):
 - Challenge #07 scope: 1 Mars base, 4 systems, 10 sols, about 10 event cards, real storm replay.
 - Storm window: May 2024 (approved by the team).
-- Target user: students 12-16, classroom, 10-15 minutes.
+- Target user: changed by the team on 14 Nov to children aged 7-12, classroom, 10-15 minutes.
+- Kid-friendly UI and realistic 3D Mars scene requested by the team (14 Nov, ~16:50).
 
 ## Tested by Claude (automated, results recorded)
 
@@ -41,6 +43,10 @@ Team decisions given to Claude (human input):
 | Key leak search across the repo (excluding `data/.env`) | 0 matches | 14 Nov 2026 |
 | 3D view, Chrome `file://`: renders on a proton sol, reacts to power changes | renders, 0 console messages (`docs/screenshot-3d.png`) | 14 Nov 2026 |
 | 3D fallback: three.js file removed, full demo path played | 3D panel removed itself, 2D game wins; only console message = the deliberately missing file | 14 Nov 2026 |
+| Kids 7-12 version, Chrome `file://`: 3-step intro, quiz, full demo path by clicking real buttons, post-quiz | wins, quiz 0/3 → 3/3 shown, 0 console messages | 14 Nov 2026 |
+| Realistic 3D scene: calm day and storm day | renders, 0 console messages (`docs/screenshot-3d-calm.png`, `docs/screenshot-3d-storm.png`) | 14 Nov 2026 |
+| 3D fallback re-tested after the 3D rewrite | 3D panel removed itself, 2D game wins | 14 Nov 2026 |
+| `node tests/core.test.js` after all text changes (rules unchanged) | 7/7 PASS | 14 Nov 2026 |
 
 ## Tested by a human
 

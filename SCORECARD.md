@@ -1,7 +1,7 @@
 # Scorecard (honest self-assessment)
 
-Updated: 14 Nov 2026, about 17:00 (+04:00), before the GitHub Pages push and before any
-human playtest. Each criterion is scored 1-5, weighted as points = score / 5 × weight.
+Updated: 14 Nov 2026, about 18:00 (+04:00), on the `3d` branch, after the change of target
+audience to ages 7-12. Before the GitHub Pages push and before any human playtest. Each criterion is scored 1-5, weighted as points = score / 5 × weight.
 
 | Criterion | Weight | Score now | Points | Score after the cheapest fix |
 |---|---|---|---|---|
@@ -43,7 +43,9 @@ Evidence
 - One fact per decision with formula + NASA value: `pickFact` `src/game.js:116`.
 - "What you learned", 3 facts: `learned` `src/game.js:167`.
 - Measurable check: same 3 questions before and after, result shown on screen: `QUIZ` `src/game.js:60`, `showResults` `src/ui.js:201`. Nothing is stored.
-- One-sentence outcome: "After playing, a student can explain why a Mars crew must balance oxygen (4 × 0.84 kg per sol) against storm shielding, and why the protons after a flare, not the flare's light, raise the dose."
+- One-sentence outcome: "After playing, a child can explain that 4 astronauts need about 3.4 kg of oxygen a day (4 × 0.84 kg), that the tiny fast particles after a space storm (protons), not its light, are the danger, and that more shield power means less air and food."
+- Designed for ages 7-12: big text and buttons, emoji icons, short sentences, one idea per intro card, friendly feedback, real term in brackets (`index.html`, `src/ui.js`). Screenshot: `docs/screenshot-kid-ui.png`.
+- Quiz and facts rewritten for ages 7-12 using the same NASA values (`src/game.js` `QUIZ`, `pickFact`, `learned`).
 
 Why not 5: no real users have been measured. We will not claim results we do not have.
 **Cheapest raise:** let 2-3 people at the venue play and note their before/after scores as an "informal hallway test (n=3)", clearly labeled.
@@ -66,11 +68,14 @@ Evidence
 Why not higher: not rehearsed yet; the video/deck is not made yet.
 **Cheapest raise:** one full timed rehearsal before 06:00 with each speaker holding their own section.
 
+Visual support for the demo: the 3D Mars base (`src/scene3d.js`) shows calm vs storm days clearly (`docs/screenshot-3d-calm.png`, `docs/screenshot-3d-storm.png`). It is visual only and falls back to 2D (tested).
+
 ## Risks that could lower the score
 
 | Risk | Effect | Mitigation |
 |---|---|---|
 | "Submit for Judging" not clicked before the pitch | not judged | Member 4 owns it, deadline 08:30 |
 | Demo or video over its limit | cut off / cannot go global | rehearse with a timer; video ≤ 30 s |
-| 3D view breaks the page | Reliability drops | 3D is optional, in a separate file, with automatic fallback to 2D (to build) |
+| 3D view breaks the page | Reliability drops | 3D is optional, in a separate file, with automatic fallback to 2D (tested: three.js removed → 2D wins) |
+| Audience changed late (7-12) | Impact claims out of date | all docs updated on the `3d` branch; merge to `main` only after a human test |
 | Judge asks about the storm-dose proxy | credibility | answer is ready (SUBMISSION.md, Q3 item 1) |

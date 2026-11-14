@@ -10,11 +10,13 @@ NASA's DONKI database. Each sol, the player splits limited power between Life Su
 the Greenhouse and the Radiation Shield. One wrong decision can fail the mission, and the
 end screen shows the exact chain of decisions that caused it.
 
-**Who it is for:** students aged 12 to 16, in a classroom, in a 10 to 15 minute session.
+**Who it is for:** children aged 7 to 12, in a classroom, in a 10 to 15 minute session.
 
-**After playing, a student can explain** why a Mars crew must balance oxygen
-(4 × 0.84 kg per sol) against storm shielding, and why the protons after a flare,
-not the flare's light, are what raise their radiation dose.
+**Designed for ages 7-12:** big text and buttons, emoji icons for the 4 systems, short sentences (reading level about age 9), one idea per intro card, friendly feedback after every sol, and hard words explained with the real term in brackets the first time, for example "space storm (solar flare)".
+
+**After playing, a child can explain** that 4 astronauts need about 3.4 kg of oxygen a day
+(4 × 0.84 kg), that the tiny fast particles after a space storm (protons), not its light,
+are what is dangerous, and that more shield power means less air and food.
 
 ---
 
@@ -46,6 +48,12 @@ VERIFY: compare each row with the official 2026 challenge text on spaceappschall
 | Presentation (15) | `SUBMISSION.md`: timed 5-minute script for 4 speakers, 2-minute demo path, fallback plan, Q&A answers |
 
 ---
+
+## Visuals
+
+The optional 3D view (`src/scene3d.js`) draws a Mars base in code: dusty terrain with rocks, a sky gradient, a low Sun with soft shadows, an astronaut, the habitat, glowing solar panels, a glass greenhouse and a shield dome. On real proton days the sky turns red and storm particles fall. It only reads the game state, uses the local three.js file, and removes itself if anything fails, so the 2D game always works.
+
+**Images:** no photos and no AI-generated images are used. Every visual is drawn in code.
 
 ## NASA data
 

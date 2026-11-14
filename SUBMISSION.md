@@ -24,13 +24,13 @@ Team roles (replace the names):
 (Do not use "Starbound" as the project name. That is the name of an existing commercial game.)
 
 ### High-Level Summary
-Mars Storm Replay is a browser game for students aged 12 to 16. They keep a crew of four
+Mars Storm Replay is a browser game for children aged 7 to 12. They keep a crew of four
 alive on a Mars base for 10 sols. The 10 sols replay a real solar storm, 6 to 15 May 2024,
 using flare and proton-event records from NASA's DONKI database. Each sol, players split
 limited power between life support, food and radiation shielding. One wrong decision can
 fail the mission, and the end screen shows the exact chain of decisions that caused it.
 Every number is either live NASA data, a cited NASA reference value, or a clearly labeled
-game rule. A 3-question check before and after play shows each student what they learned.
+game rule. A 3-question check before and after play shows each child what they learned.
 
 ### Project Demo
 Pick ONE: a video of 30 seconds or less with English subtitles, OR a deck of 7 slides or
@@ -55,6 +55,8 @@ If oxygen, water or food runs out, or the dose goes over the 30 mSv drill limit,
 mission fails. The end screen then builds a cause-and-effect chain from the player's own
 decisions. A "What you learned" recap and a before/after 3-question check close the session.
 
+**Made for ages 7-12.** Big text and buttons, emoji icons for the four systems, short sentences (reading level about age 9), one idea per intro card, friendly feedback, and hard words explained with the real term in brackets, like "space storm (solar flare)". An optional 3D view shows the base on Mars: on real proton days the sky turns red and storm particles fall on the shield dome.
+
 **How it works.** A Python script (standard library only) calls NASA's DONKI API once with
 a personal key, keeps only the fields the game needs, and writes `events.json` plus a
 `events.js` copy. It also stores the unchanged API responses. The game is plain HTML and
@@ -64,7 +66,7 @@ reads its state, and so does the optional 3D view. Automated tests check five ga
 that every event card matches a raw NASA record.
 
 **Tools.** HTML, CSS, JavaScript, Python 3, NASA DONKI API (api.nasa.gov), GitHub Pages,
-Claude Code (AI coding assistant, see Use of AI). Three.js only if the 3D view ships.
+Claude Code (AI coding assistant, see Use of AI), three.js r149 (stored locally) for the optional 3D view.
 
 **Why it matters.** Radiation storms are one of the main dangers for crews on Mars. In
 May 2024 the same solar active region that is in our game later sent a storm to Mars;
@@ -89,6 +91,8 @@ oxygen and food have to be planned together.
 
 ### Partner & Other Data
 None. (Only NASA data and published NASA references are used. No partner agency data.)
+No photos and no AI-generated images: every visual (terrain, sky, base, astronaut) is drawn in code.
+three.js r149 (MIT licence) is used as a library, not as data.
 VERIFY: if a reference value is replaced by a non-NASA source, list it here.
 
 ### Use of AI
@@ -117,11 +121,11 @@ Show `git log --format="%h %ad %s" --date=iso` on screen if a judge asks.
 
 | Time | Speaker | Says / shows |
 |---|---|---|
-| 0:00-0:35 | [Name 4] | "In May 2024 the Sun fired X-class flares for ten days in a row. A week later, the same active region hit Mars with the biggest radiation spike Curiosity had measured since it landed. What if your class had been the crew? Mars Storm Replay is a 10-to-15-minute trainer for students aged 12 to 16. They run a Mars base through those exact ten days." |
+| 0:00-0:35 | [Name 4] | "In May 2024 the Sun fired X-class flares for ten days in a row. A week later, the same active region hit Mars with the biggest radiation spike Curiosity had measured since it landed. What if your class had been the crew? Mars Storm Replay is a 10-to-15-minute trainer for kids aged 7 to 12. They run a Mars base through those exact ten days." |
 | 0:35-1:15 | [Name 3] | Shows the "NASA data sources" panel. "Every sol is a real date. We fetched 24 flares and 14 proton events from NASA's DONKI API with our own key, cached them, and every card links to its NASA record. The FLR endpoint was down during the hackathon (it returned 404), so we used DONKI notifications for the same flare reports, and the panel says so. Oxygen and baseline radiation use published NASA values: 0.84 kg O2 per astronaut per day and 0.64 mSv per day from Curiosity. Everything else is labeled 'game rule'." |
 | 1:15-3:15 | [Name 1] | **Live demo (section 4).** |
 | 3:15-3:55 | [Name 2] | "Four systems depend on each other: power is fixed, and shielding costs oxygen and food. All rules live in one core file; the 2D screen and the 3D view only read it, so the view can never change the science. Our one signature idea is the real storm replay, and when you fail, the game shows you why." Shows the failure-chain screenshot: "Shield 0 on Sol 8: 6 real proton records, +24 mSv, mission over." |
-| 3:55-4:35 | [Name 4] | "Every sol teaches one fact with a formula. The end screen recaps three. A 3-question check before and after play shows the student what changed. We have not run it with a class yet, so we claim no results, only that the measurement is built in. After 15 minutes, a student can explain why a crew must trade shielding against oxygen, and why protons, not flare light, raise the dose." |
+| 3:55-4:35 | [Name 4] | "Every sol teaches one fact with a formula. The end screen recaps three. A 3-question check before and after play shows each child what changed. We have not run it with a class yet, so we claim no results, only that the measurement is built in. After 15 minutes, a child can explain that 4 astronauts need about 3.4 kg of oxygen a day (4 × 0.84 kg), that the tiny fast particles after a space storm (protons), not its light, are the danger, and that more shield power means less air and food." |
 | 4:35-5:00 | [Name 4] | "Next: real Curiosity dose data, Mars-Sun geometry, and a classroom pilot. Everything you saw was built during this hackathon, and the git history shows it. Thank you." |
 
 Rules: one rehearsal with a timer by 06:00. If a section runs over by 10 s, cut words, not the demo.
@@ -160,7 +164,7 @@ Record the screen with the browser at 1280×720. Subtitles must be burned into t
 ## 6. Seven-slide deck outline (if a deck is used instead of the video)
 
 1. **Title:** Mars Storm Replay. Team name, 4 members, Challenge #07 Build a Junior Astronaut Mission Trainer.
-2. **Problem + user:** Radiation storms are a top danger on Mars. Students aged 12-16, 10-15 minutes, classroom.
+2. **Problem + user:** Radiation storms are a top danger on Mars. Kids aged 7-12, 10-15 minutes, classroom.
 3. **What it is:** 4 systems that depend on each other, 10 sols, hard fail. Screenshot of a sol.
 4. **Real storm replay:** 6-15 May 2024 timeline. DONKI flares + SEP records. One card shown with its source line.
 5. **Learning:** one fact per decision, 3-fact recap, before/after check. Failure-chain screenshot.
@@ -217,18 +221,18 @@ shield percentages and the 30 mSv drill limit are game rules, and the game says 
 
 On 6 May 2024 the Sun began ten days of intense activity: more than twenty major flares,
 several of them X-class, and repeated bursts of energetic protons. Our game turns those
-exact ten days into ten sols on a Mars base. Students aged 12 to 16 take command of a crew of four.
+exact ten days into ten sols on a Mars base. Kids aged 7 to 12 take command of a crew of four.
 
 Every sol, a real NASA space-weather record appears: which flares erupted, when they
 peaked, and whether a proton storm followed. Players have only 5 units of power to share
 between making oxygen and recycling water, growing food, and shielding the crew. Shield
 too little and the crew's dose climbs past the limit; shield too much and the oxygen runs
-out. When a mission fails, the game shows the student the chain of their own decisions
+out. When a mission fails, the game shows the child the chain of their own decisions
 that led there, sol by sol.
 
 Every number in the game is labeled: live from NASA's DONKI API, a published NASA value
 (like Curiosity's 0.64 mSv per day on the Mars surface), or a game rule. Each decision
-teaches one real fact, and a short check before and after play shows each student what
+teaches one real fact, and a short check before and after play shows each child what
 they learned.
 
 Built in 24 hours at Space Apps Ganja 2026 for Challenge #07.
