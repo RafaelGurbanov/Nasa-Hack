@@ -47,6 +47,7 @@ Team decisions given to Claude (human input):
 | Realistic 3D scene: calm day and storm day | renders, 0 console messages (`docs/screenshot-3d-calm.png`, `docs/screenshot-3d-storm.png`) | 14 Nov 2026 |
 | 3D fallback re-tested after the 3D rewrite | 3D panel removed itself, 2D game wins | 14 Nov 2026 |
 | `node tests/core.test.js` after all text changes (rules unchanged) | 7/7 PASS | 14 Nov 2026 |
+| Phone emulation 390×844 (Chrome): kid UI | no sideways scroll, buttons 52 px tall, 3D off by design (≤400 px is 2D only), 0 console messages | 14 Nov 2026 |
 
 ## Tested by a human
 
