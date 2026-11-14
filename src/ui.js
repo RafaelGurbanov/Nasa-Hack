@@ -139,12 +139,53 @@
           el("button", { class: "answer", type: "button", "data-q": String(qIndex), "data-a": String(j), onclick: () => answer(j) }, el("b", {}, "ABCD"[j]), t(q + "a" + j)))),
         el("p", { class: "hand", style: "margin-top:16px;font-size:22px" }, t(quizPhase === "pre" ? "quiz.hintPre" : "quiz.hintPost")))));
   }
+  /* ---------------------------------------------------------------- learning results (this browser only, no names) */
+  const RES_KEY = "msr-results", DEMO = /[?&]demo=1(&|$)/.test(location.search);
+  function loadResults() { try { const r = JSON.parse(localStorage.getItem(RES_KEY) || "[]"); return Array.isArray(r) ? r : []; } catch (e) { return []; } }
+  function saveResults(r) { try { localStorage.setItem(RES_KEY, JSON.stringify(r)); } catch (e) { /* no storage: results are not kept */ } }
+  let runIndex = -1;
+  function recordEnd() {
+    if (DEMO) return;
+    const s = S(), r = loadResults();
+    const d = new Date(), pad = (n) => String(n).padStart(2, "0");
+    r.push({ date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`, week: C.storm.id, rank: C.rank(s) || "failed", stars: s.stars,
+      pre: scores.pre ? scores.pre.filter(Boolean).length : null, post: null });
+    saveResults(r); runIndex = r.length - 1;
+  }
+  function recordPost() {
+    if (DEMO || runIndex < 0) return;
+    const r = loadResults(); if (!r[runIndex]) return;
+    r[runIndex].post = scores.post.filter(Boolean).length; saveResults(r);
+  }
+  function resultsCsv(r) {
+    const NL = String.fromCharCode(10);
+    return ["date,storm_week,rank,stars,quiz_before,quiz_after", ...r.map((x) => [x.date, x.week, x.rank, x.stars, x.pre ?? "", x.post ?? ""].join(","))].join(NL) + NL;
+  }
+  function resultsBox() {
+    const r = loadResults(), both = r.filter((x) => x.pre != null && x.post != null);
+    const avg = (k) => both.reduce((a, x) => a + x[k], 0) / both.length;
+    const box = el("div", { class: "classres" }, el("h3", {}, t("res.title")), el("p", { class: "job" }, t("res.note")));
+    if (!r.length) { box.append(el("p", {}, t("res.none"))); return box; }
+    box.append(el("p", { class: "hand", style: "font-size:22px" }, both.length ? t("res.avg", { pre: avg("pre"), post: avg("post"), n: both.length }) : t("res.noPair")),
+      el("div", { class: "tablewrap" }, el("table", { class: "srctable" },
+        el("tr", {}, ...["res.date", "res.week", "res.rank", "res.pre", "res.post"].map((k) => el("th", {}, t(k)))),
+        ...r.slice(-30).reverse().map((x) => el("tr", {}, el("td", {}, x.date), el("td", {}, x.week),
+          el("td", {}, x.rank === "failed" ? t("res.failed") : t("rank." + x.rank)), el("td", {}, x.pre == null ? "-" : `${x.pre}/3`), el("td", {}, x.post == null ? "-" : `${x.post}/3`))))),
+      el("div", { class: "row" },
+        el("button", { class: "chip", type: "button", id: "btnCsv", onclick: () => {
+          const a = el("a", { href: URL.createObjectURL(new Blob([resultsCsv(loadResults())], { type: "text/csv" })), download: "mars-storm-results.csv" });
+          document.body.append(a); a.click(); a.remove(); } }, t("res.csv")),
+        el("button", { class: "chip", type: "button", id: "btnResetRes", onclick: () => {
+          if (confirm(t("res.confirm"))) { saveResults([]); runIndex = -1; renderSources(); } } }, t("res.reset"))));
+    return box;
+  }
+
   function answer(j) {
     Sfx.play("click");
     picks.push(j);
     if (++qIndex < QUIZ.length) return renderQuestion();
     scores[quizPhase] = picks.map((p, i) => p === QUIZ[i].correct);
-    if (quizPhase === "pre") startGame(); else showResults();
+    if (quizPhase === "pre") startGame(); else { recordPost(); showResults(); }
   }
 
   /* ---------------------------------------------------------------- game screen */
@@ -290,8 +331,10 @@
     $("powerPanel").classList.add("hidden"); $("reportPanel").classList.remove("hidden");
     $("reportPanel").scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
-  function startGame() {
-    C.newGame("random");
+  function startGame(id) {
+    C.newGame(id || "random");
+    lastReport = null;
+    document.body.classList.remove("alarm");
     show("scrGame");
     renderSol();
   }
@@ -318,10 +361,13 @@
     try { const c = JSON.parse(localStorage.getItem("msr-sun") || "null"); if (c && c.live && Date.now() - c.t < 3 * 36e5) { sunData = c; clearTimeout(timer); return renderSun(); } } catch (e) { /* no storage */ }
     try {
       if (navigator.onLine === false) throw new Error("offline");
+      let failedAt = 0; try { failedAt = +(localStorage.getItem("msr-sun-fail") || 0); } catch (e) { /* no storage */ }
+      if (Date.now() - failedAt < 15 * 6e4) throw new Error("recent failure: wait before asking NASA again");
       const [notes, sep] = await Promise.all([get(`https://api.nasa.gov/DONKI/notifications?${q}&type=FLR`), get(`https://api.nasa.gov/DONKI/SEP?${q}`)]);
       sunData = { live: true, start: iso(start), end: iso(end), big_flares: countBigFlares(notes), sep_records: Array.isArray(sep) ? sep.length : 0 };
       try { localStorage.setItem("msr-sun", JSON.stringify(Object.assign({ t: Date.now() }, sunData))); } catch (e) { /* no storage */ }
     } catch (e) {
+      if (!/recent failure|offline/.test(String(e && e.message))) { try { localStorage.setItem("msr-sun-fail", String(Date.now())); } catch (x) { /* no storage */ } }
       sunData = D.sun_today_archive ? Object.assign({ live: false }, D.sun_today_archive) : { none: true };
     } finally { clearTimeout(timer); }
     renderSun();
@@ -368,13 +414,14 @@
   }
   function onEnd() {
     endGame();
+    recordEnd();
     const won = !S().fail;
     if (won) { Sfx.play("win"); stars(); } else { Sfx.play("fail"); document.body.classList.add("alarm"); }
   }
   function stars() {
     for (let i = 0; i < 36; i++) {
       const sp = el("span", { class: "star", "aria-hidden": "true",
-        style: `left:${(i * 29) % 100}vw;font-size:${22 + (i * 7) % 26}px;animation-duration:${2.4 + (i % 7) * 0.35}s;animation-delay:${(i % 9) * 0.15}s` }, i % 3 ? "⭐" : "✨");
+        style: `left:calc((100vw - 64px) * ${((i * 29) % 100) / 100});font-size:${22 + (i * 7) % 26}px;animation-duration:${2.4 + (i % 7) * 0.35}s;animation-delay:${(i % 9) * 0.15}s` }, i % 3 ? "⭐" : "✨");
       document.body.append(sp);
       setTimeout(() => sp.remove(), 6000);
     }
@@ -427,6 +474,7 @@
   function dsKey(name) { return /notif/i.test(name) ? "ds.notif" : /SEP/.test(name) ? "ds.sep" : /CME/.test(name) ? "ds.cme" : "ds.flr"; }
   function renderSources() {
     const b = $("srcBody"); b.replaceChildren();
+    b.append(resultsBox(), el("p", {}, el("a", { href: "docs/HACKATHON_LOG.md", target: "_blank", rel: "noopener" }, t("res.built"))));
     b.append(el("ul", { class: "kinds" }, ...["live", "ref", "rule"].map((k) => el("li", {}, el("span", { class: "badge " + k }, t("badge." + k)), " " + t("teacher.kind." + k)))));
     if (D.data_status.startsWith("SAMPLE")) b.append(el("p", { class: "banner" }, t("banner.sample")));
     b.append(el("h3", {}, t("teacher.live")));
@@ -515,7 +563,7 @@
   I.onChange(rerender);
   $("btnTeacher").onclick = () => { renderSources(); $("dlgTeacher").showModal(); };
   $("btnCloseTeacher").onclick = () => $("dlgTeacher").close();
-  window.UI = { rerender, startGame, get screen() { return current; } };
+  window.UI = { rerender, startGame, show, get screen() { return current; } };
   applyStatic();
   renderIntro();
 })();

@@ -170,5 +170,20 @@
   "v3.click": "👆 Nümunəni toplamaq üçün parlayan qayaya bas!", "v3.shieldN": "🛡️ Qalxan {sh}: hər 10 fırtına zərrəciyindən {k} ədədini saxlayır",
   "v3.noShield": "⚠️ Qalxan yoxdur! Bütün fırtına zərrəcikləri içəri girir", "v3.count": "Geri qayıtdı: {b} · İçəri girdi: {g}",
   "v3.earth": "🔵 O mavi nöqtə Yerdir. Onun işığı sənə təxminən {min} dəqiqəyə çatır.",
-  "v3.credit": "Yer səthi: Curiosity-nin endiyi Geyl kraterinin həqiqi NASA MOLA hündürlük məlumatı (hündürlük ×3)."
+  "v3.credit": "Yer səthi: Curiosity-nin endiyi Geyl kraterinin həqiqi NASA MOLA hündürlük məlumatı (hündürlük ×3).",
+  "res.title": "📊 Sinfin nəticələri (yalnız bu kompüterdə)",
+  "res.note": "Yalnız bu brauzerdə saxlanılır. Ad yoxdur, şəxsi məlumat yoxdur. Hər bitmiş oyun üçün bir sətir.",
+  "res.none": "Hələ bitmiş oyun yoxdur.",
+  "res.noPair": "Hələ heç bir oyunda iki test yoxdur. Uşaqlar ikinci testi son ekranda edir.",
+  "res.avg": "Testin ortası: {pre} → {post} (3-dən; iki testli oyun sayı: {n})",
+  "res.date": "Tarix",
+  "res.week": "Fırtına həftəsi",
+  "res.rank": "Nəticə",
+  "res.pre": "Əvvəlki test",
+  "res.post": "Sonrakı test",
+  "res.failed": "Sağ qalmadı",
+  "res.csv": "⬇ CSV yüklə",
+  "res.reset": "🗑 Məlumatı sil",
+  "res.confirm": "Bu kompüterdəki bütün nəticələr silinsin?",
+  "res.built": "🛠 Nə qurduq (hakaton jurnalı)"
 }

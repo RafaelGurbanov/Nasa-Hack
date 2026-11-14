@@ -405,5 +405,6 @@
   window.Base3D = { setMode: (m) => setMode(m), get mode() { return mode; }, get fps() { return three ? three.lastFps : null }, rockScreen: () => (three ? three.rockScreen() : null) };
 
   // start in 3D when possible (remember the child's choice), otherwise 2D
-  setMode(pref() === "2d" ? "2d" : "3d");
+  // Phones start in 2D (small screen, saves battery); the 3D button still works. A saved choice wins.
+  setMode(pref() === "3d" || (!pref() && innerWidth >= 700) ? "3d" : "2d");
 })();

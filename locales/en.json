@@ -170,5 +170,20 @@
   "v3.click": "👆 Click the glowing rock to collect the sample!", "v3.shieldN": "🛡️ Shield {sh}: it blocks {k} of every 10 storm pieces",
   "v3.noShield": "⚠️ No shield! Every storm piece gets in", "v3.count": "Bounced off: {b} · Got in: {g}",
   "v3.earth": "🔵 That blue dot is Earth. Its light needs about {min} minutes to reach you.",
-  "v3.credit": "Ground: real NASA MOLA height data of Gale crater, where Curiosity landed (heights ×3)."
+  "v3.credit": "Ground: real NASA MOLA height data of Gale crater, where Curiosity landed (heights ×3).",
+  "res.title": "📊 Class results (this computer only)",
+  "res.note": "Saved only in this browser. No names, no personal data. One row per finished game.",
+  "res.none": "No finished games yet.",
+  "res.noPair": "No game has both quizzes yet. Kids do the second quiz on the end screen.",
+  "res.avg": "Quiz average: {pre} → {post} of 3 ({n} games with both quizzes)",
+  "res.date": "Date",
+  "res.week": "Storm week",
+  "res.rank": "Result",
+  "res.pre": "Quiz before",
+  "res.post": "Quiz after",
+  "res.failed": "Not survived",
+  "res.csv": "⬇ Export CSV",
+  "res.reset": "🗑 Reset data",
+  "res.confirm": "Delete all saved results on this computer?",
+  "res.built": "🛠 What we built (hackathon log)"
 }

@@ -1,6 +1,6 @@
 # Azerbaijani text for proofreading
 
-All 363 strings of the game (generated from `locales/az.json`). Words in `{curly brackets}` are filled in by the game (numbers, dates, names); keep them as they are.
+All 378 strings of the game (generated from `locales/az.json`). Words in `{curly brackets}` are filled in by the game (numbers, dates, names); keep them as they are.
 
 Fixed terms: sol, Həyat Təminatı, İstixana, Qalxan, Elm tapşırığı, alovlanma (flare), proton zərrəcikləri (SEP), mSv, «Yerdən mesaj».
 
@@ -369,3 +369,18 @@ Fixed terms: sol, Həyat Təminatı, İstixana, Qalxan, Elm tapşırığı, alov
 | `v3.count` | Bounced off: {b} · Got in: {g} | Geri qayıtdı: {b} · İçəri girdi: {g} |
 | `v3.earth` | 🔵 That blue dot is Earth. Its light needs about {min} minutes to reach you. | 🔵 O mavi nöqtə Yerdir. Onun işığı sənə təxminən {min} dəqiqəyə çatır. |
 | `v3.credit` | Ground: real NASA MOLA height data of Gale crater, where Curiosity landed (heights ×3). | Yer səthi: Curiosity-nin endiyi Geyl kraterinin həqiqi NASA MOLA hündürlük məlumatı (hündürlük ×3). |
+| `res.title` | 📊 Class results (this computer only) | 📊 Sinfin nəticələri (yalnız bu kompüterdə) |
+| `res.note` | Saved only in this browser. No names, no personal data. One row per finished game. | Yalnız bu brauzerdə saxlanılır. Ad yoxdur, şəxsi məlumat yoxdur. Hər bitmiş oyun üçün bir sətir. |
+| `res.none` | No finished games yet. | Hələ bitmiş oyun yoxdur. |
+| `res.noPair` | No game has both quizzes yet. Kids do the second quiz on the end screen. | Hələ heç bir oyunda iki test yoxdur. Uşaqlar ikinci testi son ekranda edir. |
+| `res.avg` | Quiz average: {pre} → {post} of 3 ({n} games with both quizzes) | Testin ortası: {pre} → {post} (3-dən; iki testli oyun sayı: {n}) |
+| `res.date` | Date | Tarix |
+| `res.week` | Storm week | Fırtına həftəsi |
+| `res.rank` | Result | Nəticə |
+| `res.pre` | Quiz before | Əvvəlki test |
+| `res.post` | Quiz after | Sonrakı test |
+| `res.failed` | Not survived | Sağ qalmadı |
+| `res.csv` | ⬇ Export CSV | ⬇ CSV yüklə |
+| `res.reset` | 🗑 Reset data | 🗑 Məlumatı sil |
+| `res.confirm` | Delete all saved results on this computer? | Bu kompüterdəki bütün nəticələr silinsin? |
+| `res.built` | 🛠 What we built (hackathon log) | 🛠 Nə qurduq (hakaton jurnalı) |
