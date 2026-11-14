@@ -1,6 +1,6 @@
 # Scorecard (honest self-assessment)
 
-Updated: 14 Nov 2026, about 18:00 (+04:00), on the `3d` branch, after the change of target
+Updated: 14 Nov 2026, about 17:00 (+04:00), on the `3d` branch, after the change of target
 audience to ages 7-12. Before the GitHub Pages push and before any human playtest. Each criterion is scored 1-5, weighted as points = score / 5 × weight.
 
 | Criterion | Weight | Score now | Points | Score after the cheapest fix |
