@@ -171,6 +171,45 @@ details { margin-top: 10px; font-size: 16px; } summary { cursor: pointer; font: 
 .fact { margin-top: 14px; background: #dff3ff; border: 4px solid var(--ink); border-radius: 16px; padding: 12px 16px; font-size: 21px; box-shadow: 4px 4px 0 var(--ink); }
 .fact b { font-family: var(--hand); }
 
+/* ---------- message from Earth ---------- */
+.earth { margin-top: 22px; background: #e3f4ff; }
+.earthhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.earthhead h3 { font-size: 28px; }
+.delaychip { font: 700 18px var(--round); background: #fff; border: 3px solid var(--ink); border-radius: 99px; padding: 2px 14px; }
+.wave { position: relative; height: 26px; margin: 10px 0 6px; border: 4px solid var(--ink); border-radius: 99px; overflow: hidden;
+  background: repeating-linear-gradient(90deg, #fff 0 10px, #eef8ff 10px 20px); }
+.wave i { position: absolute; inset: 0 auto 0 0; width: 0; background:
+  radial-gradient(circle at 10px 50%, transparent 5px, #4cb8f0 6px 8px, transparent 9px) 0 0 / 22px 100%, #9fdcff; animation: radio 3s linear forwards; }
+.wave.done i { width: 100%; animation: none; }
+@keyframes radio { to { width: 100%; } }
+.msgs { min-height: 1.6em; }
+.msgs.waiting > * { display: none; }
+.msgs.waiting::before { content: "📡 Message on its way…"; font: 700 20px var(--round); color: var(--muted); }
+.msgs:not(.waiting) { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.msgs p { font-size: 21px; margin: 6px 0; }
+.msgcard { background: #fff; border: 4px solid var(--ink); border-radius: 16px; padding: 10px 14px; box-shadow: 4px 4px 0 var(--ink); }
+.msgcard h4 { font: 700 24px var(--hand); margin: 0 0 4px; }
+.msgcard.today { background: #fffaf1; }
+.msgcard.tomorrow { background: #eef8ff; }
+.msgcard.tomorrow.alert { background: #fff3c4; }
+@media (max-width: 860px) { .msgs:not(.waiting) { grid-template-columns: 1fr; } }
+
+/* ---------- science mission + stars + rank ---------- */
+.science { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center; margin-top: 14px; padding: 10px 14px;
+  background: #fffbe0; border: 4px dashed var(--ink); border-radius: 18px; }
+.science.on { background: #e2f8e6; border-style: solid; }
+.science.off { background: #f3e6d4; opacity: .8; grid-template-columns: 64px 1fr; }
+.science .ico { width: 58px; height: 58px; border-radius: 50%; border: 4px solid var(--ink); background: #fff; display: grid; place-items: center; font-size: 30px; }
+.science .nm { font: 700 22px var(--hand); }
+.science .what { font-size: 16px; color: var(--muted); }
+.science .btn { font-size: 21px; }
+.starcount { flex: 0 0 auto; font: 700 22px var(--hand); background: var(--sun); border: 4px solid var(--ink); border-radius: 14px; padding: 2px 12px; margin-left: 6px; }
+.rankbadge { display: inline-block; margin-top: 10px; font: 700 24px var(--hand); border: 4px solid var(--ink); border-radius: 16px; padding: 4px 16px; box-shadow: 4px 4px 0 var(--ink); }
+.rankbadge.gold { background: #ffd84a; } .rankbadge.silver { background: #e3e7ee; } .rankbadge.bronze { background: #f1b07a; }
+.reveal { font: 700 22px var(--round); background: #fff; border: 3px solid var(--ink); border-radius: 14px; padding: 6px 12px; display: inline-block; }
+.suntoday { margin-top: 22px; }
+.suntoday h3 { font-size: 28px; }
+
 /* ---------- end ---------- */
 .endhead { display: grid; grid-template-columns: 220px 1fr; gap: 22px; align-items: center; }
 .endhead h2 { font-size: 48px; }
@@ -242,7 +281,9 @@ dialog table { font-size: 15px; } dialog td, dialog th { border-width: 2px; }
   .pcard .what { min-height: 0; }
   .ctl { justify-content: flex-start; }
   .answers { grid-template-columns: 1fr; }
-  .stones { gap: 3px; padding: 10px 8px; } .stone { font-size: 15px; border-width: 3px; }
+  .stones { gap: 3px; padding: 10px 8px; flex-wrap: wrap; } .stone { font-size: 15px; border-width: 3px; }
+  .starcount { font-size: 17px; padding: 0 8px; }
+  .science { grid-template-columns: 54px 1fr; } .science .btn { grid-column: span 2; }
   .topbar h1 { font-size: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
