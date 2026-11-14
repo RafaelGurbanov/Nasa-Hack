@@ -1,45 +1,2431 @@
 {
   "data_status": "REAL - live-fetched from NASA DONKI via api.nasa.gov",
-  "window": {
-    "start": "2024-05-06",
-    "end": "2024-05-15",
-    "sols": 10,
-    "note": "Sol N = UTC calendar date START + N-1. Real dates, replayed."
-  },
-  "fetched_at": "2026-11-14T12:16:48Z",
-  "sources": [
+  "fetched_at": "2026-11-14T13:45:36Z",
+  "storms": [
     {
-      "endpoint": "https://api.nasa.gov/DONKI/notifications?startDate=2024-05-06&endDate=2024-05-15&type=FLR",
-      "status": 200,
-      "rate_limit_remaining": "2482",
-      "rate_limit_limit": "2500",
-      "attempts": 1,
-      "dataset": "DONKI notifications, type=FLR (GOES flare reports issued by CCMC)",
-      "records": 47,
-      "flares_parsed": 24,
-      "fetched_at": "2026-11-14T12:16:48Z",
-      "type": "live-fetched",
-      "fallback_for": "https://api.nasa.gov/DONKI/FLR?startDate=2024-05-06&endDate=2024-05-15",
-      "fallback_reason": "FLR endpoint HTTP 404 on 2026-11-14T12:16:48Z"
+      "id": "2024-05",
+      "label": "the May 2024 storm (active regions 13663/13664)",
+      "window": {
+        "start": "2024-05-06",
+        "end": "2024-05-15",
+        "sols": 10,
+        "note": "Sol N = UTC calendar date START + N-1. Real dates, replayed."
+      },
+      "light_delay": {
+        "earth_mars_au": 1.941,
+        "minutes": 16.1,
+        "date": "2024-05-10",
+        "method": "computed from NASA JPL approximate planetary orbit elements (Standish, Table 1, 1800-2050)"
+      },
+      "sources": [
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/notifications?startDate=2024-05-06&endDate=2024-05-15&type=FLR",
+          "status": 200,
+          "rate_limit_remaining": "2339",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI notifications, type=FLR (GOES flare reports issued by CCMC)",
+          "records": 47,
+          "flares_parsed": 24,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched",
+          "fallback_for": "https://api.nasa.gov/DONKI/FLR?startDate=2024-05-06&endDate=2024-05-15",
+          "fallback_reason": "FLR endpoint HTTP 404 on 2026-11-14T13:45:36Z"
+        },
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/SEP?startDate=2024-05-06&endDate=2024-05-15",
+          "status": 200,
+          "rate_limit_remaining": "2338",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI SEP (solar energetic particle events)",
+          "records": 14,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched"
+        },
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/CME?startDate=2024-05-03&endDate=2024-05-15",
+          "status": 200,
+          "rate_limit_remaining": "2337",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI CME (coronal mass ejections: clouds of Sun material)",
+          "records": 60,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched"
+        }
+      ],
+      "warnings": [
+        "DONKI/FLR returned 404 for 2024-05; used DONKI notifications (type=FLR) for the same flare reports."
+      ],
+      "sols": [
+        {
+          "sol": 1,
+          "date": "2024-05-06",
+          "flare_count": 1,
+          "max_class": "X4.5",
+          "sep_count": 0
+        },
+        {
+          "sol": 2,
+          "date": "2024-05-07",
+          "flare_count": 2,
+          "max_class": "M8.2",
+          "sep_count": 0
+        },
+        {
+          "sol": 3,
+          "date": "2024-05-08",
+          "flare_count": 7,
+          "max_class": "X1.0",
+          "sep_count": 0
+        },
+        {
+          "sol": 4,
+          "date": "2024-05-09",
+          "flare_count": 2,
+          "max_class": "X2.2",
+          "sep_count": 2
+        },
+        {
+          "sol": 5,
+          "date": "2024-05-10",
+          "flare_count": 2,
+          "max_class": "X3.9",
+          "sep_count": 4
+        },
+        {
+          "sol": 6,
+          "date": "2024-05-11",
+          "flare_count": 3,
+          "max_class": "X5.8",
+          "sep_count": 2
+        },
+        {
+          "sol": 7,
+          "date": "2024-05-12",
+          "flare_count": 1,
+          "max_class": "X1.0",
+          "sep_count": 0
+        },
+        {
+          "sol": 8,
+          "date": "2024-05-13",
+          "flare_count": 1,
+          "max_class": "M6.6",
+          "sep_count": 6
+        },
+        {
+          "sol": 9,
+          "date": "2024-05-14",
+          "flare_count": 3,
+          "max_class": "X8.7",
+          "sep_count": 0
+        },
+        {
+          "sol": 10,
+          "date": "2024-05-15",
+          "flare_count": 2,
+          "max_class": "X3.4",
+          "sep_count": 0
+        }
+      ],
+      "flares": [
+        {
+          "flr_id": "2024-05-06T05:38:00-FLR-001",
+          "start_time": "2024-05-06T05:38Z",
+          "peak_time": "2024-05-06T06:35Z",
+          "class": "X4.5",
+          "source_location": "N26W35",
+          "active_region": 13663,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30490/1",
+          "message_id": "20240506-AL-002",
+          "message_issue_time": "2024-05-06T12:15Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240506-AL-002"
+          },
+          "raw_summary": "Significant flare was detected by GOES. Flare start time: 2024-05-06T05:38Z. Flare peak time: 2024-05-06T06:35Z. Flare intensity: X4.5 class. Source region: N26W35 (Active Region 13663) (based on SDO imagery). Activity ID: 2024-05-06T05:38:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240506-AL-002 (GOES flare X4.5, peak 2024-05-06T06:35Z)",
+          "sol": 1,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00045000000000000004,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-07T05:58:00-FLR-001",
+          "start_time": "2024-05-07T05:58Z",
+          "peak_time": "2024-05-07T06:16Z",
+          "class": "M5.1",
+          "source_location": "N27W47",
+          "active_region": 13663,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30504/1",
+          "message_id": "20240507-AL-002",
+          "message_issue_time": "2024-05-07T11:48Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240507-AL-002"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-07T05:58Z. Flare peak time: 2024-05-07T06:16Z. Flare intensity: M5.1 class. Source region: N27W47 (Active Region 13663) (based on SDO imagery). Activity ID: 2024-05-07T05:58:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240507-AL-002 (GOES flare M5.1, peak 2024-05-07T06:16Z)",
+          "sol": 2,
+          "class_letter": "M",
+          "peak_flux_w_m2": 5.1e-05,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-07T16:21:00-FLR-001",
+          "start_time": "2024-05-07T16:21Z",
+          "peak_time": "2024-05-07T16:30Z",
+          "class": "M8.2",
+          "source_location": "N25W56",
+          "active_region": 13663,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30534/1",
+          "message_id": "20240507-AL-004",
+          "message_issue_time": "2024-05-07T16:40Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240507-AL-004"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-07T16:21Z. Flare peak time: 2024-05-07T16:30Z. Flare intensity: M8.2 class. Source region: N25W56 (Active Region 13663) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-07T16:21:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240507-AL-004 (GOES flare M8.2, peak 2024-05-07T16:30Z)",
+          "sol": 2,
+          "class_letter": "M",
+          "peak_flux_w_m2": 8.2e-05,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-08T01:33:00-FLR-001",
+          "start_time": "2024-05-08T01:33Z",
+          "peak_time": "2024-05-08T01:41Z",
+          "class": "X1.0",
+          "source_location": "N25W60",
+          "active_region": 13663,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30550/1",
+          "message_id": "20240508-AL-002",
+          "message_issue_time": "2024-05-08T01:55Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240508-AL-002"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T01:33Z. Flare peak time: 2024-05-08T01:41Z. Flare intensity: X1.0 class. Source region: N25W60 (Active Region 13663) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T01:33:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240508-AL-002 (GOES flare X1.0, peak 2024-05-08T01:41Z)",
+          "sol": 3,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.0001,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-08T04:37:00-FLR-001",
+          "start_time": "2024-05-08T04:37Z",
+          "peak_time": "2024-05-08T05:09Z",
+          "class": "X1.0",
+          "source_location": "S22W10",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30558/1",
+          "message_id": "20240508-AL-006",
+          "message_issue_time": "2024-05-08T13:10Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240508-AL-006"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T04:37Z. Flare peak time: 2024-05-08T05:09Z. Flare intensity: X1.0 class. Source region: S22W10 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T04:37:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240508-AL-006 (GOES flare X1.0, peak 2024-05-08T05:09Z)",
+          "sol": 3,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.0001,
+          "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-08T06:44:00-FLR-001",
+          "start_time": "2024-05-08T06:44Z",
+          "peak_time": "2024-05-08T06:53Z",
+          "class": "M7.0",
+          "source_location": "S21W18",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30563/1",
+          "message_id": "20240508-AL-008",
+          "message_issue_time": "2024-05-08T13:45Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240508-AL-008"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T06:44Z. Flare peak time: 2024-05-08T06:53Z. Flare intensity: M7.0 class. Source region: S21W18 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T06:44:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240508-AL-008 (GOES flare M7.0, peak 2024-05-08T06:53Z)",
+          "sol": 3,
+          "class_letter": "M",
+          "peak_flux_w_m2": 7.000000000000001e-05,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-08T11:26:00-FLR-001",
+          "start_time": "2024-05-08T11:26Z",
+          "peak_time": "2024-05-08T12:04Z",
+          "class": "M8.5",
+          "source_location": "S20W11",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30560/1",
+          "message_id": "20240508-AL-007",
+          "message_issue_time": "2024-05-08T13:36Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240508-AL-007"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T11:26Z. Flare peak time: 2024-05-08T12:04Z. Flare intensity: M8.5 class. Source region: S20W11 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T11:26:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240508-AL-007 (GOES flare M8.5, peak 2024-05-08T12:04Z)",
+          "sol": 3,
+          "class_letter": "M",
+          "peak_flux_w_m2": 8.5e-05,
+          "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-08T17:32:00-FLR-001",
+          "start_time": "2024-05-08T17:32Z",
+          "peak_time": "2024-05-08T17:53Z",
+          "class": "M7.9",
+          "source_location": "S17W13",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30588/1",
+          "message_id": "20240508-AL-011",
+          "message_issue_time": "2024-05-08T18:06Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240508-AL-011"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T17:32Z. Flare peak time: 2024-05-08T17:53Z. Flare intensity: M7.9 class. Source region: S17W13 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T17:32:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240508-AL-011 (GOES flare M7.9, peak 2024-05-08T17:53Z)",
+          "sol": 3,
+          "class_letter": "M",
+          "peak_flux_w_m2": 7.900000000000001e-05,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-08T21:00:00-FLR-001",
+          "start_time": "2024-05-08T21:00Z",
+          "peak_time": "2024-05-08T21:40Z",
+          "class": "X1.0",
+          "source_location": "S20W17",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30602/1",
+          "message_id": "20240508-AL-013",
+          "message_issue_time": "2024-05-08T22:35Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240508-AL-013"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T21:00Z. Flare peak time: 2024-05-08T21:40Z. Flare intensity: X1.0 class. Source region: S20W17 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T21:00:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240508-AL-013 (GOES flare X1.0, peak 2024-05-08T21:40Z)",
+          "sol": 3,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.0001,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-08T22:05:00-FLR-001",
+          "start_time": "2024-05-08T22:05Z",
+          "peak_time": "2024-05-08T22:27Z",
+          "class": "M9.8",
+          "source_location": "S22W22",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30608/1",
+          "message_id": "20240509-AL-003",
+          "message_issue_time": "2024-05-09T12:36Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240509-AL-003"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T22:05Z. Flare peak time: 2024-05-08T22:27Z. Flare intensity: M9.8 class. Source region: S22W22 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T22:05:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240509-AL-003 (GOES flare M9.8, peak 2024-05-08T22:27Z)",
+          "sol": 3,
+          "class_letter": "M",
+          "peak_flux_w_m2": 9.800000000000001e-05,
+          "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-09T08:45:00-FLR-001",
+          "start_time": "2024-05-09T08:45Z",
+          "peak_time": "2024-05-09T09:13Z",
+          "class": "X2.2",
+          "source_location": "S20W25",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30607/1",
+          "message_id": "20240509-AL-002",
+          "message_issue_time": "2024-05-09T12:03Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240509-AL-002"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-09T08:45Z. Flare peak time: 2024-05-09T09:13Z. Flare intensity: X2.2 class. Source region: S20W25 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-09T08:45:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240509-AL-002 (GOES flare X2.2, peak 2024-05-09T09:13Z)",
+          "sol": 4,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00022000000000000003,
+          "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-09T17:23:00-FLR-001",
+          "start_time": "2024-05-09T17:23Z",
+          "peak_time": "2024-05-09T17:44Z",
+          "class": "X1.1",
+          "source_location": "S18W29",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30636/1",
+          "message_id": "20240509-AL-008",
+          "message_issue_time": "2024-05-09T17:54Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240509-AL-008"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-09T17:23Z. Flare peak time: 2024-05-09T17:44Z. Flare intensity: X1.1 class. Source region: S18W29 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-09T17:23:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240509-AL-008 (GOES flare X1.1, peak 2024-05-09T17:44Z)",
+          "sol": 4,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00011000000000000002,
+          "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-10T06:27:00-FLR-001",
+          "start_time": "2024-05-10T06:27Z",
+          "peak_time": "2024-05-10T06:54Z",
+          "class": "X3.9",
+          "source_location": "S18W37",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30668/1",
+          "message_id": "20240510-AL-002",
+          "message_issue_time": "2024-05-10T11:37Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240510-AL-002"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-10T06:27Z. Flare peak time: 2024-05-10T06:54Z. Flare intensity: X3.9 class. Source region: S18W37 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-10T06:27:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240510-AL-002 (GOES flare X3.9, peak 2024-05-10T06:54Z)",
+          "sol": 5,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00039,
+          "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-10T13:58:00-FLR-001",
+          "start_time": "2024-05-10T13:58Z",
+          "peak_time": "2024-05-10T14:11Z",
+          "class": "M5.9",
+          "source_location": "S16W40",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30682/1",
+          "message_id": "20240510-AL-007",
+          "message_issue_time": "2024-05-10T14:28Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240510-AL-007"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-10T13:58Z. Flare peak time: 2024-05-10T14:11Z. Flare intensity: M5.9 class. Source region: S16W40 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-10T13:58:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240510-AL-007 (GOES flare M5.9, peak 2024-05-10T14:11Z)",
+          "sol": 5,
+          "class_letter": "M",
+          "peak_flux_w_m2": 5.900000000000001e-05,
+          "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-11T01:10:00-FLR-001",
+          "start_time": "2024-05-11T01:10Z",
+          "peak_time": "2024-05-11T01:23Z",
+          "class": "X5.8",
+          "source_location": "S17W47",
+          "active_region": null,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30713/1",
+          "message_id": "20240511-AL-005",
+          "message_issue_time": "2024-05-11T01:49Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240511-AL-005"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-11T01:10Z. Flare peak time: 2024-05-11T01:23Z. Flare intensity: X5.8 class. Source region: S17W47 (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-11T01:10:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240511-AL-005 (GOES flare X5.8, peak 2024-05-11T01:23Z)",
+          "sol": 6,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00058,
+          "linked_sep_id": "2024-05-11T04:07:00-SEP-001"
+        },
+        {
+          "flr_id": "2024-05-11T11:15:00-FLR-001",
+          "start_time": "2024-05-11T11:15Z",
+          "peak_time": "2024-05-11T11:44Z",
+          "class": "X1.5",
+          "source_location": "S19W60",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30724/1",
+          "message_id": "20240511-AL-011",
+          "message_issue_time": "2024-05-11T12:33Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240511-AL-011"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-11T11:15Z. Flare peak time: 2024-05-11T11:44Z. Flare intensity: X1.5 class. Source region: S19W60 (Active Region 13664) (based on SDO imagery). Ongoing elevation in energetic proton fluxes may be enhanced by this event. Updates on this event will be provided when available. Activity ID: 2024-05-11T11:15:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240511-AL-011 (GOES flare X1.5, peak 2024-05-11T11:44Z)",
+          "sol": 6,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00015000000000000001,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-11T14:46:00-FLR-001",
+          "start_time": "2024-05-11T14:46Z",
+          "peak_time": "2024-05-11T15:25Z",
+          "class": "M8.8",
+          "source_location": "S17W53",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30732/1",
+          "message_id": "20240511-AL-016",
+          "message_issue_time": "2024-05-11T15:41Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240511-AL-016"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-11T14:46Z. Flare peak time: 2024-05-11T15:25Z. Flare intensity: M8.8 class. Source region: S17W53 (Active Region 13664) (based on SDO imagery). Ongoing elevation in energetic proton fluxes may be enhanced by this event. Updates on this event will be provided when available. Activity ID: 2024-05-11T14:46:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240511-AL-016 (GOES flare M8.8, peak 2024-05-11T15:25Z)",
+          "sol": 6,
+          "class_letter": "M",
+          "peak_flux_w_m2": 8.800000000000001e-05,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-12T16:11:00-FLR-001",
+          "start_time": "2024-05-12T16:11Z",
+          "peak_time": "2024-05-12T16:26Z",
+          "class": "X1.0",
+          "source_location": "S21W75",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30762/1",
+          "message_id": "20240512-AL-003",
+          "message_issue_time": "2024-05-12T16:37Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240512-AL-003"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-12T16:11Z. Flare peak time: 2024-05-12T16:26Z. Flare intensity: X1.0 class. Source region: S21W75 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-12T16:11:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240512-AL-003 (GOES flare X1.0, peak 2024-05-12T16:26Z)",
+          "sol": 7,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.0001,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-13T09:36:00-FLR-001",
+          "start_time": "2024-05-13T09:36Z",
+          "peak_time": "2024-05-13T09:44Z",
+          "class": "M6.6",
+          "source_location": "S17W77",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30805/1",
+          "message_id": "20240513-AL-004",
+          "message_issue_time": "2024-05-13T12:34Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240513-AL-004"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-13T09:36Z. Flare peak time: 2024-05-13T09:44Z. Flare intensity: M6.6 class. Source region: S17W77 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-13T09:36:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240513-AL-004 (GOES flare M6.6, peak 2024-05-13T09:44Z)",
+          "sol": 8,
+          "class_letter": "M",
+          "peak_flux_w_m2": 6.6e-05,
+          "linked_sep_id": "2024-05-13T18:07:00-SEP-002"
+        },
+        {
+          "flr_id": "2024-05-14T02:03:00-FLR-001",
+          "start_time": "2024-05-14T02:03Z",
+          "peak_time": "2024-05-14T02:09Z",
+          "class": "X1.7",
+          "source_location": "S19W89",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30834/1",
+          "message_id": "20240514-AL-002",
+          "message_issue_time": "2024-05-14T02:26Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240514-AL-002"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-14T02:03Z. Flare peak time: 2024-05-14T02:09Z. Flare intensity: X1.7 class. Source region: S19W89 (Active Region 13664) (based on SDO imagery). Ongoing elevation in energetic proton fluxes may be enhanced by this event. Updates on this event will be provided when available. Activity ID: 2024-05-14T02:03:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240514-AL-002 (GOES flare X1.7, peak 2024-05-14T02:09Z)",
+          "sol": 9,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00017,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-14T12:40:00-FLR-001",
+          "start_time": "2024-05-14T12:40Z",
+          "peak_time": "2024-05-14T12:55Z",
+          "class": "X1.2",
+          "source_location": "S19W90",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30840/1",
+          "message_id": "20240514-AL-004",
+          "message_issue_time": "2024-05-14T13:04Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240514-AL-004"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-14T12:40Z. Flare peak time: 2024-05-14T12:55Z. Flare intensity: X1.2 class. Source region: S19W90 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-14T12:40:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240514-AL-004 (GOES flare X1.2, peak 2024-05-14T12:55Z)",
+          "sol": 9,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00012,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-14T16:46:00-FLR-001",
+          "start_time": "2024-05-14T16:46Z",
+          "peak_time": "2024-05-14T16:51Z",
+          "class": "X8.7",
+          "source_location": "S19W90",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30851/1",
+          "message_id": "20240514-AL-007",
+          "message_issue_time": "2024-05-14T17:00Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240514-AL-007"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-14T16:46Z. Flare peak time: 2024-05-14T16:51Z. Flare intensity: X8.7 class. Source region: S19W90 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-14T16:46:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240514-AL-007 (GOES flare X8.7, peak 2024-05-14T16:51Z)",
+          "sol": 9,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00087,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-15T08:18:00-FLR-001",
+          "start_time": "2024-05-15T08:18Z",
+          "peak_time": "2024-05-15T08:37Z",
+          "class": "X3.4",
+          "source_location": "S20W90",
+          "active_region": 13664,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30882/1",
+          "message_id": "20240515-AL-003",
+          "message_issue_time": "2024-05-15T12:29Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240515-AL-003"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-15T08:18Z. Flare peak time: 2024-05-15T08:37Z. Flare intensity: X3.4 class. Source region: S20W90 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-15T08:18:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240515-AL-003 (GOES flare X3.4, peak 2024-05-15T08:37Z)",
+          "sol": 10,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00034,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2024-05-15T14:20:00-FLR-001",
+          "start_time": "2024-05-15T14:20Z",
+          "peak_time": "2024-05-15T14:38Z",
+          "class": "X2.9",
+          "source_location": "S12E90",
+          "active_region": null,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30903/1",
+          "message_id": "20240515-AL-008",
+          "message_issue_time": "2024-05-15T15:15Z",
+          "raw_ref": {
+            "file": "raw/2024-05/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20240515-AL-008"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-15T14:20Z. Flare peak time: 2024-05-15T14:38Z. Flare intensity: X2.9 class. Source region: S12E90 (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-15T14:20:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20240515-AL-008 (GOES flare X2.9, peak 2024-05-15T14:38Z)",
+          "sol": 10,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00029,
+          "linked_sep_id": null
+        }
+      ],
+      "sep_events": [
+        {
+          "sep_id": "2024-05-09T13:59:00-SEP-001",
+          "event_time": "2024-05-09T13:59Z",
+          "sol": 4,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-09T08:45:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-09T08:45:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30609/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-09T13:59:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-09T13:59:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-09T14:25:00-SEP-001",
+          "event_time": "2024-05-09T14:25Z",
+          "sol": 4,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-09T08:45:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-09T08:45:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30610/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-09T14:25:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-09T14:25:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-10T12:59:00-SEP-001",
+          "event_time": "2024-05-10T12:59Z",
+          "sol": 5,
+          "instruments": [
+            "SOHO: COSTEP 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-10T06:27:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-10T06:27:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30675/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-10T12:59:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-10T12:59:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-10T13:02:00-SEP-001",
+          "event_time": "2024-05-10T13:02Z",
+          "sol": 5,
+          "instruments": [
+            "SOHO: COSTEP 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-10T06:27:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-10T06:27:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30676/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-10T13:02:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-10T13:02:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-10T13:35:00-SEP-001",
+          "event_time": "2024-05-10T13:35Z",
+          "sol": 5,
+          "instruments": [
+            "GOES-P: SEISS >10 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-08T04:20:00-FLR-001",
+            "2024-05-08T04:37:00-FLR-001",
+            "2024-05-08T05:36:00-CME-001",
+            "2024-05-08T11:26:00-FLR-001",
+            "2024-05-08T12:24:00-CME-001",
+            "2024-05-08T21:08:00-FLR-001",
+            "2024-05-08T22:05:00-FLR-001",
+            "2024-05-08T22:24:00-CME-001",
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T09:24:00-CME-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-09T18:23:00-CME-001",
+            "2024-05-10T06:27:00-FLR-001",
+            "2024-05-10T07:12:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-08T04:20:00-FLR-001",
+            "2024-05-08T04:37:00-FLR-001",
+            "2024-05-08T11:26:00-FLR-001",
+            "2024-05-08T21:08:00-FLR-001",
+            "2024-05-08T22:05:00-FLR-001",
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-10T06:27:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30677/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-10T13:35:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-10T13:35:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-10T14:50:00-SEP-001",
+          "event_time": "2024-05-10T14:50Z",
+          "sol": 5,
+          "instruments": [
+            "STEREO A: IMPACT 13-100 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-08T04:20:00-FLR-001",
+            "2024-05-08T04:37:00-FLR-001",
+            "2024-05-08T11:26:00-FLR-001",
+            "2024-05-08T12:24:00-CME-001",
+            "2024-05-08T21:08:00-FLR-001",
+            "2024-05-08T22:05:00-FLR-001",
+            "2024-05-08T22:24:00-CME-001",
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T09:24:00-CME-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-09T18:23:00-CME-001",
+            "2024-05-10T06:27:00-FLR-001",
+            "2024-05-10T07:12:00-CME-001",
+            "2024-05-10T13:58:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-08T04:20:00-FLR-001",
+            "2024-05-08T04:37:00-FLR-001",
+            "2024-05-08T11:26:00-FLR-001",
+            "2024-05-08T21:08:00-FLR-001",
+            "2024-05-08T22:05:00-FLR-001",
+            "2024-05-09T08:45:00-FLR-001",
+            "2024-05-09T17:23:00-FLR-001",
+            "2024-05-10T06:27:00-FLR-001",
+            "2024-05-10T13:58:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30684/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-10T14:50:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-10T14:50:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-11T02:10:00-SEP-001",
+          "event_time": "2024-05-11T02:10Z",
+          "sol": 6,
+          "instruments": [
+            "GOES-P: SEISS >100 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-11T01:10:00-FLR-001",
+            "2024-05-11T01:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-11T01:10:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30714/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-11T02:10:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-11T02:10:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-11T04:07:00-SEP-001",
+          "event_time": "2024-05-11T04:07Z",
+          "sol": 6,
+          "instruments": [
+            "STEREO A: IMPACT 13-100 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-11T01:10:00-FLR-001",
+            "2024-05-11T01:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-11T01:10:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30717/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-11T04:07:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-11T04:07:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-13T12:44:00-SEP-001",
+          "event_time": "2024-05-13T12:44Z",
+          "sol": 8,
+          "instruments": [
+            "STEREO A: IMPACT 13-100 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:12:00-CME-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30811/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-13T12:44:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-13T12:44:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-13T13:10:00-SEP-001",
+          "event_time": "2024-05-13T13:10Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:12:00-CME-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30807/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-13T13:10:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-13T13:10:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-13T14:00:00-SEP-001",
+          "event_time": "2024-05-13T14:00Z",
+          "sol": 8,
+          "instruments": [
+            "GOES-P: SEISS >10 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:12:00-CME-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30817/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-13T14:00:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-13T14:00:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-13T16:19:00-SEP-001",
+          "event_time": "2024-05-13T16:19Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:12:00-CME-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30820/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-13T16:19:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-13T16:19:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-13T18:07:00-SEP-001",
+          "event_time": "2024-05-13T18:07Z",
+          "sol": 8,
+          "instruments": [
+            "SOHO: COSTEP 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:12:00-CME-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30824/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-13T18:07:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-13T18:07:00-SEP-001"
+        },
+        {
+          "sep_id": "2024-05-13T18:07:00-SEP-002",
+          "event_time": "2024-05-13T18:07Z",
+          "sol": 8,
+          "instruments": [
+            "SOHO: COSTEP 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:12:00-CME-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2024-05-13T08:06:00-FLR-001",
+            "2024-05-13T08:23:00-FLR-001",
+            "2024-05-13T08:47:00-FLR-001",
+            "2024-05-13T09:36:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30825/-1",
+          "raw_ref": {
+            "file": "raw/2024-05/sep.json",
+            "match_field": "sepID",
+            "value": "2024-05-13T18:07:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2024-05-13T18:07:00-SEP-002"
+        }
+      ],
+      "earth_warnings": [
+        {
+          "storm_sol": 4,
+          "status": "late",
+          "warn_sol": 4,
+          "blast": {
+            "kind": "flare",
+            "id": "2024-05-09T08:45:00-FLR-001",
+            "time": "2024-05-09T08:45Z",
+            "class": "X2.2",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30607/1",
+            "source_line": "NASA DONKI notification 20240509-AL-002 (GOES flare X2.2, peak 2024-05-09T09:13Z)"
+          }
+        },
+        {
+          "storm_sol": 5,
+          "status": "on_time",
+          "warn_sol": 4,
+          "blast": {
+            "kind": "flare",
+            "id": "2024-05-08T04:20:00-FLR-001",
+            "time": "2024-05-08T04:20Z",
+            "class": null,
+            "record_url": null,
+            "source_line": "NASA DONKI activity 2024-05-08T04:20:00-FLR-001 (linked from the SEP record)"
+          }
+        },
+        {
+          "storm_sol": 6,
+          "status": "late",
+          "warn_sol": 6,
+          "blast": {
+            "kind": "flare",
+            "id": "2024-05-11T01:10:00-FLR-001",
+            "time": "2024-05-11T01:10Z",
+            "class": "X5.8",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30713/1",
+            "source_line": "NASA DONKI notification 20240511-AL-005 (GOES flare X5.8, peak 2024-05-11T01:23Z)"
+          }
+        },
+        {
+          "storm_sol": 8,
+          "status": "late",
+          "warn_sol": 8,
+          "blast": {
+            "kind": "flare",
+            "id": "2024-05-13T08:06:00-FLR-001",
+            "time": "2024-05-13T08:06Z",
+            "class": null,
+            "record_url": null,
+            "source_line": "NASA DONKI activity 2024-05-13T08:06:00-FLR-001 (linked from the SEP record)"
+          }
+        }
+      ]
     },
     {
-      "endpoint": "https://api.nasa.gov/DONKI/SEP?startDate=2024-05-06&endDate=2024-05-15",
-      "status": 200,
-      "rate_limit_remaining": "2481",
-      "rate_limit_limit": "2500",
-      "attempts": 1,
-      "dataset": "DONKI SEP (solar energetic particle events)",
-      "records": 14,
-      "fetched_at": "2026-11-14T12:16:48Z",
-      "type": "live-fetched"
+      "id": "2022-09",
+      "label": "the autumn 2022 storm",
+      "window": {
+        "start": "2022-09-25",
+        "end": "2022-10-04",
+        "sols": 10,
+        "note": "Sol N = UTC calendar date START + N-1. Real dates, replayed."
+      },
+      "light_delay": {
+        "earth_mars_au": 0.793,
+        "minutes": 6.6,
+        "date": "2022-09-29",
+        "method": "computed from NASA JPL approximate planetary orbit elements (Standish, Table 1, 1800-2050)"
+      },
+      "sources": [
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/notifications?startDate=2022-09-25&endDate=2022-10-04&type=FLR",
+          "status": 200,
+          "rate_limit_remaining": "2335",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI notifications, type=FLR (GOES flare reports issued by CCMC)",
+          "records": 6,
+          "flares_parsed": 3,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched",
+          "fallback_for": "https://api.nasa.gov/DONKI/FLR?startDate=2022-09-25&endDate=2022-10-04",
+          "fallback_reason": "FLR endpoint HTTP 404 on 2026-11-14T13:45:36Z"
+        },
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/SEP?startDate=2022-09-25&endDate=2022-10-04",
+          "status": 200,
+          "rate_limit_remaining": "2334",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI SEP (solar energetic particle events)",
+          "records": 13,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched"
+        },
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/CME?startDate=2022-09-22&endDate=2022-10-04",
+          "status": 200,
+          "rate_limit_remaining": "2333",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI CME (coronal mass ejections: clouds of Sun material)",
+          "records": 38,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched"
+        }
+      ],
+      "warnings": [
+        "DONKI/FLR returned 404 for 2022-09; used DONKI notifications (type=FLR) for the same flare reports."
+      ],
+      "sols": [
+        {
+          "sol": 1,
+          "date": "2022-09-25",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 2,
+          "date": "2022-09-26",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 3,
+          "date": "2022-09-27",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 4,
+          "date": "2022-09-28",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 5,
+          "date": "2022-09-29",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 6,
+          "date": "2022-09-30",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 7,
+          "date": "2022-10-01",
+          "flare_count": 1,
+          "max_class": "M5.8",
+          "sep_count": 4
+        },
+        {
+          "sol": 8,
+          "date": "2022-10-02",
+          "flare_count": 2,
+          "max_class": "X1.0",
+          "sep_count": 7
+        },
+        {
+          "sol": 9,
+          "date": "2022-10-03",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 10,
+          "date": "2022-10-04",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 2
+        }
+      ],
+      "flares": [
+        {
+          "flr_id": "2022-10-01T19:58:00-FLR-001",
+          "start_time": "2022-10-01T19:58Z",
+          "peak_time": "2022-10-01T20:10Z",
+          "class": "M5.8",
+          "source_location": "N17W35",
+          "active_region": 13110,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/21835/1",
+          "message_id": "20221002-AL-002",
+          "message_issue_time": "2022-10-02T12:01Z",
+          "raw_ref": {
+            "file": "raw/2022-09/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20221002-AL-002"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2022-10-01T19:58Z. Flare peak time: 2022-10-01T20:10Z. Flare intensity: M5.8 class. Source region: N17W35 (Active Region 13110) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2022-10-01T19:58:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20221002-AL-002 (GOES flare M5.8, peak 2022-10-01T20:10Z)",
+          "sol": 7,
+          "class_letter": "M",
+          "peak_flux_w_m2": 5.8e-05,
+          "linked_sep_id": "2022-10-01T21:25:00-SEP-002"
+        },
+        {
+          "flr_id": "2022-10-02T02:08:00-FLR-001",
+          "start_time": "2022-10-02T02:08Z",
+          "peak_time": "2022-10-02T02:21Z",
+          "class": "M8.7",
+          "source_location": "N17W39",
+          "active_region": 13110,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/21836/1",
+          "message_id": "20221002-AL-003",
+          "message_issue_time": "2022-10-02T12:05Z",
+          "raw_ref": {
+            "file": "raw/2022-09/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20221002-AL-003"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2022-10-02T02:08Z. Flare peak time: 2022-10-02T02:21Z. Flare intensity: M8.7 class. Source region: N17W39 (Active Region 13110) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2022-10-02T02:08:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20221002-AL-003 (GOES flare M8.7, peak 2022-10-02T02:21Z)",
+          "sol": 8,
+          "class_letter": "M",
+          "peak_flux_w_m2": 8.7e-05,
+          "linked_sep_id": "2022-10-02T03:43:00-SEP-002"
+        },
+        {
+          "flr_id": "2022-10-02T19:53:00-FLR-001",
+          "start_time": "2022-10-02T19:53Z",
+          "peak_time": "2022-10-02T20:25Z",
+          "class": "X1.0",
+          "source_location": "N17W49",
+          "active_region": 13110,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/21864/1",
+          "message_id": "20221003-AL-001",
+          "message_issue_time": "2022-10-03T11:03Z",
+          "raw_ref": {
+            "file": "raw/2022-09/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20221003-AL-001"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2022-10-02T19:53Z. Flare peak time: 2022-10-02T20:25Z. Flare intensity: X1.0 class. Source region: N17W49 (Active Region 13110) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2022-10-02T19:53:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20221003-AL-001 (GOES flare X1.0, peak 2022-10-02T20:25Z)",
+          "sol": 8,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.0001,
+          "linked_sep_id": "2022-10-02T22:04:00-SEP-001"
+        }
+      ],
+      "sep_events": [
+        {
+          "sep_id": "2022-10-01T21:17:00-SEP-001",
+          "event_time": "2022-10-01T21:17Z",
+          "sol": 7,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-01T19:58:00-FLR-001",
+            "2022-10-01T20:24:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-01T19:58:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21844/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-01T21:17:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-01T21:17:00-SEP-001"
+        },
+        {
+          "sep_id": "2022-10-01T21:17:00-SEP-002",
+          "event_time": "2022-10-01T21:17Z",
+          "sol": 7,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-01T19:58:00-FLR-001",
+            "2022-10-01T20:24:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-01T19:58:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21845/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-01T21:17:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-01T21:17:00-SEP-002"
+        },
+        {
+          "sep_id": "2022-10-01T21:25:00-SEP-001",
+          "event_time": "2022-10-01T21:25Z",
+          "sol": 7,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-01T19:58:00-FLR-001",
+            "2022-10-01T20:24:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-01T19:58:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21846/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-01T21:25:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-01T21:25:00-SEP-001"
+        },
+        {
+          "sep_id": "2022-10-01T21:25:00-SEP-002",
+          "event_time": "2022-10-01T21:25Z",
+          "sol": 7,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-01T19:58:00-FLR-001",
+            "2022-10-01T20:24:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-01T19:58:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21847/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-01T21:25:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-01T21:25:00-SEP-002"
+        },
+        {
+          "sep_id": "2022-10-02T03:39:00-SEP-001",
+          "event_time": "2022-10-02T03:39Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-02T02:08:00-FLR-001",
+            "2022-10-02T02:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-02T02:08:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21848/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-02T03:39:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-02T03:39:00-SEP-001"
+        },
+        {
+          "sep_id": "2022-10-02T03:39:00-SEP-002",
+          "event_time": "2022-10-02T03:39Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-02T02:08:00-FLR-001",
+            "2022-10-02T02:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-02T02:08:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21849/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-02T03:39:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-02T03:39:00-SEP-002"
+        },
+        {
+          "sep_id": "2022-10-02T03:43:00-SEP-001",
+          "event_time": "2022-10-02T03:43Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-02T02:08:00-FLR-001",
+            "2022-10-02T02:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-02T02:08:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21850/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-02T03:43:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-02T03:43:00-SEP-001"
+        },
+        {
+          "sep_id": "2022-10-02T03:43:00-SEP-002",
+          "event_time": "2022-10-02T03:43Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-02T02:08:00-FLR-001",
+            "2022-10-02T02:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-02T02:08:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21851/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-02T03:43:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-02T03:43:00-SEP-002"
+        },
+        {
+          "sep_id": "2022-10-02T22:01:00-SEP-001",
+          "event_time": "2022-10-02T22:01Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-02T19:53:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-02T19:53:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21867/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-02T22:01:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-02T22:01:00-SEP-001"
+        },
+        {
+          "sep_id": "2022-10-02T22:01:00-SEP-002",
+          "event_time": "2022-10-02T22:01Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-02T19:53:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-02T19:53:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21868/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-02T22:01:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-02T22:01:00-SEP-002"
+        },
+        {
+          "sep_id": "2022-10-02T22:04:00-SEP-001",
+          "event_time": "2022-10-02T22:04Z",
+          "sol": 8,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-02T19:53:00-FLR-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-02T19:53:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21869/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-02T22:04:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-02T22:04:00-SEP-001"
+        },
+        {
+          "sep_id": "2022-10-04T15:52:00-SEP-001",
+          "event_time": "2022-10-04T15:52Z",
+          "sol": 10,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-04T12:48:00-FLR-001",
+            "2022-10-04T13:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-04T12:48:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21894/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-04T15:52:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-04T15:52:00-SEP-001"
+        },
+        {
+          "sep_id": "2022-10-04T15:53:00-SEP-001",
+          "event_time": "2022-10-04T15:53Z",
+          "sol": 10,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2022-10-04T12:48:00-FLR-001",
+            "2022-10-04T13:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2022-10-04T12:48:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/21893/-1",
+          "raw_ref": {
+            "file": "raw/2022-09/sep.json",
+            "match_field": "sepID",
+            "value": "2022-10-04T15:53:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2022-10-04T15:53:00-SEP-001"
+        }
+      ],
+      "earth_warnings": [
+        {
+          "storm_sol": 7,
+          "status": "late",
+          "warn_sol": 7,
+          "blast": {
+            "kind": "flare",
+            "id": "2022-10-01T19:58:00-FLR-001",
+            "time": "2022-10-01T19:58Z",
+            "class": "M5.8",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/21835/1",
+            "source_line": "NASA DONKI notification 20221002-AL-002 (GOES flare M5.8, peak 2022-10-01T20:10Z)"
+          }
+        },
+        {
+          "storm_sol": 8,
+          "status": "late",
+          "warn_sol": 8,
+          "blast": {
+            "kind": "flare",
+            "id": "2022-10-02T02:08:00-FLR-001",
+            "time": "2022-10-02T02:08Z",
+            "class": "M8.7",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/21836/1",
+            "source_line": "NASA DONKI notification 20221002-AL-003 (GOES flare M8.7, peak 2022-10-02T02:21Z)"
+          }
+        },
+        {
+          "storm_sol": 10,
+          "status": "late",
+          "warn_sol": 10,
+          "blast": {
+            "kind": "flare",
+            "id": "2022-10-04T12:48:00-FLR-001",
+            "time": "2022-10-04T12:48Z",
+            "class": null,
+            "record_url": null,
+            "source_line": "NASA DONKI activity 2022-10-04T12:48:00-FLR-001 (linked from the SEP record)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "2025-11",
+      "label": "the November 2025 storm",
+      "window": {
+        "start": "2025-11-06",
+        "end": "2025-11-15",
+        "sols": 10,
+        "note": "Sol N = UTC calendar date START + N-1. Real dates, replayed."
+      },
+      "light_delay": {
+        "earth_mars_au": 2.417,
+        "minutes": 20.1,
+        "date": "2025-11-10",
+        "method": "computed from NASA JPL approximate planetary orbit elements (Standish, Table 1, 1800-2050)"
+      },
+      "sources": [
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/notifications?startDate=2025-11-06&endDate=2025-11-15&type=FLR",
+          "status": 200,
+          "rate_limit_remaining": "2331",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI notifications, type=FLR (GOES flare reports issued by CCMC)",
+          "records": 9,
+          "flares_parsed": 4,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched",
+          "fallback_for": "https://api.nasa.gov/DONKI/FLR?startDate=2025-11-06&endDate=2025-11-15",
+          "fallback_reason": "FLR endpoint HTTP 404 on 2026-11-14T13:45:36Z"
+        },
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/SEP?startDate=2025-11-06&endDate=2025-11-15",
+          "status": 200,
+          "rate_limit_remaining": "2330",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI SEP (solar energetic particle events)",
+          "records": 23,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched"
+        },
+        {
+          "endpoint": "https://api.nasa.gov/DONKI/CME?startDate=2025-11-03&endDate=2025-11-15",
+          "status": 200,
+          "rate_limit_remaining": "2329",
+          "rate_limit_limit": "2500",
+          "attempts": 1,
+          "dataset": "DONKI CME (coronal mass ejections: clouds of Sun material)",
+          "records": 64,
+          "fetched_at": "2026-11-14T13:45:36Z",
+          "type": "live-fetched"
+        }
+      ],
+      "warnings": [
+        "DONKI/FLR returned 404 for 2025-11; used DONKI notifications (type=FLR) for the same flare reports."
+      ],
+      "sols": [
+        {
+          "sol": 1,
+          "date": "2025-11-06",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 2,
+          "date": "2025-11-07",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 3,
+          "date": "2025-11-08",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 4,
+          "date": "2025-11-09",
+          "flare_count": 1,
+          "max_class": "X1.7",
+          "sep_count": 0
+        },
+        {
+          "sol": 5,
+          "date": "2025-11-10",
+          "flare_count": 1,
+          "max_class": "X1.2",
+          "sep_count": 7
+        },
+        {
+          "sol": 6,
+          "date": "2025-11-11",
+          "flare_count": 1,
+          "max_class": "X5.1",
+          "sep_count": 8
+        },
+        {
+          "sol": 7,
+          "date": "2025-11-12",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 1
+        },
+        {
+          "sol": 8,
+          "date": "2025-11-13",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 0
+        },
+        {
+          "sol": 9,
+          "date": "2025-11-14",
+          "flare_count": 1,
+          "max_class": "X4.0",
+          "sep_count": 5
+        },
+        {
+          "sol": 10,
+          "date": "2025-11-15",
+          "flare_count": 0,
+          "max_class": null,
+          "sep_count": 2
+        }
+      ],
+      "flares": [
+        {
+          "flr_id": "2025-11-09T07:01:00-FLR-001",
+          "start_time": "2025-11-09T07:01Z",
+          "peak_time": "2025-11-09T07:35Z",
+          "class": "X1.7",
+          "source_location": "N27E03",
+          "active_region": 14274,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42545/1",
+          "message_id": "20251109-AL-002",
+          "message_issue_time": "2025-11-09T13:09Z",
+          "raw_ref": {
+            "file": "raw/2025-11/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20251109-AL-002"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2025-11-09T07:01Z. Flare peak time: 2025-11-09T07:35Z. Flare intensity: X1.7 class. Source region: N27E03 (Active Region 14274) (based on GOES imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2025-11-09T07:01:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20251109-AL-002 (GOES flare X1.7, peak 2025-11-09T07:35Z)",
+          "sol": 4,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00017,
+          "linked_sep_id": null
+        },
+        {
+          "flr_id": "2025-11-10T08:55:00-FLR-001",
+          "start_time": "2025-11-10T08:55Z",
+          "peak_time": "2025-11-10T09:19Z",
+          "class": "X1.2",
+          "source_location": "N25W16",
+          "active_region": 14274,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42574/1",
+          "message_id": "20251110-AL-005",
+          "message_issue_time": "2025-11-10T12:07Z",
+          "raw_ref": {
+            "file": "raw/2025-11/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20251110-AL-005"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2025-11-10T08:55Z. Flare peak time: 2025-11-10T09:19Z. Flare intensity: X1.2 class. Source region: N25W16 (Active Region 14274) (based on GOES SUVI imagery). Increased energetic proton fluxes observed. Updates on this event will be provided when available. Activity ID: 2025-11-10T08:55:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20251110-AL-005 (GOES flare X1.2, peak 2025-11-10T09:19Z)",
+          "sol": 5,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00012,
+          "linked_sep_id": "2025-11-10T15:04:00-SEP-001"
+        },
+        {
+          "flr_id": "2025-11-11T09:49:00-FLR-001",
+          "start_time": "2025-11-11T09:49Z",
+          "peak_time": "2025-11-11T10:04Z",
+          "class": "X5.1",
+          "source_location": "N27W27",
+          "active_region": 14274,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42614/1",
+          "message_id": "20251111-AL-006",
+          "message_issue_time": "2025-11-11T12:59Z",
+          "raw_ref": {
+            "file": "raw/2025-11/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20251111-AL-006"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2025-11-11T09:49Z. Flare peak time: 2025-11-11T10:04Z. Flare intensity: X5.1 class. Source region: N27W27 (Active Region 14274) (based on GOES imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2025-11-11T09:49:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20251111-AL-006 (GOES flare X5.1, peak 2025-11-11T10:04Z)",
+          "sol": 6,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.00051,
+          "linked_sep_id": "2025-11-12T01:48:00-SEP-001"
+        },
+        {
+          "flr_id": "2025-11-14T07:44:00-FLR-001",
+          "start_time": "2025-11-14T07:44Z",
+          "peak_time": "2025-11-14T08:30Z",
+          "class": "X4.0",
+          "source_location": "N24W71",
+          "active_region": 14274,
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42706/1",
+          "message_id": "20251114-AL-004",
+          "message_issue_time": "2025-11-14T12:30Z",
+          "raw_ref": {
+            "file": "raw/2025-11/notifications_flr.json",
+            "match_field": "messageID",
+            "value": "20251114-AL-004"
+          },
+          "raw_summary": "Significant flare detected by GOES. Flare start time: 2025-11-14T07:44Z. Flare peak time: 2025-11-14T08:30Z. Flare intensity: X4.0 class. Source region: N24W71 (Active Region 14274) (based on GOES SUVI imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2025-11-14T07:44:00-FLR-001.",
+          "source_line": "NASA DONKI notification 20251114-AL-004 (GOES flare X4.0, peak 2025-11-14T08:30Z)",
+          "sol": 9,
+          "class_letter": "X",
+          "peak_flux_w_m2": 0.0004,
+          "linked_sep_id": "2025-11-14T16:10:00-SEP-001"
+        }
+      ],
+      "sep_events": [
+        {
+          "sep_id": "2025-11-10T10:24:00-SEP-001",
+          "event_time": "2025-11-10T10:24Z",
+          "sol": 5,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-10T08:55:00-FLR-001",
+            "2025-11-10T09:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-10T08:55:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42581/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-10T10:24:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-10T10:24:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-10T10:24:00-SEP-002",
+          "event_time": "2025-11-10T10:24Z",
+          "sol": 5,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-10T08:55:00-FLR-001",
+            "2025-11-10T09:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-10T08:55:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42582/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-10T10:24:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-10T10:24:00-SEP-002"
+        },
+        {
+          "sep_id": "2025-11-10T10:28:00-SEP-001",
+          "event_time": "2025-11-10T10:28Z",
+          "sol": 5,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-10T08:55:00-FLR-001",
+            "2025-11-10T09:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-10T08:55:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42579/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-10T10:28:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-10T10:28:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-10T10:45:00-SEP-001",
+          "event_time": "2025-11-10T10:45Z",
+          "sol": 5,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-10T08:55:00-FLR-001",
+            "2025-11-10T09:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-10T08:55:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42580/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-10T10:45:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-10T10:45:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-10T10:45:00-SEP-002",
+          "event_time": "2025-11-10T10:45Z",
+          "sol": 5,
+          "instruments": [
+            "SOHO: COSTEP 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-10T08:55:00-FLR-001",
+            "2025-11-10T09:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-10T08:55:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42585/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-10T10:45:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-10T10:45:00-SEP-002"
+        },
+        {
+          "sep_id": "2025-11-10T11:25:00-SEP-001",
+          "event_time": "2025-11-10T11:25Z",
+          "sol": 5,
+          "instruments": [
+            "GOES-P: SEISS >10 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-10T08:55:00-FLR-001",
+            "2025-11-10T09:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-10T08:55:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42572/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-10T11:25:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-10T11:25:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-10T15:04:00-SEP-001",
+          "event_time": "2025-11-10T15:04Z",
+          "sol": 5,
+          "instruments": [
+            "SOHO: COSTEP 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-10T08:55:00-FLR-001",
+            "2025-11-10T09:36:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-10T08:55:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42591/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-10T15:04:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-10T15:04:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-11T09:45:00-SEP-001",
+          "event_time": "2025-11-11T09:45Z",
+          "sol": 6,
+          "instruments": [
+            "GOES-P: SEISS >10 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42608/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T09:45:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T09:45:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-11T10:20:00-SEP-001",
+          "event_time": "2025-11-11T10:20Z",
+          "sol": 6,
+          "instruments": [
+            "GOES-P: SEISS >100 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42612/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T10:20:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T10:20:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-11T11:09:00-SEP-001",
+          "event_time": "2025-11-11T11:09Z",
+          "sol": 6,
+          "instruments": [
+            "SOHO: COSTEP 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42617/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T11:09:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T11:09:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-11T11:23:00-SEP-002",
+          "event_time": "2025-11-11T11:23Z",
+          "sol": 6,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42629/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T11:23:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T11:23:00-SEP-002"
+        },
+        {
+          "sep_id": "2025-11-11T11:23:00-SEP-001",
+          "event_time": "2025-11-11T11:23Z",
+          "sol": 6,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42628/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T11:23:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T11:23:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-11T11:24:00-SEP-001",
+          "event_time": "2025-11-11T11:24Z",
+          "sol": 6,
+          "instruments": [
+            "SOHO: COSTEP 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42618/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T11:24:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T11:24:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-11T11:24:00-SEP-002",
+          "event_time": "2025-11-11T11:24Z",
+          "sol": 6,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42631/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T11:24:00-SEP-002"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T11:24:00-SEP-002"
+        },
+        {
+          "sep_id": "2025-11-11T11:35:00-SEP-001",
+          "event_time": "2025-11-11T11:35Z",
+          "sol": 6,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 28.2-50.1 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42630/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-11T11:35:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-11T11:35:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-12T01:48:00-SEP-001",
+          "event_time": "2025-11-12T01:48Z",
+          "sol": 7,
+          "instruments": [
+            "STEREO A: IMPACT 13-100 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-11T09:49:00-FLR-001",
+            "2025-11-11T10:23:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-11T09:49:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42639/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-12T01:48:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-12T01:48:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-14T09:20:00-SEP-001",
+          "event_time": "2025-11-14T09:20Z",
+          "sol": 9,
+          "instruments": [
+            "GOES-P: SEISS >10 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-14T07:44:00-FLR-001",
+            "2025-11-14T08:00:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-14T07:44:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42704/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-14T09:20:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-14T09:20:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-14T09:44:00-SEP-001",
+          "event_time": "2025-11-14T09:44Z",
+          "sol": 9,
+          "instruments": [
+            "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-14T07:44:00-FLR-001",
+            "2025-11-14T08:00:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-14T07:44:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42712/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-14T09:44:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-14T09:44:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-14T12:32:00-SEP-001",
+          "event_time": "2025-11-14T12:32Z",
+          "sol": 9,
+          "instruments": [
+            "SOHO: COSTEP 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-14T07:44:00-FLR-001",
+            "2025-11-14T08:00:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-14T07:44:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42711/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-14T12:32:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-14T12:32:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-14T12:33:00-SEP-001",
+          "event_time": "2025-11-14T12:33Z",
+          "sol": 9,
+          "instruments": [
+            "STEREO A: IMPACT 13-100 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-14T07:44:00-FLR-001",
+            "2025-11-14T08:00:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-14T07:44:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42708/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-14T12:33:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-14T12:33:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-14T16:10:00-SEP-001",
+          "event_time": "2025-11-14T16:10Z",
+          "sol": 9,
+          "instruments": [
+            "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-14T07:44:00-FLR-001",
+            "2025-11-14T08:00:00-CME-001"
+          ],
+          "linked_flr_ids": [
+            "2025-11-14T07:44:00-FLR-001"
+          ],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42720/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-14T16:10:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-14T16:10:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-15T03:42:00-SEP-001",
+          "event_time": "2025-11-15T03:42Z",
+          "sol": 10,
+          "instruments": [
+            "STEREO A: IMPACT 13-100 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-13T03:24:00-CME-001"
+          ],
+          "linked_flr_ids": [],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42742/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-15T03:42:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-15T03:42:00-SEP-001"
+        },
+        {
+          "sep_id": "2025-11-15T09:34:00-SEP-001",
+          "event_time": "2025-11-15T09:34Z",
+          "sol": 10,
+          "instruments": [
+            "STEREO A: IMPACT 13-100 MeV"
+          ],
+          "linked_ids": [
+            "2025-11-14T08:00:00-CME-001"
+          ],
+          "linked_flr_ids": [],
+          "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/42755/-1",
+          "raw_ref": {
+            "file": "raw/2025-11/sep.json",
+            "match_field": "sepID",
+            "value": "2025-11-15T09:34:00-SEP-001"
+          },
+          "source_line": "NASA DONKI SEP record 2025-11-15T09:34:00-SEP-001"
+        }
+      ],
+      "earth_warnings": [
+        {
+          "storm_sol": 5,
+          "status": "late",
+          "warn_sol": 5,
+          "blast": {
+            "kind": "flare",
+            "id": "2025-11-10T08:55:00-FLR-001",
+            "time": "2025-11-10T08:55Z",
+            "class": "X1.2",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42574/1",
+            "source_line": "NASA DONKI notification 20251110-AL-005 (GOES flare X1.2, peak 2025-11-10T09:19Z)"
+          }
+        },
+        {
+          "storm_sol": 6,
+          "status": "late",
+          "warn_sol": 6,
+          "blast": {
+            "kind": "flare",
+            "id": "2025-11-11T09:49:00-FLR-001",
+            "time": "2025-11-11T09:49Z",
+            "class": "X5.1",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42614/1",
+            "source_line": "NASA DONKI notification 20251111-AL-006 (GOES flare X5.1, peak 2025-11-11T10:04Z)"
+          }
+        },
+        {
+          "storm_sol": 7,
+          "status": "on_time",
+          "warn_sol": 6,
+          "blast": {
+            "kind": "flare",
+            "id": "2025-11-11T09:49:00-FLR-001",
+            "time": "2025-11-11T09:49Z",
+            "class": "X5.1",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42614/1",
+            "source_line": "NASA DONKI notification 20251111-AL-006 (GOES flare X5.1, peak 2025-11-11T10:04Z)"
+          }
+        },
+        {
+          "storm_sol": 9,
+          "status": "late",
+          "warn_sol": 9,
+          "blast": {
+            "kind": "flare",
+            "id": "2025-11-14T07:44:00-FLR-001",
+            "time": "2025-11-14T07:44Z",
+            "class": "X4.0",
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/42706/1",
+            "source_line": "NASA DONKI notification 20251114-AL-004 (GOES flare X4.0, peak 2025-11-14T08:30Z)"
+          }
+        },
+        {
+          "storm_sol": 10,
+          "status": "on_time",
+          "warn_sol": 9,
+          "blast": {
+            "kind": "cme",
+            "id": "2025-11-13T03:24:00-CME-001",
+            "time": "2025-11-13T03:24Z",
+            "class": null,
+            "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/CME/42676/-1",
+            "source_line": "NASA DONKI CME record 2025-11-13T03:24:00-CME-001"
+          }
+        }
+      ]
     }
   ],
   "warnings": [
-    "DONKI/FLR returned 404; using DONKI notifications (type=FLR) for the same flare reports."
+    "DONKI/FLR returned 404 for 2024-05; used DONKI notifications (type=FLR) for the same flare reports.",
+    "DONKI/FLR returned 404 for 2022-09; used DONKI notifications (type=FLR) for the same flare reports.",
+    "DONKI/FLR returned 404 for 2025-11; used DONKI notifications (type=FLR) for the same flare reports."
   ],
   "caveats": [
-    "DONKI flares are observed by GOES from Earth orbit. Flare class (C/M/X) is peak X-ray brightness at Earth, not radiation dose at Mars. The game uses class only as a teaching proxy for storm strength.",
-    "DONKI notifications only report flares of about M5.0 and above, so smaller flares in this window are not included."
+    "DONKI flares are observed by GOES from Earth orbit. Flare class (C/M/X) is peak X-ray brightness at Earth, not radiation dose at Mars. The game uses SEP (proton) records for dose and flare class only as context.",
+    "DONKI notifications only report flares of about M5.0 and above, so smaller flares are not included.",
+    "Earth's warnings use the flares/CMEs that DONKI itself links to each SEP record. If the blast and the particles are on the same day, the game says the warning came too late.",
+    "The light delay is computed for the middle of each storm week from approximate orbit formulas."
   ],
   "reference_values": [
     {
@@ -47,7 +2433,7 @@
       "value": 0.64,
       "unit": "mSv/day",
       "label": "Average radiation dose on the Mars surface (Curiosity RAD, Gale crater)",
-      "source": "Hassler et al. 2014, Science 343(6169), 'Mars' Surface Radiation Environment Measured with the Mars Science Laboratory's Curiosity Rover', doi:10.1126/science.1244797",
+      "source": "Hassler et al. 2014, Science 343(6169), doi:10.1126/science.1244797",
       "type": "published reference value",
       "verify": true
     },
@@ -65,7 +2451,7 @@
       "value": 98,
       "unit": "% of water recovered",
       "label": "ISS life support water recovery after the Brine Processor Assembly (93-94% before it)",
-      "source": "NASA ISS news release, June 2023 'NASA Achieves Water Recovery Milestone on International Space Station' (VERIFY URL on nasa.gov)",
+      "source": "NASA ISS news release, June 2023 (VERIFY URL on nasa.gov)",
       "type": "published reference value",
       "verify": true
     },
@@ -74,7 +2460,7 @@
       "value": 600,
       "unit": "mSv (career effective dose)",
       "label": "NASA astronaut career radiation limit",
-      "source": "NASA-STD-3001 Volume 1; NASA OCHMO Radiation Protection Technical Brief (nasa.gov) (VERIFY current revision)",
+      "source": "NASA-STD-3001 Volume 1; NASA OCHMO Radiation Protection Technical Brief (VERIFY current revision)",
       "type": "published reference value",
       "verify": true
     },
@@ -91,903 +2477,80 @@
       "key": "curiosity_rad_2024_05_20_ugy",
       "value": 8100,
       "unit": "micrograys (absorbed dose, one event)",
-      "label": "Dose Curiosity RAD measured on Mars during the 20 May 2024 storm from the same active region 13664 (about 30 chest X-rays). Outside our 10-sol window.",
-      "source": "NASA/JPL release June 2024 'NASA Watches Mars Light Up During Epic Solar Storm' (VERIFY URL on nasa.gov)",
+      "label": "Dose Curiosity RAD measured on Mars during the 20 May 2024 storm from active region 13664 (about 30 chest X-rays)",
+      "source": "NASA/JPL release June 2024 'NASA Watches Mars Light Up During Epic Solar Storm' (VERIFY URL)",
+      "type": "published reference value",
+      "verify": true
+    },
+    {
+      "key": "mars_trip_months",
+      "value": 7,
+      "unit": "months (one way, typical)",
+      "label": "How long a spacecraft takes to fly from Earth to Mars",
+      "source": "NASA Mars mission overviews (typical transfer about 7 months; VERIFY page)",
+      "type": "published reference value",
+      "verify": true
+    },
+    {
+      "key": "osdr_inspiration4_recovery_pct",
+      "value": 95,
+      "unit": "% of measured body markers back to pre-flight levels within months",
+      "label": "Inspiration4 (2021, 3-day flight, 4 crew): almost all changes measured in the crew's bodies returned to normal within months after landing (reported as more than 95%)",
+      "source": "NASA Open Science Data Repository (OSDR) / Space Omics and Medical Atlas (SOMA), Nature 2024 (VERIFY the exact OSDR dataset IDs and the 95% figure in the SOMA papers)",
       "type": "published reference value",
       "verify": true
     }
   ],
-  "sols": [
+  "science_missions": [
     {
-      "sol": 1,
-      "date": "2024-05-06",
-      "flare_count": 1,
-      "max_class": "X4.5",
-      "sep_count": 0
+      "id": "heli",
+      "title": "Fly the helicopter",
+      "icon": "🚁",
+      "fact": "NASA's Ingenuity helicopter made 72 flights on Mars (2021 to 2024). It was the first powered flight on another planet.",
+      "source": "NASA JPL, Ingenuity flight log (first flight 19 April 2021, flight 72 on 18 January 2024)"
     },
     {
-      "sol": 2,
-      "date": "2024-05-07",
-      "flare_count": 2,
-      "max_class": "M8.2",
-      "sep_count": 0
+      "id": "moxie",
+      "title": "Make oxygen from Martian air",
+      "icon": "🫧",
+      "fact": "Perseverance's MOXIE machine made 122 grams of oxygen from Mars air. That is about what a small dog breathes in 10 hours.",
+      "source": "NASA, 'NASA's Oxygen-Generating Experiment MOXIE Completes Mars Mission', 6 Sept 2023"
     },
     {
-      "sol": 3,
-      "date": "2024-05-08",
-      "flare_count": 7,
-      "max_class": "X1.0",
-      "sep_count": 0
+      "id": "clouds",
+      "title": "Photograph Martian clouds",
+      "icon": "📷",
+      "fact": "On 2 February 2023, the Curiosity rover took the first clear photo of sun rays shining through clouds on Mars.",
+      "source": "NASA JPL, 'NASA's Curiosity Captures First Sun Rays on Mars', March 2023"
     },
     {
-      "sol": 4,
-      "date": "2024-05-09",
-      "flare_count": 2,
-      "max_class": "X2.2",
-      "sep_count": 2
+      "id": "sample",
+      "title": "Collect a rock sample",
+      "icon": "🪨",
+      "fact": "A sample is a small piece of rock kept for study. Perseverance seals rock cores in tubes so a future mission could bring them to Earth.",
+      "source": "NASA Mars 2020 Perseverance mission, sample collection"
     },
     {
-      "sol": 5,
-      "date": "2024-05-10",
-      "flare_count": 2,
-      "max_class": "X3.9",
-      "sep_count": 4
+      "id": "rad",
+      "title": "Measure the radiation",
+      "icon": "📡",
+      "fact": "Curiosity's RAD tool has measured radiation on Mars since 2012. Our 0.64 mSv per day comes from RAD.",
+      "source": "Hassler et al. 2014, Science 343(6169)"
     },
     {
-      "sol": 6,
-      "date": "2024-05-11",
-      "flare_count": 3,
-      "max_class": "X5.8",
-      "sep_count": 2
-    },
-    {
-      "sol": 7,
-      "date": "2024-05-12",
-      "flare_count": 1,
-      "max_class": "X1.0",
-      "sep_count": 0
-    },
-    {
-      "sol": 8,
-      "date": "2024-05-13",
-      "flare_count": 1,
-      "max_class": "M6.6",
-      "sep_count": 6
-    },
-    {
-      "sol": 9,
-      "date": "2024-05-14",
-      "flare_count": 3,
-      "max_class": "X8.7",
-      "sep_count": 0
-    },
-    {
-      "sol": 10,
-      "date": "2024-05-15",
-      "flare_count": 2,
-      "max_class": "X3.4",
-      "sep_count": 0
+      "id": "weather",
+      "title": "Check the Mars weather",
+      "icon": "🌡️",
+      "fact": "Curiosity's weather station (REMS) measures air temperature, air pressure and wind in Gale crater.",
+      "source": "NASA Mars Science Laboratory, REMS instrument"
     }
   ],
-  "flares": [
-    {
-      "flr_id": "2024-05-06T05:38:00-FLR-001",
-      "start_time": "2024-05-06T05:38Z",
-      "peak_time": "2024-05-06T06:35Z",
-      "class": "X4.5",
-      "source_location": "N26W35",
-      "active_region": 13663,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30490/1",
-      "message_id": "20240506-AL-002",
-      "message_issue_time": "2024-05-06T12:15Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240506-AL-002"
-      },
-      "raw_summary": "Significant flare was detected by GOES. Flare start time: 2024-05-06T05:38Z. Flare peak time: 2024-05-06T06:35Z. Flare intensity: X4.5 class. Source region: N26W35 (Active Region 13663) (based on SDO imagery). Activity ID: 2024-05-06T05:38:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240506-AL-002 (GOES flare X4.5, peak 2024-05-06T06:35Z)",
-      "sol": 1,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00045000000000000004,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-07T05:58:00-FLR-001",
-      "start_time": "2024-05-07T05:58Z",
-      "peak_time": "2024-05-07T06:16Z",
-      "class": "M5.1",
-      "source_location": "N27W47",
-      "active_region": 13663,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30504/1",
-      "message_id": "20240507-AL-002",
-      "message_issue_time": "2024-05-07T11:48Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240507-AL-002"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-07T05:58Z. Flare peak time: 2024-05-07T06:16Z. Flare intensity: M5.1 class. Source region: N27W47 (Active Region 13663) (based on SDO imagery). Activity ID: 2024-05-07T05:58:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240507-AL-002 (GOES flare M5.1, peak 2024-05-07T06:16Z)",
-      "sol": 2,
-      "class_letter": "M",
-      "peak_flux_w_m2": 5.1e-05,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-07T16:21:00-FLR-001",
-      "start_time": "2024-05-07T16:21Z",
-      "peak_time": "2024-05-07T16:30Z",
-      "class": "M8.2",
-      "source_location": "N25W56",
-      "active_region": 13663,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30534/1",
-      "message_id": "20240507-AL-004",
-      "message_issue_time": "2024-05-07T16:40Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240507-AL-004"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-07T16:21Z. Flare peak time: 2024-05-07T16:30Z. Flare intensity: M8.2 class. Source region: N25W56 (Active Region 13663) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-07T16:21:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240507-AL-004 (GOES flare M8.2, peak 2024-05-07T16:30Z)",
-      "sol": 2,
-      "class_letter": "M",
-      "peak_flux_w_m2": 8.2e-05,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-08T01:33:00-FLR-001",
-      "start_time": "2024-05-08T01:33Z",
-      "peak_time": "2024-05-08T01:41Z",
-      "class": "X1.0",
-      "source_location": "N25W60",
-      "active_region": 13663,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30550/1",
-      "message_id": "20240508-AL-002",
-      "message_issue_time": "2024-05-08T01:55Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240508-AL-002"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T01:33Z. Flare peak time: 2024-05-08T01:41Z. Flare intensity: X1.0 class. Source region: N25W60 (Active Region 13663) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T01:33:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240508-AL-002 (GOES flare X1.0, peak 2024-05-08T01:41Z)",
-      "sol": 3,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.0001,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-08T04:37:00-FLR-001",
-      "start_time": "2024-05-08T04:37Z",
-      "peak_time": "2024-05-08T05:09Z",
-      "class": "X1.0",
-      "source_location": "S22W10",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30558/1",
-      "message_id": "20240508-AL-006",
-      "message_issue_time": "2024-05-08T13:10Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240508-AL-006"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T04:37Z. Flare peak time: 2024-05-08T05:09Z. Flare intensity: X1.0 class. Source region: S22W10 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T04:37:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240508-AL-006 (GOES flare X1.0, peak 2024-05-08T05:09Z)",
-      "sol": 3,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.0001,
-      "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-08T06:44:00-FLR-001",
-      "start_time": "2024-05-08T06:44Z",
-      "peak_time": "2024-05-08T06:53Z",
-      "class": "M7.0",
-      "source_location": "S21W18",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30563/1",
-      "message_id": "20240508-AL-008",
-      "message_issue_time": "2024-05-08T13:45Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240508-AL-008"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T06:44Z. Flare peak time: 2024-05-08T06:53Z. Flare intensity: M7.0 class. Source region: S21W18 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T06:44:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240508-AL-008 (GOES flare M7.0, peak 2024-05-08T06:53Z)",
-      "sol": 3,
-      "class_letter": "M",
-      "peak_flux_w_m2": 7.000000000000001e-05,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-08T11:26:00-FLR-001",
-      "start_time": "2024-05-08T11:26Z",
-      "peak_time": "2024-05-08T12:04Z",
-      "class": "M8.5",
-      "source_location": "S20W11",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30560/1",
-      "message_id": "20240508-AL-007",
-      "message_issue_time": "2024-05-08T13:36Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240508-AL-007"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T11:26Z. Flare peak time: 2024-05-08T12:04Z. Flare intensity: M8.5 class. Source region: S20W11 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T11:26:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240508-AL-007 (GOES flare M8.5, peak 2024-05-08T12:04Z)",
-      "sol": 3,
-      "class_letter": "M",
-      "peak_flux_w_m2": 8.5e-05,
-      "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-08T17:32:00-FLR-001",
-      "start_time": "2024-05-08T17:32Z",
-      "peak_time": "2024-05-08T17:53Z",
-      "class": "M7.9",
-      "source_location": "S17W13",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30588/1",
-      "message_id": "20240508-AL-011",
-      "message_issue_time": "2024-05-08T18:06Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240508-AL-011"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T17:32Z. Flare peak time: 2024-05-08T17:53Z. Flare intensity: M7.9 class. Source region: S17W13 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T17:32:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240508-AL-011 (GOES flare M7.9, peak 2024-05-08T17:53Z)",
-      "sol": 3,
-      "class_letter": "M",
-      "peak_flux_w_m2": 7.900000000000001e-05,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-08T21:00:00-FLR-001",
-      "start_time": "2024-05-08T21:00Z",
-      "peak_time": "2024-05-08T21:40Z",
-      "class": "X1.0",
-      "source_location": "S20W17",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30602/1",
-      "message_id": "20240508-AL-013",
-      "message_issue_time": "2024-05-08T22:35Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240508-AL-013"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T21:00Z. Flare peak time: 2024-05-08T21:40Z. Flare intensity: X1.0 class. Source region: S20W17 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T21:00:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240508-AL-013 (GOES flare X1.0, peak 2024-05-08T21:40Z)",
-      "sol": 3,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.0001,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-08T22:05:00-FLR-001",
-      "start_time": "2024-05-08T22:05Z",
-      "peak_time": "2024-05-08T22:27Z",
-      "class": "M9.8",
-      "source_location": "S22W22",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30608/1",
-      "message_id": "20240509-AL-003",
-      "message_issue_time": "2024-05-09T12:36Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240509-AL-003"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-08T22:05Z. Flare peak time: 2024-05-08T22:27Z. Flare intensity: M9.8 class. Source region: S22W22 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-08T22:05:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240509-AL-003 (GOES flare M9.8, peak 2024-05-08T22:27Z)",
-      "sol": 3,
-      "class_letter": "M",
-      "peak_flux_w_m2": 9.800000000000001e-05,
-      "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-09T08:45:00-FLR-001",
-      "start_time": "2024-05-09T08:45Z",
-      "peak_time": "2024-05-09T09:13Z",
-      "class": "X2.2",
-      "source_location": "S20W25",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30607/1",
-      "message_id": "20240509-AL-002",
-      "message_issue_time": "2024-05-09T12:03Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240509-AL-002"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-09T08:45Z. Flare peak time: 2024-05-09T09:13Z. Flare intensity: X2.2 class. Source region: S20W25 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-09T08:45:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240509-AL-002 (GOES flare X2.2, peak 2024-05-09T09:13Z)",
-      "sol": 4,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00022000000000000003,
-      "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-09T17:23:00-FLR-001",
-      "start_time": "2024-05-09T17:23Z",
-      "peak_time": "2024-05-09T17:44Z",
-      "class": "X1.1",
-      "source_location": "S18W29",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30636/1",
-      "message_id": "20240509-AL-008",
-      "message_issue_time": "2024-05-09T17:54Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240509-AL-008"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-09T17:23Z. Flare peak time: 2024-05-09T17:44Z. Flare intensity: X1.1 class. Source region: S18W29 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-09T17:23:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240509-AL-008 (GOES flare X1.1, peak 2024-05-09T17:44Z)",
-      "sol": 4,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00011000000000000002,
-      "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-10T06:27:00-FLR-001",
-      "start_time": "2024-05-10T06:27Z",
-      "peak_time": "2024-05-10T06:54Z",
-      "class": "X3.9",
-      "source_location": "S18W37",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30668/1",
-      "message_id": "20240510-AL-002",
-      "message_issue_time": "2024-05-10T11:37Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240510-AL-002"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-10T06:27Z. Flare peak time: 2024-05-10T06:54Z. Flare intensity: X3.9 class. Source region: S18W37 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-10T06:27:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240510-AL-002 (GOES flare X3.9, peak 2024-05-10T06:54Z)",
-      "sol": 5,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00039,
-      "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-10T13:58:00-FLR-001",
-      "start_time": "2024-05-10T13:58Z",
-      "peak_time": "2024-05-10T14:11Z",
-      "class": "M5.9",
-      "source_location": "S16W40",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30682/1",
-      "message_id": "20240510-AL-007",
-      "message_issue_time": "2024-05-10T14:28Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240510-AL-007"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-10T13:58Z. Flare peak time: 2024-05-10T14:11Z. Flare intensity: M5.9 class. Source region: S16W40 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-10T13:58:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240510-AL-007 (GOES flare M5.9, peak 2024-05-10T14:11Z)",
-      "sol": 5,
-      "class_letter": "M",
-      "peak_flux_w_m2": 5.900000000000001e-05,
-      "linked_sep_id": "2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-11T01:10:00-FLR-001",
-      "start_time": "2024-05-11T01:10Z",
-      "peak_time": "2024-05-11T01:23Z",
-      "class": "X5.8",
-      "source_location": "S17W47",
-      "active_region": null,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30713/1",
-      "message_id": "20240511-AL-005",
-      "message_issue_time": "2024-05-11T01:49Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240511-AL-005"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-11T01:10Z. Flare peak time: 2024-05-11T01:23Z. Flare intensity: X5.8 class. Source region: S17W47 (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-11T01:10:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240511-AL-005 (GOES flare X5.8, peak 2024-05-11T01:23Z)",
-      "sol": 6,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00058,
-      "linked_sep_id": "2024-05-11T04:07:00-SEP-001"
-    },
-    {
-      "flr_id": "2024-05-11T11:15:00-FLR-001",
-      "start_time": "2024-05-11T11:15Z",
-      "peak_time": "2024-05-11T11:44Z",
-      "class": "X1.5",
-      "source_location": "S19W60",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30724/1",
-      "message_id": "20240511-AL-011",
-      "message_issue_time": "2024-05-11T12:33Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240511-AL-011"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-11T11:15Z. Flare peak time: 2024-05-11T11:44Z. Flare intensity: X1.5 class. Source region: S19W60 (Active Region 13664) (based on SDO imagery). Ongoing elevation in energetic proton fluxes may be enhanced by this event. Updates on this event will be provided when available. Activity ID: 2024-05-11T11:15:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240511-AL-011 (GOES flare X1.5, peak 2024-05-11T11:44Z)",
-      "sol": 6,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00015000000000000001,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-11T14:46:00-FLR-001",
-      "start_time": "2024-05-11T14:46Z",
-      "peak_time": "2024-05-11T15:25Z",
-      "class": "M8.8",
-      "source_location": "S17W53",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30732/1",
-      "message_id": "20240511-AL-016",
-      "message_issue_time": "2024-05-11T15:41Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240511-AL-016"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-11T14:46Z. Flare peak time: 2024-05-11T15:25Z. Flare intensity: M8.8 class. Source region: S17W53 (Active Region 13664) (based on SDO imagery). Ongoing elevation in energetic proton fluxes may be enhanced by this event. Updates on this event will be provided when available. Activity ID: 2024-05-11T14:46:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240511-AL-016 (GOES flare M8.8, peak 2024-05-11T15:25Z)",
-      "sol": 6,
-      "class_letter": "M",
-      "peak_flux_w_m2": 8.800000000000001e-05,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-12T16:11:00-FLR-001",
-      "start_time": "2024-05-12T16:11Z",
-      "peak_time": "2024-05-12T16:26Z",
-      "class": "X1.0",
-      "source_location": "S21W75",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30762/1",
-      "message_id": "20240512-AL-003",
-      "message_issue_time": "2024-05-12T16:37Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240512-AL-003"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-12T16:11Z. Flare peak time: 2024-05-12T16:26Z. Flare intensity: X1.0 class. Source region: S21W75 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-12T16:11:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240512-AL-003 (GOES flare X1.0, peak 2024-05-12T16:26Z)",
-      "sol": 7,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.0001,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-13T09:36:00-FLR-001",
-      "start_time": "2024-05-13T09:36Z",
-      "peak_time": "2024-05-13T09:44Z",
-      "class": "M6.6",
-      "source_location": "S17W77",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30805/1",
-      "message_id": "20240513-AL-004",
-      "message_issue_time": "2024-05-13T12:34Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240513-AL-004"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-13T09:36Z. Flare peak time: 2024-05-13T09:44Z. Flare intensity: M6.6 class. Source region: S17W77 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-13T09:36:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240513-AL-004 (GOES flare M6.6, peak 2024-05-13T09:44Z)",
-      "sol": 8,
-      "class_letter": "M",
-      "peak_flux_w_m2": 6.6e-05,
-      "linked_sep_id": "2024-05-13T18:07:00-SEP-002"
-    },
-    {
-      "flr_id": "2024-05-14T02:03:00-FLR-001",
-      "start_time": "2024-05-14T02:03Z",
-      "peak_time": "2024-05-14T02:09Z",
-      "class": "X1.7",
-      "source_location": "S19W89",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30834/1",
-      "message_id": "20240514-AL-002",
-      "message_issue_time": "2024-05-14T02:26Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240514-AL-002"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-14T02:03Z. Flare peak time: 2024-05-14T02:09Z. Flare intensity: X1.7 class. Source region: S19W89 (Active Region 13664) (based on SDO imagery). Ongoing elevation in energetic proton fluxes may be enhanced by this event. Updates on this event will be provided when available. Activity ID: 2024-05-14T02:03:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240514-AL-002 (GOES flare X1.7, peak 2024-05-14T02:09Z)",
-      "sol": 9,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00017,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-14T12:40:00-FLR-001",
-      "start_time": "2024-05-14T12:40Z",
-      "peak_time": "2024-05-14T12:55Z",
-      "class": "X1.2",
-      "source_location": "S19W90",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30840/1",
-      "message_id": "20240514-AL-004",
-      "message_issue_time": "2024-05-14T13:04Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240514-AL-004"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-14T12:40Z. Flare peak time: 2024-05-14T12:55Z. Flare intensity: X1.2 class. Source region: S19W90 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-14T12:40:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240514-AL-004 (GOES flare X1.2, peak 2024-05-14T12:55Z)",
-      "sol": 9,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00012,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-14T16:46:00-FLR-001",
-      "start_time": "2024-05-14T16:46Z",
-      "peak_time": "2024-05-14T16:51Z",
-      "class": "X8.7",
-      "source_location": "S19W90",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30851/1",
-      "message_id": "20240514-AL-007",
-      "message_issue_time": "2024-05-14T17:00Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240514-AL-007"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-14T16:46Z. Flare peak time: 2024-05-14T16:51Z. Flare intensity: X8.7 class. Source region: S19W90 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-14T16:46:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240514-AL-007 (GOES flare X8.7, peak 2024-05-14T16:51Z)",
-      "sol": 9,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00087,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-15T08:18:00-FLR-001",
-      "start_time": "2024-05-15T08:18Z",
-      "peak_time": "2024-05-15T08:37Z",
-      "class": "X3.4",
-      "source_location": "S20W90",
-      "active_region": 13664,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30882/1",
-      "message_id": "20240515-AL-003",
-      "message_issue_time": "2024-05-15T12:29Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240515-AL-003"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-15T08:18Z. Flare peak time: 2024-05-15T08:37Z. Flare intensity: X3.4 class. Source region: S20W90 (Active Region 13664) (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-15T08:18:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240515-AL-003 (GOES flare X3.4, peak 2024-05-15T08:37Z)",
-      "sol": 10,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00034,
-      "linked_sep_id": null
-    },
-    {
-      "flr_id": "2024-05-15T14:20:00-FLR-001",
-      "start_time": "2024-05-15T14:20Z",
-      "peak_time": "2024-05-15T14:38Z",
-      "class": "X2.9",
-      "source_location": "S12E90",
-      "active_region": null,
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/Alert/30903/1",
-      "message_id": "20240515-AL-008",
-      "message_issue_time": "2024-05-15T15:15Z",
-      "raw_ref": {
-        "file": "raw/notifications_flr.json",
-        "match_field": "messageID",
-        "value": "20240515-AL-008"
-      },
-      "raw_summary": "Significant flare detected by GOES. Flare start time: 2024-05-15T14:20Z. Flare peak time: 2024-05-15T14:38Z. Flare intensity: X2.9 class. Source region: S12E90 (based on SDO imagery). Increased energetic proton fluxes possible. Updates on this event will be provided when available. Activity ID: 2024-05-15T14:20:00-FLR-001.",
-      "source_line": "NASA DONKI notification 20240515-AL-008 (GOES flare X2.9, peak 2024-05-15T14:38Z)",
-      "sol": 10,
-      "class_letter": "X",
-      "peak_flux_w_m2": 0.00029,
-      "linked_sep_id": null
-    }
-  ],
-  "sep_events": [
-    {
-      "sep_id": "2024-05-09T13:59:00-SEP-001",
-      "event_time": "2024-05-09T13:59Z",
-      "sol": 4,
-      "instruments": [
-        "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-09T08:45:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30609/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-09T13:59:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-09T13:59:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-09T14:25:00-SEP-001",
-      "event_time": "2024-05-09T14:25Z",
-      "sol": 4,
-      "instruments": [
-        "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-09T08:45:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30610/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-09T14:25:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-09T14:25:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-10T12:59:00-SEP-001",
-      "event_time": "2024-05-10T12:59Z",
-      "sol": 5,
-      "instruments": [
-        "SOHO: COSTEP 15.8-39.8 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-09T08:45:00-FLR-001",
-        "2024-05-09T17:23:00-FLR-001",
-        "2024-05-10T06:27:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30675/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-10T12:59:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-10T12:59:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-10T13:02:00-SEP-001",
-      "event_time": "2024-05-10T13:02Z",
-      "sol": 5,
-      "instruments": [
-        "SOHO: COSTEP 28.2-50.1 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-09T08:45:00-FLR-001",
-        "2024-05-09T17:23:00-FLR-001",
-        "2024-05-10T06:27:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30676/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-10T13:02:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-10T13:02:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-10T13:35:00-SEP-001",
-      "event_time": "2024-05-10T13:35Z",
-      "sol": 5,
-      "instruments": [
-        "GOES-P: SEISS >10 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-08T04:20:00-FLR-001",
-        "2024-05-08T04:37:00-FLR-001",
-        "2024-05-08T11:26:00-FLR-001",
-        "2024-05-08T21:08:00-FLR-001",
-        "2024-05-08T22:05:00-FLR-001",
-        "2024-05-09T08:45:00-FLR-001",
-        "2024-05-09T17:23:00-FLR-001",
-        "2024-05-10T06:27:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30677/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-10T13:35:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-10T13:35:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-10T14:50:00-SEP-001",
-      "event_time": "2024-05-10T14:50Z",
-      "sol": 5,
-      "instruments": [
-        "STEREO A: IMPACT 13-100 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-08T04:20:00-FLR-001",
-        "2024-05-08T04:37:00-FLR-001",
-        "2024-05-08T11:26:00-FLR-001",
-        "2024-05-08T21:08:00-FLR-001",
-        "2024-05-08T22:05:00-FLR-001",
-        "2024-05-09T08:45:00-FLR-001",
-        "2024-05-09T17:23:00-FLR-001",
-        "2024-05-10T06:27:00-FLR-001",
-        "2024-05-10T13:58:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30684/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-10T14:50:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-10T14:50:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-11T02:10:00-SEP-001",
-      "event_time": "2024-05-11T02:10Z",
-      "sol": 6,
-      "instruments": [
-        "GOES-P: SEISS >100 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-11T01:10:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30714/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-11T02:10:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-11T02:10:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-11T04:07:00-SEP-001",
-      "event_time": "2024-05-11T04:07Z",
-      "sol": 6,
-      "instruments": [
-        "STEREO A: IMPACT 13-100 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-11T01:10:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30717/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-11T04:07:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-11T04:07:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-13T12:44:00-SEP-001",
-      "event_time": "2024-05-13T12:44Z",
-      "sol": 8,
-      "instruments": [
-        "STEREO A: IMPACT 13-100 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-13T08:06:00-FLR-001",
-        "2024-05-13T08:23:00-FLR-001",
-        "2024-05-13T08:47:00-FLR-001",
-        "2024-05-13T09:36:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30811/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-13T12:44:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-13T12:44:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-13T13:10:00-SEP-001",
-      "event_time": "2024-05-13T13:10Z",
-      "sol": 8,
-      "instruments": [
-        "MODEL: REleASE:SOHO/EPHIN 15.8-39.8 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-13T08:06:00-FLR-001",
-        "2024-05-13T08:23:00-FLR-001",
-        "2024-05-13T08:47:00-FLR-001",
-        "2024-05-13T09:36:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30807/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-13T13:10:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-13T13:10:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-13T14:00:00-SEP-001",
-      "event_time": "2024-05-13T14:00Z",
-      "sol": 8,
-      "instruments": [
-        "GOES-P: SEISS >10 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-13T08:06:00-FLR-001",
-        "2024-05-13T08:23:00-FLR-001",
-        "2024-05-13T08:47:00-FLR-001",
-        "2024-05-13T09:36:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30817/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-13T14:00:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-13T14:00:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-13T16:19:00-SEP-001",
-      "event_time": "2024-05-13T16:19Z",
-      "sol": 8,
-      "instruments": [
-        "MODEL: REleASE:ACE/EPAM 15.8-39.8 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-13T08:06:00-FLR-001",
-        "2024-05-13T08:23:00-FLR-001",
-        "2024-05-13T08:47:00-FLR-001",
-        "2024-05-13T09:36:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30820/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-13T16:19:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-13T16:19:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-13T18:07:00-SEP-001",
-      "event_time": "2024-05-13T18:07Z",
-      "sol": 8,
-      "instruments": [
-        "SOHO: COSTEP 15.8-39.8 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-13T08:06:00-FLR-001",
-        "2024-05-13T08:23:00-FLR-001",
-        "2024-05-13T08:47:00-FLR-001",
-        "2024-05-13T09:36:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30824/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-13T18:07:00-SEP-001"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-13T18:07:00-SEP-001"
-    },
-    {
-      "sep_id": "2024-05-13T18:07:00-SEP-002",
-      "event_time": "2024-05-13T18:07Z",
-      "sol": 8,
-      "instruments": [
-        "SOHO: COSTEP 28.2-50.1 MeV"
-      ],
-      "linked_flr_ids": [
-        "2024-05-13T08:06:00-FLR-001",
-        "2024-05-13T08:23:00-FLR-001",
-        "2024-05-13T08:47:00-FLR-001",
-        "2024-05-13T09:36:00-FLR-001"
-      ],
-      "record_url": "https://ccmc.gsfc.nasa.gov/DONKI/view/SEP/30825/-1",
-      "raw_ref": {
-        "file": "raw/sep.json",
-        "match_field": "sepID",
-        "value": "2024-05-13T18:07:00-SEP-002"
-      },
-      "source_line": "NASA DONKI SEP record 2024-05-13T18:07:00-SEP-002"
-    }
-  ]
+  "sun_today_archive": {
+    "start": "2026-11-07",
+    "end": "2026-11-14",
+    "fetched_at": "2026-11-14T13:45:36Z",
+    "big_flares": 0,
+    "sep_records": 0,
+    "note": "Big flares = DONKI flare reports (class about M5 and above)."
+  }
 }
