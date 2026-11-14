@@ -65,7 +65,7 @@ expected). The delay = distance ÷ speed of light. Real one-way delays range fro
 | **7 to 10 months** Earth to Mars | "Why no instant help" fact | NASA, ["How Long Does it Take to Get to the Moon... Mars... Jupiter?"](https://www.nasa.gov/directorates/smd/how-long-does-it-take-to-get-to-the-moon-mars-jupiter-we-asked-a-nasa-expert-episode-51/) ("seven to ten months … relatively direct route") |
 | Inspiration4: **more than 95 %** of measured markers back to baseline within months | Astronaut health fact | Overbey et al. 2024, ["The Space Omics and Medical Atlas (SOMA) and international astronaut biobank"](https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/), *Nature* 632:1145-1154, doi:10.1038/s41586-024-07639-y. Data in **NASA OSDR**, e.g. OSD-572, OSD-573, OSD-574, OSD-630 ([NASA OSDR news](https://www.nasa.gov/osdr-latest-news-i4-mission-datasets/)). **VERIFY**: the full OSDR ID list is in the paper's Supplementary Table 9, which we could not open |
 | Ingenuity: 72 flights, first on 19 Apr 2021 | Science card | NASA JPL Ingenuity flight log |
-| MOXIE: 122 g of oxygen from Mars air | Science card | NASA, 6 Sep 2023 |
+| MOXIE: 122 g of oxygen from Mars air ("about what a small dog breathes in 10 hours", NASA's own comparison) | Science card | NASA, 6 Sep 2023 (MOXIE completes mission) |
 | Curiosity: first clear sun rays through Martian clouds, 2 Feb 2023 | Science card | NASA JPL, March 2023 |
 | Perseverance seals rock cores in tubes; Curiosity RAD since 2012; Curiosity REMS weather station | Science cards | NASA Mars 2020 and MSL mission pages |
 

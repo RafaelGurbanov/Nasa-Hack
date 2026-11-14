@@ -4,7 +4,7 @@
  * - t(key, vars): text with {placeholders}. Numbers are formatted with Intl for the language
  *   (3,36 in Azerbaijani). Placeholders starting with "d_" are shown with a + or - sign.
  *   ISO dates (2024-05-10) become "10 may 2024" / "10 May 2024". A value {k, v} is translated too.
- * - Language: saved choice, else the browser language (az -> Azerbaijani), else English.
+ * - Language: ?lang=az|en in the URL, else the saved choice, else English.
  */
 (function (root) {
   "use strict";
@@ -12,8 +12,10 @@
   const KEY = "msr-lang";
   function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function save(v) { try { localStorage.setItem(KEY, v); } catch (e) { /* private mode: fine */ } }
-  const browser = ((root.navigator && (navigator.languages || [navigator.language])) || []).some((l) => /^az\b/i.test(l || "")) ? "az" : "en";
-  let lang = L[saved()] ? saved() : browser;
+  // Default is English (the Space Apps submission is in English). ?lang=az|en or the saved choice switch it.
+  let param = null;
+  try { param = new URLSearchParams(root.location.search).get("lang"); } catch (e) { /* no URL (tests) */ }
+  let lang = L[param] ? param : L[saved()] ? saved() : "en";
   if (!L[lang]) lang = "en";
   const listeners = [];
   const locale = () => (lang === "az" ? "az" : "en-GB");

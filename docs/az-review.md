@@ -1,6 +1,6 @@
 # Azerbaijani text for proofreading
 
-All 361 strings of the game (generated from `locales/az.json`). Words in `{curly brackets}` are filled in by the game (numbers, dates, names); keep them as they are.
+All 363 strings of the game (generated from `locales/az.json`). Words in `{curly brackets}` are filled in by the game (numbers, dates, names); keep them as they are.
 
 Fixed terms: sol, Həyat Təminatı, İstixana, Qalxan, Elm tapşırığı, alovlanma (flare), proton zərrəcikləri (SEP), mSv, «Yerdən mesaj».
 
@@ -15,6 +15,8 @@ Fixed terms: sol, Həyat Təminatı, İstixana, Qalxan, Elm tapşırığı, alov
 | `top.soundOn` | 🔊 Sound: on | 🔊 Səs: açıq |
 | `top.soundOff` | 🔇 Sound: off | 🔇 Səs: bağlı |
 | `top.teacher` | 📡 For teachers | 📡 Müəllimlər üçün |
+| `top.ai` | 🤖 AI-generated art | 🤖 Süni intellektlə çəkilib |
+| `top.aiTitle` | All pictures were drawn in code by an AI assistant (Claude). | Bütün şəkillər süni intellekt köməkçisi (Claude) tərəfindən kodla çəkilib. |
 | `top.lang` | 🌐 Azərbaycanca | 🌐 English |
 | `top.langAria` | Dili dəyiş: Azərbaycan dili | Change language: English |
 | `banner.missing` | Data file data/events.js is missing. Run: python data/fetch_nasa_data.py | Məlumat faylı data/events.js tapılmadı. İşə salın: python data/fetch_nasa_data.py |
@@ -243,7 +245,7 @@ Fixed terms: sol, Həyat Təminatı, İstixana, Qalxan, Elm tapşırığı, alov
 | `cert.nameAria` | Your name | Adın |
 | `cert.line2` | kept 4 astronauts safe on a Mars base for {n} sols, | Mars bazasında 4 astronavtı {n} sol qorudu, |
 | `cert.line3` | through the real space storm of {start} to {end} (NASA data). | {start} – {end} tarixlərindəki həqiqi kosmik fırtınada (NASA məlumatı). |
-| `cert.footer` | Mars Storm Replay · Space Apps 2026 · Challenge #07 · {date} | Mars Fırtınası · Space Apps 2026 · Çağırış #07 · {date} |
+| `cert.footer` | Mars Storm Replay · Space Apps 2026 · Challenge #07 · {date} · 🤖 AI-generated art | Mars Fırtınası · Space Apps 2026 · Çağırış #07 · {date} · 🤖 Süni intellektlə çəkilib |
 | `cert.seal` | {n} sols | {n} sol |
 | `cert.rank` | {medal} {rank} rank · {stars} ⭐ science missions | {medal} {rank} dərəcə · {stars} ⭐ elm tapşırığı |
 | `btn.print` | 🖨️ Print | 🖨️ Çap et |

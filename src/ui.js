@@ -314,10 +314,13 @@
     const q = `startDate=${iso(start)}&endDate=${iso(end)}&api_key=DEMO_KEY`;
     const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 8000);
     const get = (u) => fetch(u, { signal: ctl.signal }).then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); }).then((x) => (x.trim() ? JSON.parse(x) : []));
+    // Cache a live answer for 3 hours: the shared DEMO_KEY allows only a few calls per hour per network.
+    try { const c = JSON.parse(localStorage.getItem("msr-sun") || "null"); if (c && c.live && Date.now() - c.t < 3 * 36e5) { sunData = c; clearTimeout(timer); return renderSun(); } } catch (e) { /* no storage */ }
     try {
       if (navigator.onLine === false) throw new Error("offline");
       const [notes, sep] = await Promise.all([get(`https://api.nasa.gov/DONKI/notifications?${q}&type=FLR`), get(`https://api.nasa.gov/DONKI/SEP?${q}`)]);
       sunData = { live: true, start: iso(start), end: iso(end), big_flares: countBigFlares(notes), sep_records: Array.isArray(sep) ? sep.length : 0 };
+      try { localStorage.setItem("msr-sun", JSON.stringify(Object.assign({ t: Date.now() }, sunData))); } catch (e) { /* no storage */ }
     } catch (e) {
       sunData = D.sun_today_archive ? Object.assign({ live: false }, D.sun_today_archive) : { none: true };
     } finally { clearTimeout(timer); }
@@ -466,6 +469,8 @@
     $("btnSound").textContent = t(Sfx.on ? "top.soundOn" : "top.soundOff");
     $("btnLang").textContent = t("top.lang");
     $("btnLang").setAttribute("aria-label", t("top.langAria"));
+    $("btnLang").setAttribute("lang", I18N.lang === "az" ? "en" : "az");
+    $("aiMark").title = t("top.aiTitle");
   }
   function rerender() {
     applyStatic();
