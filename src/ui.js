@@ -277,7 +277,7 @@
       el("div", { class: "row", style: "margin-top:10px" },
         el("button", { class: "btn plain", id: "btnAsk", type: "button", disabled: asked || s.fail ? "" : null,
           onclick: () => { Sfx.play("click"); C.askEarth(); } }, asked ? "📨 Sent! The answer comes next sol." : "📨 Ask Earth for advice"),
-        el("span", { class: "job" }, `Why can't Earth help right away? Each message takes ${mins || "many"} minutes, and a rocket takes about ${C.val("mars_trip_months")} months.`)));
+        el("span", { class: "job" }, `Why can't Earth help right away? Each message takes ${mins || "many"} minutes, and a rocket takes about ${C.val("mars_trip_months")} to ${C.val("mars_trip_months_max")} months.`)));
     if (!skipAnim) {
       clearTimeout(earthTimer);
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

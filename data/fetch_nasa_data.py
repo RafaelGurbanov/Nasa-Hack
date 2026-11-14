@@ -56,35 +56,45 @@ REFERENCE_VALUES = [
      "type": "published reference value", "verify": True},
     {"key": "o2_kg_per_crew_per_day", "value": 0.84, "unit": "kg O2 / crew member / day",
      "label": "Oxygen consumed per astronaut per day",
-     "source": "NASA Life Support Baseline Values and Assumptions Document (BVAD), NASA/TP-2015-218570 "
-               "(VERIFY exact revision and table); same 0.84 kg average also in NASA NTRS 20100036823",
+     "source": "NASA Life Support Baseline Values and Assumptions Document (BVAD), NASA/TP-2015-218570 (REV2 2022), "
+               "as cited with 0.84 kg/CM-d in NASA ICES-2017-87 (NTRS 20170010337, p. 31) and Jones 2023 (NTRS 20230013555). "
+               "VERIFY: the BVAD table itself was not opened; one NASA table (NTRS 20150003005) lists 0.82 kg",
      "type": "published reference value", "verify": True},
     {"key": "iss_water_recovery_pct", "value": 98, "unit": "% of water recovered",
      "label": "ISS life support water recovery after the Brine Processor Assembly (93-94% before it)",
-     "source": "NASA ISS news release, June 2023 (VERIFY URL on nasa.gov)",
-     "type": "published reference value", "verify": True},
+     "source": "NASA, 'NASA Achieves Water Recovery Milestone on International Space Station', 20 June 2023, "
+               "https://www.nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/",
+     "type": "published reference value", "verify": False},
     {"key": "career_dose_limit_msv", "value": 600, "unit": "mSv (career effective dose)",
      "label": "NASA astronaut career radiation limit",
-     "source": "NASA-STD-3001 Volume 1; NASA OCHMO Radiation Protection Technical Brief (VERIFY current revision)",
-     "type": "published reference value", "verify": True},
+     "source": "NASA-STD-3001 Volume 1, requirement [V1 4030] (Rev B 2022 and Rev C, same value), "
+               "https://standards.nasa.gov/sites/default/files/standards/NASA/C/nasa-std-3001-vol-1-rev-c-signature.pdf",
+     "type": "published reference value", "verify": False},
     {"key": "sep_event_dose_limit_msv", "value": 250, "unit": "mSv per solar particle event",
-     "label": "Short-term limit for one solar particle event",
-     "source": "NASA-STD-3001 Volume 1 (seen via secondary source; VERIFY in the standard)",
-     "type": "published reference value", "verify": True},
+     "label": "Short-term limit for one solar particle event (design reference event: sum of the October 1989 events)",
+     "source": "NASA-STD-3001 Volume 1, requirement [V1 4031] (Rev B 2022 and Rev C, same value), "
+               "https://standards.nasa.gov/sites/default/files/standards/NASA/C/nasa-std-3001-vol-1-rev-c-signature.pdf",
+     "type": "published reference value", "verify": False},
     {"key": "curiosity_rad_2024_05_20_ugy", "value": 8100, "unit": "micrograys (absorbed dose, one event)",
-     "label": "Dose Curiosity RAD measured on Mars during the 20 May 2024 storm from active region 13664 "
-              "(about 30 chest X-rays)",
-     "source": "NASA/JPL release June 2024 'NASA Watches Mars Light Up During Epic Solar Storm' (VERIFY URL)",
-     "type": "published reference value", "verify": True},
-    {"key": "mars_trip_months", "value": 7, "unit": "months (one way, typical)",
-     "label": "How long a spacecraft takes to fly from Earth to Mars",
-     "source": "NASA Mars mission overviews (typical transfer about 7 months; VERIFY page)",
-     "type": "published reference value", "verify": True},
-    {"key": "osdr_inspiration4_recovery_pct", "value": 95, "unit": "% of measured body markers back to pre-flight levels within months",
-     "label": "Inspiration4 (2021, 3-day flight, 4 crew): almost all changes measured in the crew's bodies returned to "
-              "normal within months after landing (reported as more than 95%)",
-     "source": "NASA Open Science Data Repository (OSDR) / Space Omics and Medical Atlas (SOMA), Nature 2024 "
-               "(VERIFY the exact OSDR dataset IDs and the 95% figure in the SOMA papers)",
+     "label": "Dose Curiosity RAD measured on Mars during the 20 May 2024 storm (about 30 chest X-rays)",
+     "source": "NASA, 'NASA Watches Mars Light Up During Epic Solar Storm', 10 June 2024, "
+               "https://www.nasa.gov/solar-system/planets/mars/nasa-watches-mars-light-up-during-epic-solar-storm/",
+     "type": "published reference value", "verify": False},
+    {"key": "mars_trip_months", "value": 7, "unit": "months (one way, shortest typical)",
+     "label": "How long a spacecraft takes to fly from Earth to Mars (7 to 10 months on a fairly direct route)",
+     "source": "NASA, 'How Long Does it Take to Get to the Moon... Mars... Jupiter? We Asked a NASA Expert: Episode 51', "
+               "https://www.nasa.gov/directorates/smd/how-long-does-it-take-to-get-to-the-moon-mars-jupiter-we-asked-a-nasa-expert-episode-51/",
+     "type": "published reference value", "verify": False},
+    {"key": "mars_trip_months_max", "value": 10, "unit": "months (one way, longer typical)",
+     "label": "Upper end of a typical Earth-to-Mars trip",
+     "source": "Same NASA page as mars_trip_months (7 to 10 months)",
+     "type": "published reference value", "verify": False},
+    {"key": "osdr_inspiration4_recovery_pct", "value": 95, "unit": "% of measured markers back to baseline within months",
+     "label": "Inspiration4 (2021, 3-day flight, 4 crew): more than 95% of the measured markers returned to "
+              "baseline in the months after the mission",
+     "source": "Overbey et al. 2024, 'The Space Omics and Medical Atlas (SOMA) and international astronaut biobank', "
+               "Nature 632:1145-1154, doi:10.1038/s41586-024-07639-y; data in NASA Open Science Data Repository (OSDR), "
+               "e.g. OSD-572, OSD-573, OSD-574, OSD-630. VERIFY: full OSDR ID list is in the paper's Supplementary Table 9",
      "type": "published reference value", "verify": True},
 ]
 

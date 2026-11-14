@@ -58,12 +58,12 @@ expected). The delay = distance ÷ speed of light. Real one-way delays range fro
 | Value | Used for | Source |
 |---|---|---|
 | **0.64 mSv/day** on the Mars surface | Everyday radiation each sol | **Curiosity RAD**: Hassler et al. 2014, *Science* 343(6169) |
-| about **8,100 micrograys**, 20 May 2024 | Storm fact | NASA/JPL, June 2024, Curiosity RAD measurement (VERIFY URL) |
-| **0.84 kg O2** per astronaut per day | Oxygen math (4 × 0.84 = 3.36 kg) | **NASA life support constants**: BVAD, NASA/TP-2015-218570, and NTRS 20100036823 (VERIFY table) |
-| **98 %** ISS water recovery (93-94 % before) | Water recycling levels | NASA, June 2023 (VERIFY URL) |
-| **600 mSv** career limit, **250 mSv** per SEP event | Safety-limit fact | NASA-STD-3001 Vol. 1 (VERIFY revision) |
-| about **7 months** Earth to Mars | "Why no instant help" fact | NASA mission overviews (VERIFY page) |
-| Inspiration4: almost all body changes back to normal within months (reported as more than 95 %) | Astronaut health fact | **NASA Open Science Data Repository (OSDR)**, Space Omics and Medical Atlas (SOMA), *Nature* 2024 (VERIFY exact OSDR dataset IDs and the 95 % figure) |
+| about **8,100 micrograys**, 20 May 2024 | Storm fact | NASA, ["NASA Watches Mars Light Up During Epic Solar Storm"](https://www.nasa.gov/solar-system/planets/mars/nasa-watches-mars-light-up-during-epic-solar-storm/), 10 Jun 2024 (Curiosity RAD) |
+| **0.84 kg O2** per astronaut per day | Oxygen math (4 × 0.84 = 3.36 kg) | **NASA life support constants**: BVAD, NASA/TP-2015-218570 (REV2 2022), as cited with 0.84 kg in NASA [ICES-2017-87](https://ntrs.nasa.gov/api/citations/20170010337/downloads/20170010337.pdf) (p. 31) and [Jones 2023](https://ntrs.nasa.gov/api/citations/20230013555/downloads/Take%20or%20Make%20in%20space.pdf). **VERIFY**: the BVAD table itself was not opened, and one NASA table ([NTRS 20150003005](https://ntrs.nasa.gov/api/citations/20150003005/downloads/20150003005.pdf)) lists 0.82 kg |
+| **98 %** ISS water recovery (93-94 % before) | Water recycling levels | NASA, ["NASA Achieves Water Recovery Milestone on International Space Station"](https://www.nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/), 20 Jun 2023 |
+| **600 mSv** career limit, **250 mSv** per SEP event | Safety-limit fact | [NASA-STD-3001 Vol. 1](https://standards.nasa.gov/sites/default/files/standards/NASA/C/nasa-std-3001-vol-1-rev-c-signature.pdf), requirements [V1 4030] and [V1 4031]; same values in Rev B (2022) and Rev C |
+| **7 to 10 months** Earth to Mars | "Why no instant help" fact | NASA, ["How Long Does it Take to Get to the Moon... Mars... Jupiter?"](https://www.nasa.gov/directorates/smd/how-long-does-it-take-to-get-to-the-moon-mars-jupiter-we-asked-a-nasa-expert-episode-51/) ("seven to ten months … relatively direct route") |
+| Inspiration4: **more than 95 %** of measured markers back to baseline within months | Astronaut health fact | Overbey et al. 2024, ["The Space Omics and Medical Atlas (SOMA) and international astronaut biobank"](https://pmc.ncbi.nlm.nih.gov/articles/PMC11357981/), *Nature* 632:1145-1154, doi:10.1038/s41586-024-07639-y. Data in **NASA OSDR**, e.g. OSD-572, OSD-573, OSD-574, OSD-630 ([NASA OSDR news](https://www.nasa.gov/osdr-latest-news-i4-mission-datasets/)). **VERIFY**: the full OSDR ID list is in the paper's Supplementary Table 9, which we could not open |
 | Ingenuity: 72 flights, first on 19 Apr 2021 | Science card | NASA JPL Ingenuity flight log |
 | MOXIE: 122 g of oxygen from Mars air | Science card | NASA, 6 Sep 2023 |
 | Curiosity: first clear sun rays through Martian clouds, 2 Feb 2023 | Science card | NASA JPL, March 2023 |
