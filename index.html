@@ -4,244 +4,82 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mars Storm Replay</title>
-<meta name="description" content="Junior Astronaut Mission Trainer for kids aged 7-12: keep a Mars base safe for 10 sols through a real May 2024 space storm, replayed from NASA DONKI data.">
-<style>
-  :root {
-    --bg: #1b1020; --panel: #2a1a2e; --panel2: #382440; --line: #5c3f66;
-    --text: #fff7f0; --muted: #e6cfe0; --accent: #ff8a3d; --good: #5fe08a;
-    --warn: #ffd23f; --bad: #ff5c6c; --link: #8fd3ff;
-    --air: #4cc3ff; --energy: #ffd23f; --food: #5fe08a; --shield: #c69bff;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
-    font: 19px/1.55 "Trebuchet MS", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
-  header { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
-    padding: 12px 16px; border-bottom: 2px solid var(--line); background: #22142a; }
-  header h1 { font-size: 24px; margin: 0; }
-  header h1 span { color: var(--accent); }
-  header .tag { font-size: 15px; color: var(--muted); font-weight: normal; }
-  main { max-width: 980px; margin: 0 auto; padding: 16px; }
-  h2 { font-size: 28px; margin: 6px 0 12px; line-height: 1.25; }
-  h3 { font-size: 22px; margin: 0 0 8px; }
-  .panel { background: var(--panel); border: 2px solid var(--line); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
-  .muted { color: var(--muted); }
-  .small { font-size: 16px; }
-  .big-emoji { font-size: 56px; line-height: 1; margin-bottom: 6px; }
-  .badge { display: inline-block; font-size: 14px; padding: 2px 10px; border-radius: 99px; border: 2px solid var(--line); background: var(--panel2); }
-  .badge.live { border-color: var(--good); color: var(--good); }
-  .badge.ref { border-color: var(--link); color: var(--link); }
-  .badge.rule { border-color: var(--warn); color: var(--warn); }
-  .badge.bad { border-color: var(--bad); color: var(--bad); }
-  button { font: inherit; cursor: pointer; border-radius: 14px; border: 2px solid var(--line);
-    background: var(--panel2); color: var(--text); padding: 10px 18px; }
-  button:hover:not(:disabled) { border-color: var(--accent); }
-  button:disabled { opacity: .4; cursor: not-allowed; }
-  button.primary { background: var(--accent); color: #2a1206; border-color: var(--accent); font-weight: 700; font-size: 21px; padding: 12px 24px; }
-  button:focus-visible, a:focus-visible, summary:focus-visible { outline: 4px solid var(--link); outline-offset: 2px; }
-  a { color: var(--link); }
-  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-  .gauge { background: var(--panel2); border-radius: 14px; padding: 12px 14px; border: 2px solid var(--line); border-top-width: 6px; }
-  .gauge.air { border-top-color: var(--air); } .gauge.energy { border-top-color: var(--energy); }
-  .gauge.food { border-top-color: var(--food); } .gauge.shield { border-top-color: var(--shield); }
-  .gauge .label { font-size: 17px; color: var(--muted); }
-  .gauge .value { font-size: 24px; font-weight: 700; }
-  .bar { height: 12px; border-radius: 99px; background: #4a3350; overflow: hidden; margin-top: 6px; }
-  .bar > div { height: 100%; background: var(--good); }
-  .bar.warn > div { background: var(--warn); } .bar.bad > div { background: var(--bad); }
-  .timeline { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin: 8px 0 4px; }
-  .tl { text-align: center; font-size: 14px; padding: 5px 2px; border-radius: 10px; background: var(--panel2); border: 2px solid var(--line); }
-  .tl.now { border-color: var(--accent); background: #5a2e22; }
-  .tl.done { opacity: .55; }
-  .tl .ico { display: block; font-size: 18px; }
-  .event { border-left: 8px solid var(--good); }
-  .event.sep { border-left-color: var(--bad); }
-  .alert { font-size: 22px; font-weight: 700; margin: 0 0 6px; }
-  .flare { padding: 6px 0; border-bottom: 1px dashed var(--line); }
-  .flare:last-child { border-bottom: 0; }
-  .cls-X { color: var(--bad); font-weight: 700; } .cls-M { color: var(--warn); font-weight: 700; } .cls-C { color: var(--good); font-weight: 700; }
-  details { margin-top: 8px; } summary { cursor: pointer; color: var(--link); font-size: 16px; }
-  .alloc { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
-  .alloc:last-of-type { border-bottom: 0; }
-  .alloc .name { font-size: 21px; font-weight: 700; }
-  .stepper { display: flex; gap: 8px; align-items: center; }
-  .stepper button { width: 52px; height: 52px; padding: 0; font-size: 28px; font-weight: 700; }
-  .pips { display: flex; gap: 5px; min-width: 84px; justify-content: center; }
-  .pip { width: 20px; height: 20px; border-radius: 6px; background: #4a3350; border: 2px solid var(--line); }
-  .pip.on { background: var(--accent); border-color: var(--accent); }
-  .power { font-size: 21px; margin: 10px 0; font-weight: 700; }
-  .fact { background: #153049; border: 2px solid #2f6ea0; border-radius: 14px; padding: 12px 14px; margin-top: 12px; font-size: 19px; }
-  .fact b { color: var(--link); }
-  #fbList { list-style: none; padding: 0; margin: 0; }
-  #fbList li { padding: 6px 0; font-size: 19px; }
-  .chain li { margin-bottom: 8px; }
-  .result-win { color: var(--good); } .result-fail { color: var(--bad); }
-  .q { margin-bottom: 14px; border: 2px solid var(--line); border-radius: 14px; padding: 10px 12px; }
-  .q legend { font-weight: 700; padding: 0 6px; }
-  .q label { display: block; padding: 8px 10px; border-radius: 10px; cursor: pointer; }
-  .q label:hover { background: var(--panel2); }
-  .q input { width: 20px; height: 20px; vertical-align: -3px; }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .steps { display: flex; gap: 8px; margin-bottom: 10px; }
-  .steps i { width: 14px; height: 14px; border-radius: 50%; background: var(--line); display: inline-block; }
-  .steps i.on { background: var(--accent); }
-  dialog { background: var(--panel); color: var(--text); border: 2px solid var(--line); border-radius: 16px; max-width: 900px; width: calc(100% - 32px); max-height: 85vh; font-size: 16px; }
-  dialog::backdrop { background: rgba(0,0,0,.6); }
-  table { border-collapse: collapse; width: 100%; font-size: 15px; }
-  td, th { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
-  .banner { padding: 10px 14px; border-radius: 12px; margin-bottom: 12px; border: 2px solid var(--bad); color: var(--bad); background: #3a1420; font-weight: 700; }
-  .scene3d-canvas { height: 340px; border-radius: 14px; overflow: hidden; background: linear-gradient(#e7a36b, #8a4a32); }
-  .scene3d-canvas canvas { width: 100% !important; height: 100% !important; display: block; }
-  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 16px; margin-top: 8px; }
-  .hidden { display: none !important; }
-  @media (max-width: 560px) {
-    body { font-size: 18px; } h2 { font-size: 24px; }
-    .timeline { grid-template-columns: repeat(5, 1fr); }
-    .scene3d-canvas { height: 240px; }
-  }
-</style>
+<meta name="description" content="A storybook Mars mission for kids aged 7-12: keep 4 astronauts safe for 10 sols through a real May 2024 space storm, replayed from NASA DONKI data.">
+<link rel="stylesheet" href="src/story.css">
 </head>
 <body>
-<header>
-  <h1>🚀 Mars Storm <span>Replay</span> <span class="tag">Junior Astronaut Mission Trainer</span></h1>
-  <div class="row">
-    <span id="dataBadge" class="badge">loading data</span>
-    <button id="btnSources" type="button">📡 NASA data (for teachers)</button>
+<!-- hand-drawn look: a tiny wobble filter used by the pictures in src/art.js -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter>
+</svg>
+
+<header class="topbar">
+  <h1>Mars <span>Storm</span> Replay</h1>
+  <div class="tools">
+    <span class="realdata" id="dataBadge">loading…</span>
+    <button class="chip" id="btnSound" type="button" aria-pressed="false">🔇 Sound: off</button>
+    <button class="chip" id="btnTeacher" type="button">📡 For teachers</button>
   </div>
 </header>
 
 <main>
   <div id="banner" class="banner hidden"></div>
 
-  <!-- INTRO: one idea per card -->
-  <section id="scrIntro" class="panel">
-    <div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
-    <div class="intro-step" data-step="0">
-      <div class="big-emoji">👩‍🚀</div>
-      <h2>Hello, Commander!</h2>
-      <p>You are in charge of a base on Mars.</p>
-      <p>4 astronauts live there. Keep them safe for 10 days.</p>
-      <p class="muted">A day on Mars is called a <b>sol</b>.</p>
-    </div>
-    <div class="intro-step hidden" data-step="1">
-      <div class="big-emoji">☀️</div>
-      <h2>A real space storm is coming!</h2>
-      <p>In May 2024, the Sun had a huge storm. NASA recorded it.</p>
-      <p>You will play those same 10 days: <b id="introWindow"></b>.</p>
-    </div>
-    <div class="intro-step hidden" data-step="2">
-      <div class="big-emoji">⚡</div>
-      <h2>Share your power</h2>
-      <p>Each sol you get <b id="introPower"></b> power points. Share them:</p>
-      <p>🫧 <b>Life Support</b> makes air and water.<br>🥕 <b>Greenhouse</b> grows food.<br>🛡️ <b>Shield</b> blocks storm particles.</p>
-      <p>If air, water or food runs out, or radiation gets too high, the mission stops. Then you will see why, and you can try again!</p>
-    </div>
-    <div class="row" style="margin-top:14px">
-      <button id="btnIntroBack" type="button" class="hidden">← Back</button>
-      <button class="primary" id="btnIntroNext" type="button">Next →</button>
-      <button class="primary hidden" id="btnStart" type="button">Start! First, 3 quick questions</button>
-    </div>
-    <p class="muted small" style="margin-top:12px">For kids aged 7 to 12, in class, in about 10 to 15 minutes.</p>
-  </section>
+  <!-- 1. Intro: 4 storybook pages, one idea each -->
+  <section id="scrIntro" aria-live="polite"></section>
 
-  <!-- QUIZ -->
-  <section id="scrQuiz" class="panel hidden">
-    <h2 id="quizTitle"></h2>
-    <p class="muted" id="quizHint"></p>
-    <form id="quizForm"></form>
-    <button class="primary" id="btnQuizDone" type="button">Done!</button>
-  </section>
+  <!-- 2. Quiz: one question per screen (before and after) -->
+  <section id="scrQuiz" class="hidden" aria-live="polite"></section>
 
-  <!-- GAME -->
+  <!-- 3. The mission: one sol at a time -->
   <section id="scrGame" class="hidden">
-    <div class="panel">
-      <div class="row" style="justify-content: space-between">
-        <h2 id="solTitle" style="margin:0"></h2>
-        <span class="badge live" title="Dates and events come from NASA records">Real NASA storm days</span>
+    <div class="panel stones tilt-r" id="stones" aria-label="Your 10 sols. Red stones are real storm days."></div>
+    <div class="gamegrid">
+      <div class="panel scene tilt-l" id="scene">
+        <span class="caption tag" id="sceneTag"></span>
+        <div class="dust" id="dust"></div>
+        <div class="zap" aria-hidden="true"><b>ZAP!</b></div>
       </div>
-      <div class="timeline" id="timeline" aria-label="Your 10 sols"></div>
-      <p class="muted small" style="margin:0">⚠️ = storm particles (protons) that day. ☀️ = calm for the crew.</p>
-    </div>
-
-    <div class="panel hidden" id="scene3d" aria-hidden="true">
-      <div class="row" style="justify-content: space-between; margin-bottom:8px">
-        <h3 style="margin:0">Your Mars base</h3>
-        <button class="scene3d-toggle" type="button">Hide 3D</button>
-      </div>
-      <div class="scene3d-canvas"></div>
-      <div class="legend">
-        <span>🫧 Life Support</span><span>⚡ Solar panels</span><span>🥕 Greenhouse</span><span>🛡️ Shield dome</span>
-        <span class="muted">Red sparks = real storm particles</span>
+      <div class="panel roviside tilt-r">
+        <div class="bubble" id="roviSay" aria-live="polite"></div>
+        <div id="roviArt"></div>
       </div>
     </div>
-
-    <div class="grid" id="gauges"></div>
-
-    <div class="panel event" id="eventCard" style="margin-top:16px"></div>
-
-    <div class="panel" id="allocPanel">
-      <h3>Share your power for this sol</h3>
-      <div id="allocRows"></div>
-      <div class="power" id="powerLine"></div>
-      <div class="muted small" id="preview"></div>
-      <div class="row" style="margin-top:12px">
-        <button class="primary" id="btnEndSol" type="button">Go! Run this sol</button>
-      </div>
-    </div>
-
-    <div class="panel hidden" id="feedbackPanel">
-      <h3 id="fbTitle"></h3>
-      <ul id="fbList"></ul>
-      <div class="fact" id="fbFact"></div>
-      <div class="row" style="margin-top:14px"><button class="primary" id="btnNext" type="button">Next sol →</button></div>
+    <div class="panel event" id="eventCard"></div>
+    <div class="bottomgrid">
+      <div class="panel powerpanel tilt-l" id="powerPanel"></div>
+      <div class="panel report hidden tilt-l" id="reportPanel" aria-live="polite"></div>
+      <div class="panel crewpanel halftone tilt-r" id="crewPanel"></div>
     </div>
   </section>
 
-  <!-- END -->
-  <section id="scrEnd" class="hidden">
-    <div class="panel">
-      <h2 id="endTitle"></h2>
-      <p id="endSummary"></p>
-      <h3>What happened, step by step</h3>
-      <ol class="chain" id="endChain"></ol>
-      <p class="fact" id="endHint"></p>
-    </div>
-    <div class="panel">
-      <h3>🧠 What you learned</h3>
-      <ol id="endLearned"></ol>
-      <button class="primary" id="btnPostQuiz" type="button">Try the 3 questions again</button>
-    </div>
-  </section>
+  <!-- 4. End of mission -->
+  <section id="scrEnd" class="hidden"></section>
 
-  <!-- RESULTS -->
-  <section id="scrResults" class="panel hidden">
-    <h2>Your quiz score</h2>
-    <p id="resultLine" style="font-size:26px; font-weight:700"></p>
-    <table id="resultTable"></table>
-    <p class="muted small">Your answers stay in this browser. Nothing is saved or sent.</p>
-    <div class="row">
-      <button class="primary" id="btnReplay" type="button">Play again 🚀</button>
-    </div>
-  </section>
+  <!-- 5. Quiz results -->
+  <section id="scrResults" class="hidden"></section>
 </main>
 
-<dialog id="dlgSources" aria-labelledby="srcTitle">
-  <div class="row" style="justify-content: space-between">
-    <h2 id="srcTitle" style="margin:0">NASA data sources</h2>
-    <button id="btnCloseSources" type="button">Close</button>
+<!-- printable Junior Astronaut certificate (shown after a win) -->
+<div id="cert" class="hidden"></div>
+
+<!-- for teachers and judges: where every number comes from -->
+<dialog id="dlgTeacher" aria-labelledby="teacherTitle">
+  <div class="row" style="justify-content:space-between">
+    <h2 id="teacherTitle" class="hand">NASA data sources</h2>
+    <button class="chip" id="btnCloseTeacher" type="button">Close</button>
   </div>
-  <p class="muted small">Every number in this game falls into one of three groups:
+  <p>Every number falls into one of three groups:
     <span class="badge live">live-fetched</span> from a NASA API,
     <span class="badge ref">published reference value</span> from a NASA source, or
-    <span class="badge rule">game rule</span>, a simplification we chose so the game can be played. Game rules are not NASA data.
-    No photos and no AI-generated images are used; all visuals are drawn in code.</p>
+    <span class="badge rule">game rule</span>, a simplification so kids can play. Game rules are not NASA data.</p>
   <div id="srcBody"></div>
 </dialog>
 
 <script src="data/events.js"></script>
 <script src="src/game.js"></script>
+<script src="src/art.js"></script>
+<script src="src/sound.js"></script>
 <script src="src/ui.js"></script>
-<!-- Optional 3D view: visual only, local three.js, removes itself if anything fails -->
-<script src="vendor/three.min.js"></script>
-<script src="src/scene3d.js"></script>
 </body>
 </html>

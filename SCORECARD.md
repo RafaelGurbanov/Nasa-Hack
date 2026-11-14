@@ -1,6 +1,6 @@
 # Scorecard (honest self-assessment)
 
-Updated: 14 Nov 2026, about 17:00 (+04:00), on the `3d` branch, after the change of target
+Updated: 14 Nov 2026, about 17:30 (+04:00), on the `3d` branch, after the storybook redesign (design B) and the change of target
 audience to ages 7-12. Before the GitHub Pages push and before any human playtest. Each criterion is scored 1-5, weighted as points = score / 5 × weight.
 
 | Criterion | Weight | Score now | Points | Score after the cheapest fix |
@@ -19,7 +19,7 @@ Evidence
 - Every card can be traced: `node tests/core.test.js` passes "all 24 flare cards match a raw DONKI record" (`data/raw/notifications_flr.json`).
 - Published constants drive formulas: `src/game.js:21-22` (O2 need = 4 × 0.84; baseline 0.64 mSv), read from `events.json`, not hard-coded.
 - Robust fetch: retries 429/5xx/timeouts and logs rate limit headers (`data/fetch_nasa_data.py:127`); a labeled sample is written only if there is no cache (`:367`); DEMO_KEY is refused.
-- Runs start to end offline (`file://`) with 0 console messages (Chrome DevTools run, 14 Nov). Screenshots: `docs/screenshot-sol5.png`, `docs/screenshot-failure-chain.png`.
+- Runs start to end offline (`file://`) with 0 console messages (Chrome DevTools run, 14 Nov). Screenshots: `docs/story-normal-sol.png`, `docs/story-storm-sol.png`, `docs/story-fail-end.png`.
 - Labels: sources panel `src/ui.js:217` marks every value as live-fetched, reference or game rule.
 
 Why not 5 yet: there is no public link yet, no human has played it, and 4 reference values are still marked VERIFY.
@@ -44,7 +44,7 @@ Evidence
 - "What you learned", 3 facts: `learned` `src/game.js:167`.
 - Measurable check: same 3 questions before and after, result shown on screen: `QUIZ` `src/game.js:60`, `showResults` `src/ui.js:201`. Nothing is stored.
 - One-sentence outcome: "After playing, a child can explain that 4 astronauts need about 3.4 kg of oxygen a day (4 × 0.84 kg), that the tiny fast particles after a space storm (protons), not its light, are the danger, and that more shield power means less air and food."
-- Designed for ages 7-12: big text and buttons, emoji icons, short sentences, one idea per intro card, friendly feedback, real term in brackets (`index.html`, `src/ui.js`). Screenshot: `docs/screenshot-kid-ui.png`.
+- Designed for ages 7-12 in storybook style: Rovi the robot with 4 faces and one sentence per sol, 4 named astronauts whose faces react to their system, one idea per screen, real term in brackets the first time, printable certificate on win (`src/ui.js`, `src/art.js`). Screenshots: `docs/story-intro.png`, `docs/story-quiz.png`, `docs/story-win.png`.
 - Quiz and facts rewritten for ages 7-12 using the same NASA values (`src/game.js` `QUIZ`, `pickFact`, `learned`).
 
 Why not 5: no real users have been measured. We will not claim results we do not have.
@@ -54,7 +54,7 @@ Why not 5: no real users have been measured. We will not claim results we do not
 
 Evidence
 - Signature mechanic: real storm replay. Sol N = a real date (`data/events.json` `sols[]`), with a timeline of real max flare class and proton days (`src/ui.js` `renderTimeline`).
-- Cause-and-effect failure chain from the player's own decisions: `buildChain` `src/game.js:137`; screenshot `docs/screenshot-failure-chain.png`.
+- Cause-and-effect failure chain from the player's own decisions: `buildChain` `src/game.js:137`; screenshot `docs/story-fail-end.png`.
 - No other novelty features were added (scope rule kept).
 
 Why not 5: mission-planning trainers exist; what makes ours different is the real-data replay. Judges need to see it in the first 30 s of the demo.
@@ -68,7 +68,7 @@ Evidence
 Why not higher: not rehearsed yet; the video/deck is not made yet.
 **Cheapest raise:** one full timed rehearsal before 06:00 with each speaker holding their own section.
 
-Visual support for the demo: the 3D Mars base (`src/scene3d.js`) shows calm vs storm days clearly (`docs/screenshot-3d-calm.png`, `docs/screenshot-3d-storm.png`). It is visual only and falls back to 2D (tested).
+Visual support for the demo: the storybook scene shows calm and storm days clearly (`docs/story-normal-sol.png`, `docs/story-storm-sol.png`), and the end screens make win and fail easy to see from the back of a room (`docs/story-win.png`, `docs/story-fail-end.png`).
 
 ## Risks that could lower the score
 
@@ -76,6 +76,6 @@ Visual support for the demo: the 3D Mars base (`src/scene3d.js`) shows calm vs s
 |---|---|---|
 | "Submit for Judging" not clicked before the pitch | not judged | Member 4 owns it, deadline 08:30 |
 | Demo or video over its limit | cut off / cannot go global | rehearse with a timer; video ≤ 30 s |
-| 3D view breaks the page | Reliability drops | 3D is optional, in a separate file, with automatic fallback to 2D (tested: three.js removed → 2D wins) |
+| New storybook UI built late | demo risk | tested: 7/7 core tests, full win and fail runs by clicking, certificate, phone 390 px, 0 console messages |
 | Audience changed late (7-12) | Impact claims out of date | all docs updated on the `3d` branch; merge to `main` only after a human test |
 | Judge asks about the storm-dose proxy | credibility | answer is ready (SUBMISSION.md, Q3 item 1) |

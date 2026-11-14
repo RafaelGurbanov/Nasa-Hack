@@ -12,7 +12,7 @@ end screen shows the exact chain of decisions that caused it.
 
 **Who it is for:** children aged 7 to 12, in a classroom, in a 10 to 15 minute session.
 
-**Designed for ages 7-12:** big text and buttons, emoji icons for the 4 systems, short sentences (reading level about age 9), one idea per intro card, friendly feedback after every sol, and hard words explained with the real term in brackets the first time, for example "space storm (solar flare)".
+**Designed for ages 7-12 (storybook style):** comic panels, big hand-drawn-style text and chunky buttons, short sentences (reading level about age 8), one idea per intro page and one quiz question per screen, and real terms in brackets the first time, for example "space storm (solar flare)". Rovi the robot says one short sentence each sol and changes face (happy, worried, scared, cheering). Four made-up astronauts (Aylin, Kofi, Mei, Leo) each look after one system and their faces react to it. Winning gives a printable Junior Astronaut certificate. Sound effects are made in code, with a mute button, and are off by default.
 
 **After playing, a child can explain** that 4 astronauts need about 3.4 kg of oxygen a day
 (4 × 0.84 kg), that the tiny fast particles after a space storm (protons), not its light,
@@ -51,9 +51,9 @@ VERIFY: compare each row with the official 2026 challenge text on spaceappschall
 
 ## Visuals
 
-The optional 3D view (`src/scene3d.js`) draws a Mars base in code: dusty terrain with rocks, a sky gradient, a low Sun with soft shadows, an astronaut, the habitat, glowing solar panels, a glass greenhouse and a shield dome. On real proton days the sky turns red and storm particles fall. It only reads the game state, uses the local three.js file, and removes itself if anything fails, so the 2D game always works.
+All pictures are cartoon SVG drawn in code (`src/art.js`, `src/story.css`): layered Mars hills, rocks and craters, a base that glows when the crew is fine and dims when it is in trouble, solar panels that light up with the power in use, a greenhouse whose plants grow with the food store, and a shield dome. On real proton days the sky turns red, dust blows, proton streaks fall, the Sun turns angry and spiky with a ZAP burst, and the shield glows. The pictures only read the game state; they never change the rules.
 
-**Images:** no photos and no AI-generated images are used. Every visual is drawn in code.
+**AI-made visuals:** every picture (Rovi, the astronauts, the Mars scene, the certificate) was drawn in code by an AI assistant (Claude). No photos, no image files and no NASA logos are used. The earlier three.js 3D view was removed because it clashed with the storybook look.
 
 ## NASA data
 
@@ -95,8 +95,10 @@ are not NASA data.
 index.html              page layout and styles
 src/game.js             MissionCore: all rules and state (no DOM). Others only read it.
 src/ui.js               2D screens: quiz, sols, end screen, sources panel
-src/scene3d.js          optional 3D view (visual only, reads MissionCore, removes itself on any error)
-vendor/three.min.js     three.js r149 (MIT), stored locally so the 3D view works offline
+src/story.css           storybook look (comic panels, colours, print style for the certificate)
+src/art.js              all pictures as SVG drawn in code (Rovi, astronauts, Mars scene) - AI-made
+src/sound.js            small sound effects made with Web Audio (no files), off by default
+design/                 the 3 design mockups (A, B, C); B was chosen
 data/fetch_nasa_data.py fetches DONKI, writes the cache below
 data/events.json|.js    cached NASA data (.js is loaded by the page, so it works offline)
 data/raw/               unchanged API responses, to check any card against

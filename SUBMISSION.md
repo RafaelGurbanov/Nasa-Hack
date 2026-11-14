@@ -10,7 +10,7 @@ Team roles (replace the names):
 | Member | Role | Speaks in pitch |
 |---|---|---|
 | [Name 1] | Game logic | Demo (2:00) |
-| [Name 2] | 3D scene | How it works + creativity |
+| [Name 2] | Art and look (storybook) | How it works + creativity |
 | [Name 3] | NASA data | NASA data |
 | [Name 4] | Submission + pitch | Opening, impact, close |
 
@@ -55,18 +55,18 @@ If oxygen, water or food runs out, or the dose goes over the 30 mSv drill limit,
 mission fails. The end screen then builds a cause-and-effect chain from the player's own
 decisions. A "What you learned" recap and a before/after 3-question check close the session.
 
-**Made for ages 7-12.** Big text and buttons, emoji icons for the four systems, short sentences (reading level about age 9), one idea per intro card, friendly feedback, and hard words explained with the real term in brackets, like "space storm (solar flare)". An optional 3D view shows the base on Mars: on real proton days the sky turns red and storm particles fall on the shield dome.
+**Made for ages 7-12, storybook style.** Comic panels, big text and chunky buttons, short sentences (reading level about age 8), one idea per screen, and real terms in brackets the first time. Rovi the robot says one short sentence each sol and changes face; four made-up astronauts react to their system. On real proton days the sky turns red, proton streaks fall and the shield glows. Winners can print a Junior Astronaut certificate. Sound is off by default.
 
 **How it works.** A Python script (standard library only) calls NASA's DONKI API once with
 a personal key, keeps only the fields the game needs, and writes `events.json` plus a
 `events.js` copy. It also stores the unchanged API responses. The game is plain HTML and
 JavaScript with no build step and no server. It loads `events.js` with a script tag, so it
 also runs offline. All rules live in one core file (`src/game.js`). The 2D interface only
-reads its state, and so does the optional 3D view. Automated tests check five game outcomes and
+reads its state. Automated tests check five game outcomes and
 that every event card matches a raw NASA record.
 
 **Tools.** HTML, CSS, JavaScript, Python 3, NASA DONKI API (api.nasa.gov), GitHub Pages,
-Claude Code (AI coding assistant, see Use of AI), three.js r149 (stored locally) for the optional 3D view.
+Claude Code (AI coding assistant, see Use of AI). Pictures are SVG/CSS and sounds are Web Audio, all made in code (no image or sound files).
 
 **Why it matters.** Radiation storms are one of the main dangers for crews on Mars. In
 May 2024 the same solar active region that is in our game later sent a storm to Mars;
@@ -92,7 +92,7 @@ oxygen and food have to be planned together.
 ### Partner & Other Data
 None. (Only NASA data and published NASA references are used. No partner agency data.)
 No photos and no AI-generated images: every visual (terrain, sky, base, astronaut) is drawn in code.
-three.js r149 (MIT licence) is used as a library, not as data.
+AI-made visuals: all pictures were drawn in code by Claude (AI) and are labelled as AI-made in the game's teacher panel.
 VERIFY: if a reference value is replaced by a non-NASA source, list it here.
 
 ### Use of AI
@@ -124,7 +124,7 @@ Show `git log --format="%h %ad %s" --date=iso` on screen if a judge asks.
 | 0:00-0:35 | [Name 4] | "In May 2024 the Sun fired X-class flares for ten days in a row. A week later, the same active region hit Mars with the biggest radiation spike Curiosity had measured since it landed. What if your class had been the crew? Mars Storm Replay is a 10-to-15-minute trainer for kids aged 7 to 12. They run a Mars base through those exact ten days." |
 | 0:35-1:15 | [Name 3] | Shows the "NASA data sources" panel. "Every sol is a real date. We fetched 24 flares and 14 proton events from NASA's DONKI API with our own key, cached them, and every card links to its NASA record. The FLR endpoint was down during the hackathon (it returned 404), so we used DONKI notifications for the same flare reports, and the panel says so. Oxygen and baseline radiation use published NASA values: 0.84 kg O2 per astronaut per day and 0.64 mSv per day from Curiosity. Everything else is labeled 'game rule'." |
 | 1:15-3:15 | [Name 1] | **Live demo (section 4).** |
-| 3:15-3:55 | [Name 2] | "Four systems depend on each other: power is fixed, and shielding costs oxygen and food. All rules live in one core file; the 2D screen and the 3D view only read it, so the view can never change the science. Our one signature idea is the real storm replay, and when you fail, the game shows you why." Shows the failure-chain screenshot: "Shield 0 on Sol 8: 6 real proton records, +24 mSv, mission over." |
+| 3:15-3:55 | [Name 2] | "Four systems depend on each other: power is fixed, and shielding costs oxygen and food. All rules live in one core file; the storybook screens only read it, so the pictures can never change the science. Our one signature idea is the real storm replay, and when you fail, the game shows you why." Shows the failure-chain screenshot: "Shield 0 on Sol 8: 6 real proton records, +24 mSv, mission over." |
 | 3:55-4:35 | [Name 4] | "Every sol teaches one fact with a formula. The end screen recaps three. A 3-question check before and after play shows each child what changed. We have not run it with a class yet, so we claim no results, only that the measurement is built in. After 15 minutes, a child can explain that 4 astronauts need about 3.4 kg of oxygen a day (4 × 0.84 kg), that the tiny fast particles after a space storm (protons), not its light, are the danger, and that more shield power means less air and food." |
 | 4:35-5:00 | [Name 4] | "Next: real Curiosity dose data, Mars-Sun geometry, and a classroom pilot. Everything you saw was built during this hackathon, and the git history shows it. Thank you." |
 
@@ -177,8 +177,8 @@ Record the screen with the browser at 1280×720. Subtitles must be burned into t
 |---|---|
 | Venue Wi-Fi down | Open `index.html` from the laptop's copy of the repo (works from `file://`, no internet needed; tested) |
 | Laptop fails | Second laptop or a phone with the GitHub Pages link already open and loaded |
-| Everything fails | Show `docs/screenshot-sol5.png` and `docs/screenshot-failure-chain.png` and talk through the demo path |
-| 3D view breaks | Ignore it. The 2D game is the full product, and the 3D view is visual only |
+| Everything fails | Show `docs/story-storm-sol.png`, `docs/story-win.png` and `docs/story-fail-end.png` and talk through the demo path |
+| No sound in the room | Fine: sound is optional and off by default. Keep it off for the pitch unless tested on the venue speakers |
 
 Before the pitch: laptop charged, game open in 2 tabs (fresh start, failure screen), screen
 resolution tested on the projector, notifications off.
